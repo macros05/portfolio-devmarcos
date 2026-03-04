@@ -1,0 +1,20 @@
+<app-header></app-header>
+
+<app-hero></app-hero>
+<app-about></app-about>
+
+<section id="proyectos" class="px-6 md:px-16 lg:px-24 w-full mt-40 lg:mt-64 pb-40">
+
+  <h2 class="text-4xl font-bold text-gray-100 mb-32 border-b border-gray-800 pb-6 max-w-7xl mx-auto">
+    Proyectos Destacados
+  </h2>
+
+  <div class="flex flex-col gap-40 lg:gap-64 w-full max-w-[1400px] mx-auto">
+    @for (project of projects; track project.id; let even = $even) {
+      <app-project-card [project]="project" [even]="even"></app-project-card>
+    }
+  </div>
+
+</section>
+<app-contact></app-contact>
+<app-footer></app-footer>

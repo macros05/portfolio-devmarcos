@@ -1,0 +1,49 @@
+<div class="relative flex flex-col lg:flex-row items-center gap-16 lg:gap-32 w-full" [ngClass]="even ? 'lg:flex-row-reverse' : ''">
+
+  <div class="w-full lg:w-3/5 relative">
+    <div class="absolute inset-0 bg-blue-700 rounded-lg transform translate-x-4 translate-y-4 lg:translate-x-12 lg:translate-y-12 -z-10"></div>
+
+    @if (project.videoUrl) {
+      <video
+        autoplay
+        loop
+        muted
+        playsinline
+        class="rounded-xl shadow-2xl w-full aspect-[16/9] object-cover border border-gray-800 relative z-10">
+        <source [src]="project.videoUrl" type="video/mp4">
+      </video>
+    } @else {
+      <img [src]="'https://placehold.co/1200x675/1f2937/a8a29e?text=Demo+' + project.title"
+           [alt]="project.title"
+           class="rounded-xl shadow-2xl w-full aspect-[16/9] object-cover border border-gray-800 relative z-10">
+    }
+  </div>
+  <div class="w-full lg:w-2/5 space-y-8 mt-16 lg:mt-0" [ngClass]="even ? 'lg:text-right' : ''">
+    <h3 class="text-5xl lg:text-6xl font-bold text-gray-100 tracking-tight">{{ project.title }}</h3>
+
+    <p class="text-gray-300 text-xl leading-relaxed">
+      {{ project.shortDescription }}
+    </p>
+
+    <p class="text-gray-400 font-mono text-base mt-6">
+      Construido con:
+      @for (tech of project.techStack; track tech; let last = $last) {
+        <span class="text-blue-400 font-semibold">{{ tech }}{{ !last ? ', ' : '' }}</span>
+      }
+    </p>
+
+    <div class="flex flex-col gap-8 mt-12" [ngClass]="even ? 'items-end' : 'items-start'">
+
+      <a [routerLink]="['/proyecto', project.id]" class="text-gray-100 font-bold tracking-widest uppercase border-b-2 border-blue-500 pb-2 hover:text-blue-400 hover:border-blue-400 transition-colors text-lg">
+        Ver Demo Técnica
+      </a>
+
+      @if (project.githubUrl) {
+        <a [href]="project.githubUrl" target="_blank" class="text-gray-100 font-bold tracking-widest uppercase border-b-2 border-red-500 pb-2 hover:text-red-400 hover:border-red-400 transition-colors text-lg">
+          Ver Código
+        </a>
+      }
+    </div>
+  </div>
+
+</div>

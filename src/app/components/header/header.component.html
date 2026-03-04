@@ -1,0 +1,23 @@
+<header class="fixed top-0 left-0 w-full z-50 transition-all duration-500 ease-in-out transform"
+        [class.-translate-y-full]="!isScrolled"
+        [class.translate-y-0]="isScrolled"
+        [class.bg-gray-900/80]="isScrolled"
+[class.backdrop-blur-md]="isScrolled"
+[class.border-b]="isScrolled"
+[class.border-gray-800]="isScrolled">
+
+<nav class="max-w-[1400px] mx-auto px-6 md:px-16 lg:px-24 py-5 flex justify-between items-center">
+
+  <a href="#inicio" class="text-2xl font-bold text-gray-100 hover:text-blue-500 transition-colors">
+    M.
+  </a>
+
+  <ul class="hidden md:flex gap-10 text-sm font-mono tracking-widest uppercase">
+    <li><a href="#inicio" class="text-gray-300 hover:text-blue-400 transition-colors">Inicio</a></li>
+    <li><a href="#about" class="text-gray-300 hover:text-blue-400 transition-colors">Sobre Mí</a></li>
+    <li><a href="#proyectos" class="text-gray-300 hover:text-blue-400 transition-colors">Proyectos</a></li>
+    <li><a href="#contacto" class="text-gray-300 hover:text-blue-400 transition-colors">Contacto</a></li>
+  </ul>
+
+</nav>
+</header>
