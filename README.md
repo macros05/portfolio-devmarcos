@@ -7,7 +7,7 @@
 [![TailwindCSS](https://img.shields.io/badge/Tailwind_CSS-3-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge)](LICENSE)
 
-**🌐 [Ver en vivo / Live Demo](https://your-deploy-url.com)**  
+**🌐 [Ver en vivo / Live Demo](https://marcosmorales.dev)**  
 **🌍 [ES](#español) · [EN](#english)**
 
 </div>
@@ -111,8 +111,8 @@ ng e2e
 ### 📬 Contacto
 
 - **GitHub:** [@macros05](https://github.com/macros05)
-- **LinkedIn:** [Tu perfil](https://linkedin.com)
-- **Email:** tu@email.com
+- **LinkedIn:** [Marcos Morales](https://www.linkedin.com/in/marcos-morales-gonzález/)
+- **Email:** contacto@marcosmorales.dev
 
 ---
 
@@ -213,8 +213,8 @@ ng e2e
 ### 📬 Contact
 
 - **GitHub:** [@macros05](https://github.com/macros05)
-- **LinkedIn:** [Your profile](https://linkedin.com)
-- **Email:** your@email.com
+- **LinkedIn:** [Marcos Morales](https://www.linkedin.com/in/marcos-morales-gonzález/)
+- **Email:** contacto@marcosmorales.dev
 
 ---
 
