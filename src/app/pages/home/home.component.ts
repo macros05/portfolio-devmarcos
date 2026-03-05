@@ -1,11 +1,12 @@
-import { Component } from '@angular/core';
-import {HeroComponent} from '../../components/hero/hero.component';
-import {PROJECTS} from '../../data/project.data';
-import {ProjectCardComponent} from '../../components/project-card/project-card.component';
-import {AboutComponent} from '../../components/about/about.component';
-import {HeaderComponent} from '../../components/header/header.component';
-import {FooterComponent} from '../../components/footer/footer.component';
-import {ContactComponent} from '../../components/contact/contact.component';
+import { Component, inject } from '@angular/core';
+import { HeroComponent } from '../../components/hero/hero.component';
+import { PROJECTS } from '../../data/project.data';
+import { ProjectCardComponent } from '../../components/project-card/project-card.component';
+import { AboutComponent } from '../../components/about/about.component';
+import { HeaderComponent } from '../../components/header/header.component';
+import { FooterComponent } from '../../components/footer/footer.component';
+import { ContactComponent } from '../../components/contact/contact.component';
+import { LanguageService } from '../../services/language.service';
 
 @Component({
   selector: 'app-home',
@@ -14,5 +15,6 @@ import {ContactComponent} from '../../components/contact/contact.component';
   styleUrl: './home.component.css',
 })
 export class HomeComponent {
+  readonly t = inject(LanguageService).t;
   projects = PROJECTS;
 }

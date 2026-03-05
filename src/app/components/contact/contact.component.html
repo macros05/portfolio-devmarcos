@@ -3,10 +3,10 @@
   <div class="max-w-3xl mx-auto">
     <div class="text-center mb-16">
       <h2 class="text-4xl md:text-5xl font-bold text-gray-100 mb-6 tracking-tight">
-        Contacto
+        {{ t().contact.title }}
       </h2>
       <p class="text-gray-400 text-lg md:text-xl leading-relaxed">
-        ¿Tienes alguna pregunta o quieres que trabajemos juntos? Déjame tus datos y te responderé lo antes posible.
+        {{ t().contact.subtitle }}
       </p>
     </div>
 
@@ -14,28 +14,28 @@
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div>
-          <label for="name" class="sr-only">Nombre</label>
-          <input type="text" id="name" name="name" placeholder="Nombre" required
+          <label for="name" class="sr-only">{{ t().contact.name }}</label>
+          <input type="text" id="name" name="name" [placeholder]="t().contact.name" required
                  class="w-full bg-gray-800/40 backdrop-blur-sm border border-gray-700 rounded-lg px-5 py-4 text-gray-100 placeholder-gray-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all duration-300 font-mono text-sm">
         </div>
 
         <div>
-          <label for="email" class="sr-only">Email</label>
-          <input type="email" id="email" name="email" placeholder="Email" required
+          <label for="email" class="sr-only">{{ t().contact.email }}</label>
+          <input type="email" id="email" name="email" [placeholder]="t().contact.email" required
                  class="w-full bg-gray-800/40 backdrop-blur-sm border border-gray-700 rounded-lg px-5 py-4 text-gray-100 placeholder-gray-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all duration-300 font-mono text-sm">
         </div>
       </div>
 
       <div>
-        <label for="message" class="sr-only">Mensaje</label>
-        <textarea id="message" name="message" rows="6" placeholder="Mensaje" required
+        <label for="message" class="sr-only">{{ t().contact.message }}</label>
+        <textarea id="message" name="message" rows="6" [placeholder]="t().contact.message" required
                   class="w-full bg-gray-800/40 backdrop-blur-sm border border-gray-700 rounded-lg px-5 py-4 text-gray-100 placeholder-gray-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all duration-300 font-mono text-sm resize-none"></textarea>
       </div>
 
       <div class="flex justify-end pt-4">
         <button type="submit"
                 class="border border-blue-500 text-blue-500 hover:bg-blue-500 hover:text-white transition-all duration-300 px-10 py-4 rounded font-mono text-base tracking-widest uppercase hover:shadow-[0_0_20px_rgba(59,130,246,0.4)] hover:-translate-y-1">
-          Enviar
+          {{ t().contact.send }}
         </button>
       </div>
 

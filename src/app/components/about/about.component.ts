@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
-import { ABOUT_TEXT, TECH_ICONS } from '../../data/about.data';
+import { Component, inject } from '@angular/core';
+import { TECH_ICONS } from '../../data/about.data';
+import { LanguageService } from '../../services/language.service';
 
 @Component({
   selector: 'app-about',
@@ -9,6 +10,6 @@ import { ABOUT_TEXT, TECH_ICONS } from '../../data/about.data';
   styleUrl: './about.component.css'
 })
 export class AboutComponent {
-  aboutText = ABOUT_TEXT;
+  readonly t = inject(LanguageService).t;
   techIcons = TECH_ICONS;
 }

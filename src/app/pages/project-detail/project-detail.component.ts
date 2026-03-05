@@ -2,6 +2,9 @@ import { Component, inject, OnInit, ViewChild, ElementRef } from '@angular/core'
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { Project } from '../../models/project.model';
 import { PROJECTS } from '../../data/project.data';
+import { LanguageService } from '../../services/language.service';
+
+type ProjectId = 'tecnoambiente' | 'sentinel' | 'lead-scout';
 
 @Component({
   selector: 'app-project-detail',
@@ -11,8 +14,9 @@ import { PROJECTS } from '../../data/project.data';
   styleUrl: './project-detail.component.css'
 })
 export class ProjectDetailComponent implements OnInit {
-
   private route = inject(ActivatedRoute);
+  readonly t = inject(LanguageService).t;
+
   project: Project | undefined;
   isPlaying = false;
 
@@ -23,6 +27,11 @@ export class ProjectDetailComponent implements OnInit {
     if (projectId) {
       this.project = PROJECTS.find(p => p.id === projectId);
     }
+  }
+
+  get projectTexts() {
+    if (!this.project) return null;
+    return this.t().projects.items[this.project.id as ProjectId];
   }
 
   toggleVideo() {
