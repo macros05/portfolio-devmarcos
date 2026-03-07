@@ -11,8 +11,8 @@
         {{ t().about.bio }}
       </p>
 
-      <a href="/assets/cv-marcos-morales.pdf"
-         download="CV-Marcos-Morales.pdf"
+      <a [href]="lang() === 'en' ? '/assets/CV-Marcos-Morales-EN.pdf' : '/assets/CV-Marcos-Morales-ES.pdf'"
+         [download]="lang() === 'en' ? 'CV-Marcos-Morales-EN.pdf' : 'CV-Marcos-Morales-ES.pdf'"
          class="inline-block border border-blue-500 text-blue-500 hover:bg-blue-500 hover:text-white transition-colors duration-300 px-8 py-4 rounded font-mono text-lg mt-4">
         {{ t().about.downloadCv }}
       </a>

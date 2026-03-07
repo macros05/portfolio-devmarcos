@@ -11,6 +11,8 @@ import {FadeInDirective} from '../../directives/fade-in.directive';
   styleUrl: './about.component.css'
 })
 export class AboutComponent {
-  readonly t = inject(LanguageService).t;
+  private readonly langService = inject(LanguageService);
+  readonly t = this.langService.t;
+  readonly lang = this.langService.lang;
   techIcons = TECH_ICONS;
 }
