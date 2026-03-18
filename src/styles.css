@@ -6,6 +6,13 @@
     background-color: #111827; /* gray-900 */
     color: #f3f4f6; /* gray-100 */
     cursor: none;
+    padding-bottom: 64px; /* espacio para la barra móvil */
+  }
+
+  @media (min-width: 768px) {
+    body {
+      padding-bottom: 0;
+    }
   }
 
   a, button, [role="button"] {
