@@ -3,10 +3,11 @@ import { RouterOutlet } from '@angular/router';
 import {NgxParticlesModule} from '@tsparticles/angular';
 import {ISourceOptions, MoveDirection, OutMode} from '@tsparticles/engine';
 import {loadSlim} from '@tsparticles/slim';
+import { CursorComponent } from './components/cursor/cursor.component';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, NgxParticlesModule],
+  imports: [RouterOutlet, NgxParticlesModule, CursorComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })

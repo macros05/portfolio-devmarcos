@@ -5,6 +5,11 @@
   body {
     background-color: #111827; /* gray-900 */
     color: #f3f4f6; /* gray-100 */
+    cursor: none;
+  }
+
+  a, button, [role="button"] {
+    cursor: none;
   }
 }
 @layer utilities {
