@@ -3,10 +3,11 @@ import { RouterOutlet } from '@angular/router';
 import {NgxParticlesModule} from '@tsparticles/angular';
 import {ISourceOptions, MoveDirection, OutMode} from '@tsparticles/engine';
 import {loadSlim} from '@tsparticles/slim';
+import { CursorComponent } from './components/cursor/cursor.component';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, NgxParticlesModule],
+  imports: [RouterOutlet, NgxParticlesModule, CursorComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
@@ -14,14 +15,14 @@ export class AppComponent {
   protected readonly title = signal('portfolio-dev');
   particlesOptions: ISourceOptions = {
     background: {
-      color: "#0f172a" // Tu color de fondo oscuro
+      color: "#0f172a" // slate-900
     },
     fpsLimit: 60,
     interactivity: {
       events: {
         onHover: {
           enable: true,
-          mode: "grab" // Modo para crear el rastro/grabación
+          mode: "grab" // conecta partículas cercanas al cursor al hacer hover
         }
       },
       modes: {
@@ -35,7 +36,7 @@ export class AppComponent {
     },
     particles: {
       color: {
-        value: "#3b82f6" // El azul de Tailwind
+        value: "#3b82f6" // blue-500
       },
       links: {
         color: "#3b82f6",
@@ -76,7 +77,7 @@ export class AppComponent {
   };
 
   async particlesInit(engine: any): Promise<void> {
-    await loadSlim(engine); // Carga el preset ligero
+    await loadSlim(engine);
   }
 
 }

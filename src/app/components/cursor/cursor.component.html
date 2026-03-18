@@ -1,0 +1,14 @@
+@if (isVisible()) {
+  <div
+    class="cursor-dot"
+    [style.left.px]="dotX()"
+    [style.top.px]="dotY()"
+    [class.hovering]="isHovering()">
+  </div>
+  <div
+    class="cursor-ring"
+    [style.left.px]="ringX()"
+    [style.top.px]="ringY()"
+    [class.hovering]="isHovering()">
+  </div>
+}
