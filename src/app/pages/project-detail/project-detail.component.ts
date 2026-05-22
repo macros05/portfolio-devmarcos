@@ -1,17 +1,19 @@
-import { Component, inject, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, inject, OnInit, ViewChild, ElementRef, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { Project } from '../../models/project.model';
 import { PROJECTS } from '../../data/project.data';
 import { LanguageService } from '../../services/language.service';
+import { RevealDirective } from '../../directives/reveal.directive';
 
 type ProjectId = 'tecnoambiente' | 'sentinel' | 'lead-scout';
 
 @Component({
   selector: 'app-project-detail',
   standalone: true,
-  imports: [RouterLink],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [RouterLink, RevealDirective],
   templateUrl: './project-detail.component.html',
-  styleUrl: './project-detail.component.css'
+  styleUrl: './project-detail.component.css',
 })
 export class ProjectDetailComponent implements OnInit {
   private route = inject(ActivatedRoute);

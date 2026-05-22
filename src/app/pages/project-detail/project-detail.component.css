@@ -1,0 +1,65 @@
+.section-label .line {
+  display: inline-block;
+  width: 56px;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.5), transparent);
+}
+
+.back-link {
+  transition: color 0.3s ease, transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.back-link:hover {
+  transform: translateX(-4px);
+}
+
+.back-arrow {
+  display: inline-block;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.back-link:hover .back-arrow {
+  transform: translateX(-3px);
+}
+
+.link-row {
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.link-row:hover {
+  transform: translateX(3px);
+}
+
+.video-wrap {
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 24px 64px -12px rgba(0, 0, 0, 0.6);
+}
+
+.play-overlay {
+  background: rgba(0, 0, 0, 0.25);
+  transition: background 0.3s ease;
+}
+
+.play-overlay:hover {
+  background: rgba(0, 0, 0, 0.4);
+}
+
+.play-overlay.is-playing .play-btn {
+  opacity: 0;
+}
+
+.play-overlay.is-playing:hover .play-btn {
+  opacity: 1;
+}
+
+.play-btn {
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  box-shadow:
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.3),
+    0 8px 32px 0 rgba(0, 0, 0, 0.4);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
+}
+
+.play-overlay:hover .play-btn {
+  transform: scale(1.1);
+}

@@ -1,0 +1,42 @@
+.marquee-wrap {
+  --marquee-duration: 40s;
+}
+
+.marquee-track {
+  animation: marquee var(--marquee-duration) linear infinite;
+  width: max-content;
+  padding-inline: 2rem;
+}
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+.marquee-dot {
+  color: rgba(255, 255, 255, 0.15);
+  font-size: 0.6rem;
+}
+
+.marquee-fade {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 120px;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.marquee-fade-l {
+  left: 0;
+  background: linear-gradient(90deg, rgb(5, 7, 16) 0%, transparent 100%);
+}
+
+.marquee-fade-r {
+  right: 0;
+  background: linear-gradient(270deg, rgb(5, 7, 16) 0%, transparent 100%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track { animation: none; }
+}

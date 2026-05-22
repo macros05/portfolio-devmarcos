@@ -1,10 +1,13 @@
-import { Component, inject } from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
 import { LanguageService } from '../../services/language.service';
-import {FadeInDirective} from '../../directives/fade-in.directive';
+import { RevealDirective } from '../../directives/reveal.directive';
+import { MagneticDirective } from '../../directives/magnetic.directive';
 
 @Component({
   selector: 'app-contact',
-  imports: [FadeInDirective],
+  standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [RevealDirective, MagneticDirective],
   templateUrl: './contact.component.html',
   styleUrl: './contact.component.css',
 })
