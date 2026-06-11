@@ -20,6 +20,18 @@
     <div class="marquee-fade marquee-fade-r"></div>
   </div>
 
+  <!-- Giant watermark: letters fill with light as you reach the end of the page -->
+  <div class="watermark-wrap relative overflow-hidden pt-14 pb-4 px-4"
+       [style.--fillp]="fillProgress()"
+       aria-hidden="true">
+    <span class="watermark text-outline font-display font-semibold block text-center select-none">
+      MARCOS&nbsp;MORALES
+    </span>
+    <span class="watermark watermark-fill font-display font-semibold block text-center select-none">
+      MARCOS&nbsp;MORALES
+    </span>
+  </div>
+
   <div class="max-w-[1400px] mx-auto px-6 md:px-16 lg:px-24 py-10 flex flex-col md:flex-row justify-between items-center gap-6">
 
     <p class="text-white/45 font-mono text-xs tracking-wide">

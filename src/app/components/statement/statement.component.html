@@ -1,0 +1,36 @@
+<section id="statement" scrub="pin" (scrubProgress)="progress.set($event)"
+         class="statement relative w-full">
+
+  <div class="scene sticky top-0 h-screen flex flex-col items-center justify-center
+              px-6 md:px-16 overflow-hidden">
+
+    <!-- Kicker -->
+    <p class="kicker font-mono text-xs tracking-[0.35em] uppercase text-white/40 mb-10 md:mb-14">
+      {{ t().statement.kicker }}
+    </p>
+
+    <!-- Scroll-lit sentence -->
+    <p class="statement-line font-display font-medium text-center max-w-6xl"
+       [style.--n]="words().length">
+      @for (w of words(); track $index) {
+        <span class="word"
+              [class.accent]="w.accent"
+              [style.--i]="$index">{{ w.text }}</span>
+      }
+    </p>
+
+    <!-- Stats strip: fades in once the sentence completes -->
+    <div class="stats-strip grid grid-cols-3 gap-6 md:gap-16 mt-16 md:mt-24">
+      @for (s of stats; track s.key) {
+        <div class="stat text-center">
+          <span class="stat-value block font-display font-semibold text-4xl md:text-6xl text-gradient-aurora">
+            {{ display(s.value) }}
+          </span>
+          <span class="block font-mono text-[0.6rem] md:text-xs tracking-[0.2em] uppercase text-white/45 mt-3">
+            {{ t().stats[s.key] }}
+          </span>
+        </div>
+      }
+    </div>
+  </div>
+</section>

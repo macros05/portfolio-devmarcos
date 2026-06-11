@@ -2,18 +2,24 @@
   isolation: isolate;
 }
 
-/* Eyebrow line with pulsing dot */
-.eyebrow {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.75rem;
+/* ── Keynote stage: recedes into the page as you scroll.
+   Transform + opacity only — GPU compositing, no repaints. ── */
+.hero-stage {
+  transform:
+    translateY(calc(var(--progress, 0) * -6vh))
+    scale(calc(1 - var(--progress, 0) * 0.08));
+  opacity: calc(1 - var(--progress, 0) * 1.2);
+  transform-origin: 50% 30%;
+  will-change: transform, opacity;
 }
+
+/* Pulsing status dot inside the announcement chip */
 .dot {
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: #60a5fa;
-  box-shadow: 0 0 12px 2px rgba(96, 165, 250, 0.55);
+  background: #4ade80;
+  box-shadow: 0 0 12px 2px rgba(74, 222, 128, 0.55);
   animation: dot-pulse 2.4s ease-in-out infinite;
 }
 @keyframes dot-pulse {
@@ -21,11 +27,13 @@
   50%      { opacity: 0.5; transform: scale(1.4); }
 }
 
-/* Per-letter animation for the name */
+/* ── Name: massive keynote type, per-letter entrance ── */
 .hero-name {
   display: flex;
   flex-wrap: wrap;
   perspective: 800px;
+  font-size: clamp(3.4rem, 11.5vw, 10.5rem);
+  letter-spacing: -0.03em;
 }
 .letter {
   display: inline-block;
@@ -35,10 +43,18 @@
   animation: letter-in 1s cubic-bezier(0.16, 1, 0.3, 1) both;
   transform-origin: 50% 100%;
 }
+.letter-space {
+  display: inline-block;
+  width: 0.28em;
+}
 
 @keyframes letter-in {
   0%   { opacity: 0; transform: translateY(60%) rotateX(-50deg); filter: blur(8px); }
   100% { opacity: 1; transform: translateY(0) rotateX(0); filter: blur(0); }
+}
+
+.hero-subtitle {
+  font-size: clamp(1.5rem, 4vw, 2.9rem);
 }
 
 /* Generic fade + rise for non-letter elements */
@@ -49,6 +65,59 @@
 }
 @keyframes fade-rise {
   to { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Rotating light halo + center bloom behind the name ── */
+/* Painted once, spun via transform — no per-frame gradient repaint. */
+.hero-halo {
+  position: absolute;
+  left: 50%;
+  top: 46%;
+  width: min(92vmin, 920px);
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: conic-gradient(
+    from 0deg,
+    transparent 0%,
+    rgba(154, 177, 209, 0.5) 16%,
+    rgba(230, 222, 204, 0.35) 28%,
+    transparent 44%,
+    transparent 58%,
+    rgba(154, 177, 209, 0.4) 76%,
+    transparent 94%);
+  -webkit-mask: radial-gradient(closest-side, transparent 56%, #000 68%, #000 80%, transparent 94%);
+          mask: radial-gradient(closest-side, transparent 56%, #000 68%, #000 80%, transparent 94%);
+  filter: blur(16px);
+  opacity: 0.5;
+  mix-blend-mode: screen;
+  animation: halo-spin 16s linear infinite;
+  will-change: transform;
+  pointer-events: none;
+  z-index: -1;
+}
+
+@keyframes halo-spin {
+  from { transform: translate(-50%, -50%) rotate(0deg); }
+  to   { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+.hero-bloom {
+  position: absolute;
+  left: 50%;
+  top: 46%;
+  width: min(70vmin, 720px);
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: radial-gradient(circle,
+    rgba(154, 177, 209, 0.14) 0%,
+    rgba(154, 177, 209, 0.05) 45%,
+    transparent 70%);
+  filter: blur(50px);
+  mix-blend-mode: screen;
+  pointer-events: none;
+  z-index: -1;
 }
 
 /* CTA: liquid glass + glow */
@@ -63,27 +132,19 @@
   box-shadow:
     inset 0 1px 0 0 rgba(255, 255, 255, 0.28),
     0 12px 40px 0 rgba(0, 0, 0, 0.5),
-    0 0 50px -10px rgba(96, 165, 250, 0.35);
+    0 0 50px -10px rgba(154, 177, 209, 0.35);
 }
 .cta-glow {
   position: absolute;
   inset: -2px;
   border-radius: inherit;
   background:
-    radial-gradient(circle at 30% 50%, rgba(96, 165, 250, 0.35), transparent 60%),
+    radial-gradient(circle at 30% 50%, rgba(154, 177, 209, 0.35), transparent 60%),
     radial-gradient(circle at 70% 50%, rgba(255, 255, 255, 0.18), transparent 60%);
   filter: blur(14px);
   opacity: 0;
   z-index: -1;
   transition: opacity 0.5s ease;
-}
-@property --angle {
-  syntax: '<angle>';
-  initial-value: 0deg;
-  inherits: false;
-}
-@keyframes conic-spin {
-  to { --angle: 360deg; }
 }
 .cta-primary:hover .cta-glow { opacity: 0.7; }
 
@@ -117,9 +178,8 @@
   left: 0;
   width: 480px;
   height: 480px;
-  background: radial-gradient(circle, rgba(96, 165, 250, 0.18) 0%, rgba(96, 165, 250, 0.08) 35%, transparent 65%);
+  background: radial-gradient(circle, rgba(154, 177, 209, 0.14) 0%, rgba(154, 177, 209, 0.06) 35%, transparent 68%);
   border-radius: 50%;
-  filter: blur(40px);
   transform: translate(-50%, -50%);
   pointer-events: none;
   z-index: 0;
@@ -140,7 +200,7 @@
   display: flex;
   justify-content: center;
   padding-top: 6px;
-  animation: scroll-hint-in 1.6s cubic-bezier(0.16, 1, 0.3, 1) 2s both;
+  animation: scroll-hint-in 1.6s cubic-bezier(0.16, 1, 0.3, 1) 2.2s both;
 }
 .scroll-hint span {
   display: block;
@@ -161,8 +221,13 @@
 
 @media (max-width: 640px) {
   .orb { width: 320px; height: 320px; }
+  .hero-halo, .hero-bloom { width: 120vmin; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .letter, .fade-rise, .scroll-hint, .dot, .cta-glow { animation: none !important; opacity: 1; transform: none !important; filter: none !important; }
+  .letter, .fade-rise, .scroll-hint, .dot, .cta-glow, .hero-halo {
+    animation: none !important; opacity: 1; transform: none !important; filter: none !important;
+  }
+  .hero-halo { position: absolute; transform: translate(-50%, -50%) !important; opacity: 0.3; }
+  .hero-stage { transform: none; opacity: 1; filter: none; }
 }

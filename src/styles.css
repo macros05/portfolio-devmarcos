@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800;900&family=Geist+Mono:wght@400;500;600&display=swap');
+@import url('https://api.fontshare.com/v2/css?f[]=clash-display@400,500,600,700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -6,14 +7,14 @@
 
 @layer base {
   :root {
-    --bg-base: 10 12 16;       /* near-black charcoal */
-    --bg-surface: 18 22 28;    /* deep slate */
-    --text-strong: 245 246 248;
-    --text-soft: 161 168 178;
-    --accent: 96 165 250;      /* refined blue (Apple-ish) */
-    --accent-strong: 59 130 246;
-    --accent-soft: 191 219 254;
-    --warm-white: 244 234 220; /* subtle warm highlight */
+    --bg-base: 9 10 12;        /* neutral ink, no blue cast */
+    --bg-surface: 16 18 22;    /* graphite */
+    --text-strong: 246 246 244;
+    --text-soft: 156 163 173;
+    --accent: 154 177 209;     /* desaturated steel blue */
+    --accent-strong: 90 123 166;
+    --accent-soft: 207 219 235;
+    --warm-white: 230 222 204; /* champagne highlight */
   }
 
   html {
@@ -139,6 +140,10 @@
     inherits: false;
   }
 
+  @keyframes conic-spin {
+    to { --angle: 360deg; }
+  }
+
   /* Sheen / shimmer effect for highlighted buttons */
   .sheen {
     position: relative;
@@ -158,6 +163,65 @@
     transition: left 0.7s ease;
   }
   .sheen:hover::after { left: 100%; }
+
+  /* Outlined ghost text — giant watermarks (footer, section backdrops) */
+  .text-outline {
+    color: transparent;
+    -webkit-text-stroke: 1px rgba(255, 255, 255, 0.14);
+    text-stroke: 1px rgba(255, 255, 255, 0.14);
+  }
+
+  /* Horizon glow — Apple-keynote light line with bloom (section finales) */
+  .glow-horizon {
+    position: relative;
+    height: 1px;
+    background: linear-gradient(90deg,
+      transparent 0%,
+      rgba(var(--accent), 0.7) 35%,
+      rgba(255, 255, 255, 0.95) 50%,
+      rgba(var(--accent), 0.7) 65%,
+      transparent 100%);
+  }
+  .glow-horizon::before {
+    content: '';
+    position: absolute;
+    left: 15%;
+    right: 15%;
+    top: -40px;
+    height: 80px;
+    background: radial-gradient(ellipse at center,
+      rgba(var(--accent), 0.35) 0%,
+      rgba(var(--accent), 0.12) 40%,
+      transparent 70%);
+    filter: blur(12px);
+    pointer-events: none;
+  }
+
+  /* Announcement chip — rotating conic halo (Apple-Intelligence style) */
+  .glow-chip {
+    position: relative;
+    isolation: isolate;
+    border-radius: 9999px;
+  }
+  .glow-chip::before {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    padding: 1px;
+    background: conic-gradient(
+      from var(--angle, 0deg),
+      rgba(154, 177, 209, 0) 0%,
+      rgba(154, 177, 209, 0.9) 12%,
+      rgba(230, 222, 204, 0.9) 22%,
+      rgba(154, 177, 209, 0) 38%,
+      rgba(154, 177, 209, 0) 100%);
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+            mask-composite: exclude;
+    animation: conic-spin 4s linear infinite;
+    z-index: -1;
+  }
 
   /* Noise overlay — adds grain to prevent banding on gradients */
   .noise-overlay::before {

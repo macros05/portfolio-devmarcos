@@ -1,90 +1,107 @@
-<section id="inicio" class="hero relative min-h-screen flex flex-col justify-center items-start
-                                   px-6 md:px-16 lg:px-24 max-w-[1400px] mx-auto w-full overflow-hidden">
+<section id="inicio" scrub="exit" [scrubDistance]="0.9"
+         class="hero relative min-h-screen w-full overflow-hidden">
 
   <!-- Light orb following cursor -->
   <div class="orb"
-       [style.left.px]="orbX()"
-       [style.top.px]="orbY()"
+       [style.transform]="orbTransform()"
        aria-hidden="true"></div>
 
   <!-- Subtle grid texture behind hero -->
   <div class="hero-grid" aria-hidden="true"></div>
 
-  <!-- Eyebrow -->
-  <p class="eyebrow fade-rise text-sm md:text-base font-mono tracking-[0.25em] uppercase text-white/60 mb-6"
-     style="animation-delay: 0.1s">
-    <span class="dot"></span>
-    {{ t().hero.greeting }}
-  </p>
+  <!-- Rotating light halo behind the name -->
+  <div class="hero-halo" aria-hidden="true"></div>
+  <div class="hero-bloom" aria-hidden="true"></div>
 
-  <!-- Animated name (per-letter stagger) -->
-  <h1 class="hero-name font-display font-extrabold tracking-tight pb-4
-             text-7xl md:text-8xl lg:text-[10rem] leading-[0.95]">
-    @for (letter of nameLetters; track $index) {
-      <span class="letter text-gradient-aurora"
-            [style.animation-delay.ms]="350 + $index * 90">
-        {{ letter }}
+  <!-- Stage: everything inside recedes on scroll (driven by --progress) -->
+  <div class="hero-stage relative min-h-screen flex flex-col justify-center items-center
+              text-center px-6 md:px-16 max-w-[1400px] mx-auto">
+
+    <!-- Announcement chip -->
+    <div class="fade-rise glow-chip glass-medium inline-flex items-center gap-2.5
+                px-5 py-2.5 rounded-full mb-10"
+         style="animation-delay: 0.15s">
+      <span class="dot" aria-hidden="true"></span>
+      <span class="font-mono text-[0.7rem] md:text-xs tracking-[0.22em] uppercase text-white/75">
+        {{ t().hero.badge }}
       </span>
-    }
-  </h1>
+    </div>
 
-  <!-- Subtitle -->
-  <h2 class="fade-rise text-3xl md:text-5xl lg:text-6xl font-display font-bold text-white/85 tracking-tight mb-8"
-      style="animation-delay: 1.05s">
-    {{ t().hero.subtitle }}
-  </h2>
+    <!-- Animated name (per-letter stagger) -->
+    <h1 class="hero-name font-display font-semibold tracking-tight justify-center pb-2
+               leading-[0.98]">
+      @for (letter of nameLetters; track $index) {
+        @if (letter === ' ') {
+          <span class="letter-space" aria-hidden="true"></span>
+        } @else {
+          <span class="letter text-gradient-aurora"
+                [style.animation-delay.ms]="380 + $index * 55">
+            {{ letter }}
+          </span>
+        }
+      }
+    </h1>
 
-  <!-- Bio -->
-  <p class="fade-rise text-white/60 text-lg md:text-xl max-w-2xl mb-12 leading-relaxed"
-     style="animation-delay: 1.25s">
-    {{ t().hero.bio }}
-    <span class="text-white/95 font-semibold">SENTINEL</span>,
-    <span class="text-white/95 font-semibold">TECNOAMBIENTE</span>
-    {{ t().hero.and }}
-    <span class="text-white/95 font-semibold">LEAD SCOUT</span>.
-  </p>
+    <!-- Subtitle -->
+    <h2 class="fade-rise hero-subtitle font-display font-medium text-white/90 tracking-tight mt-6 mb-8"
+        style="animation-delay: 1.25s">
+      {{ t().hero.subtitle }}
+    </h2>
 
-  <!-- CTAs -->
-  <div class="fade-rise flex flex-wrap items-center gap-4"
+    <!-- Bio -->
+    <p class="fade-rise text-white/60 text-lg md:text-xl max-w-2xl mb-12 leading-relaxed"
        style="animation-delay: 1.45s">
+      {{ t().hero.bio }}
+      <span class="text-white/95 font-semibold">AI REELS FACTORY</span>,
+      <span class="text-white/95 font-semibold">TRADING BOT</span>,
+      <span class="text-white/95 font-semibold">PR PARTY</span>,
+      <span class="text-white/95 font-semibold">SEO COSTA DEL SOL</span>
+      {{ t().hero.and }}
+      <span class="text-white/95 font-semibold">TECNOAMBIENTE</span>.
+    </p>
 
-    <a magnetic
-       liquidGlass [liquidGlassMaxScale]="8" [liquidGlassRadius]="200"
-       href="#proyectos"
-       class="cta-primary group relative inline-flex items-center gap-3 glass-strong sheen
-              px-7 py-4 rounded-full font-mono text-sm tracking-wide
-              text-white overflow-hidden">
-      <span class="relative z-10">{{ t().hero.cta }}</span>
-      <svg class="w-4 h-4 relative z-10 transition-transform group-hover:translate-x-1"
-           fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
-      </svg>
-      <span class="cta-glow"></span>
-    </a>
+    <!-- CTAs -->
+    <div class="fade-rise flex flex-wrap items-center justify-center gap-4"
+         style="animation-delay: 1.65s">
 
-    <a magnetic
-       href="https://github.com/macros05" target="_blank"
-       class="icon-btn glass-medium inline-flex items-center gap-2 px-5 py-3.5 rounded-full
-              text-white/85 hover:text-white transition-colors">
-      <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-        <path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clip-rule="evenodd"/>
-      </svg>
-      <span class="font-mono text-xs tracking-wide">GitHub</span>
-    </a>
+      <a magnetic
+         liquidGlass [liquidGlassMaxScale]="8" [liquidGlassRadius]="200"
+         href="#proyectos"
+         class="cta-primary group relative inline-flex items-center gap-3 glass-strong sheen
+                px-7 py-4 rounded-full font-mono text-sm tracking-wide
+                text-white overflow-hidden">
+        <span class="relative z-10">{{ t().hero.cta }}</span>
+        <svg class="w-4 h-4 relative z-10 transition-transform group-hover:translate-x-1"
+             fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+        </svg>
+        <span class="cta-glow"></span>
+      </a>
 
-    <a magnetic
-       href="https://www.linkedin.com/in/marcos-morales-gonzalez/" target="_blank"
-       class="icon-btn glass-medium inline-flex items-center gap-2 px-5 py-3.5 rounded-full
-              text-white/85 hover:text-white transition-colors">
-      <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-        <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
-      </svg>
-      <span class="font-mono text-xs tracking-wide">LinkedIn</span>
+      <a magnetic
+         href="https://github.com/macros05" target="_blank"
+         class="icon-btn glass-medium inline-flex items-center gap-2 px-5 py-3.5 rounded-full
+                text-white/85 hover:text-white transition-colors">
+        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+          <path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clip-rule="evenodd"/>
+        </svg>
+        <span class="font-mono text-xs tracking-wide">GitHub</span>
+      </a>
+
+      <a magnetic
+         href="https://www.linkedin.com/in/marcos-morales-gonzalez/" target="_blank"
+         class="icon-btn glass-medium inline-flex items-center gap-2 px-5 py-3.5 rounded-full
+                text-white/85 hover:text-white transition-colors">
+        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+        </svg>
+        <span class="font-mono text-xs tracking-wide">LinkedIn</span>
+      </a>
+    </div>
+
+    <!-- Scroll hint -->
+    <a href="#statement" class="scroll-hint" aria-label="Scroll">
+      <span></span>
     </a>
   </div>
-
-  <!-- Scroll hint -->
-  <a href="#about" class="scroll-hint" aria-label="Scroll">
-    <span></span>
-  </a>
 </section>

@@ -18,8 +18,11 @@ export class HeaderComponent implements OnInit {
   readonly t = this.langService.t;
 
   readonly isScrolled = signal(false);
+  readonly isHidden = signal(false);
   readonly activeSection = signal<string>('inicio');
   readonly menuOpen = signal(false);
+
+  private lastY = 0;
 
   readonly links: NavLink[] = [
     { id: 'inicio', key: 'inicio' },
@@ -51,7 +54,19 @@ export class HeaderComponent implements OnInit {
   }
 
   @HostListener('window:scroll') onScroll() {
-    this.isScrolled.set(window.scrollY > 40);
+    const y = window.scrollY;
+    this.isScrolled.set(y > 40);
+
+    // Hide when scrolling down, reappear on the slightest scroll up.
+    const delta = y - this.lastY;
+    if (y < 160 || this.menuOpen()) {
+      this.isHidden.set(false);
+    } else if (delta > 6) {
+      this.isHidden.set(true);
+    } else if (delta < -6) {
+      this.isHidden.set(false);
+    }
+    this.lastY = y;
   }
 
   toggleMenu() { this.menuOpen.update(v => !v); }

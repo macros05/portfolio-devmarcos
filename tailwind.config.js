@@ -7,14 +7,14 @@ module.exports = {
     extend: {
       colors: {
         aurora: {
-          blue: '#3b82f6',
-          violet: '#8b5cf6',
-          pink: '#ec4899',
-          cyan: '#06b6d4',
+          steel: '#9ab1d1',
+          deep: '#5a7ba6',
+          champagne: '#e6decc',
+          graphite: '#1e2229',
         },
       },
       fontFamily: {
-        display: ['Geist', 'system-ui', 'sans-serif'],
+        display: ['"Clash Display"', 'Geist', 'system-ui', 'sans-serif'],
         sans: ['Geist', 'system-ui', 'sans-serif'],
         mono: ['"Geist Mono"', 'ui-monospace', 'monospace'],
       },
@@ -72,8 +72,8 @@ module.exports = {
       boxShadow: {
         'glass': '0 8px 32px 0 rgba(0, 0, 0, 0.4), inset 0 1px 0 0 rgba(255, 255, 255, 0.15)',
         'glass-lg': '0 24px 64px -12px rgba(0, 0, 0, 0.5), inset 0 1px 0 0 rgba(255, 255, 255, 0.18)',
-        'glow-blue': '0 0 40px -5px rgba(59, 130, 246, 0.5)',
-        'glow-violet': '0 0 40px -5px rgba(139, 92, 246, 0.5)',
+        'glow-steel': '0 0 40px -5px rgba(90, 123, 166, 0.45)',
+        'glow-champagne': '0 0 40px -5px rgba(230, 222, 204, 0.35)',
       },
     },
   },

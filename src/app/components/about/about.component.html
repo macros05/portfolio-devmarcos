@@ -3,7 +3,7 @@
   <div class="max-w-7xl mx-auto">
     <div [reveal]="'up'" class="section-label flex items-center gap-3 mb-6">
       <span class="line"></span>
-      <span class="font-mono text-xs tracking-[0.3em] uppercase text-white/50">01 — About</span>
+      <span class="font-mono text-xs tracking-[0.3em] uppercase text-white/50">{{ t().about.kicker }}</span>
     </div>
 
     <h2 [reveal]="'up'" [revealDelay]="60"
@@ -47,6 +47,7 @@
               <span class="tile-glow" aria-hidden="true"></span>
               <img [src]="tech.icon" [alt]="tech.name"
                    class="w-12 h-12 relative z-10 opacity-80 group-hover:opacity-100 transition-opacity duration-500"
+                   [class.invert]="tech.invert"
                    loading="lazy">
               <span class="text-white/85 group-hover:text-white text-sm font-mono tracking-wide relative z-10 transition-colors">
                 {{ tech.name }}

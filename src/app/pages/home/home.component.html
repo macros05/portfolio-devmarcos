@@ -1,6 +1,7 @@
 <app-header></app-header>
 
 <app-hero></app-hero>
+<app-statement></app-statement>
 <app-about></app-about>
 
 <section id="proyectos" class="px-6 md:px-16 lg:px-24 w-full mt-40 lg:mt-56 pb-40">
@@ -8,18 +9,19 @@
   <div class="max-w-7xl mx-auto">
     <div [reveal]="'up'" class="section-label flex items-center gap-3 mb-6">
       <span class="line"></span>
-      <span class="font-mono text-xs tracking-[0.3em] uppercase text-white/50">02 — Work</span>
+      <span class="font-mono text-xs tracking-[0.3em] uppercase text-white/50">{{ t().projects.kicker }}</span>
     </div>
 
     <h2 [reveal]="'up'" [revealDelay]="60"
-        class="text-5xl md:text-6xl lg:text-7xl font-display font-bold text-white mb-24 tracking-tight leading-[1.05]">
+        class="text-5xl md:text-6xl lg:text-7xl font-display font-semibold text-white mb-24 tracking-tight leading-[1.05]">
       {{ t().projects.sectionTitle }}<span class="text-gradient-aurora">.</span>
     </h2>
   </div>
 
-  <div class="flex flex-col gap-40 lg:gap-64 w-full max-w-[1400px] mx-auto">
-    @for (project of projects; track project.id; let even = $even; let i = $index) {
-      <app-project-card [project]="project" [even]="even" [index]="i"></app-project-card>
+  <!-- Keynote deck: cards pin and stack over each other on desktop -->
+  <div deck class="deck flex flex-col gap-16 lg:gap-[14vh] w-full max-w-[1400px] mx-auto">
+    @for (project of projects; track project.id; let i = $index) {
+      <app-project-card [project]="project" [index]="i"></app-project-card>
     }
   </div>
 

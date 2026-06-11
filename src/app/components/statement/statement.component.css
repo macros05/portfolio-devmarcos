@@ -1,0 +1,49 @@
+/* Tall track: the sticky scene plays while the user scrolls through it */
+.statement {
+  height: 240vh;
+}
+
+.statement-line {
+  font-size: clamp(1.9rem, 5vw, 4.4rem);
+  line-height: 1.18;
+  letter-spacing: -0.02em;
+}
+
+/* Each word lights up in sequence as --progress (0→1) advances.
+   --p is this word's own progress window inside the global timeline. */
+.word {
+  --p: clamp(0, calc(var(--progress, 0) * (var(--n) + 3) - var(--i) - 0.6), 1);
+  display: inline-block;
+  margin: 0 0.13em;
+  color: #fff;
+  opacity: calc(0.13 + var(--p) * 0.87);
+  transform: translateY(calc((1 - var(--p)) * 0.45rem));
+}
+
+.word.accent {
+  background: linear-gradient(135deg,
+    rgb(var(--text-strong)) 0%,
+    rgb(var(--accent)) 55%,
+    rgb(var(--warm-white)) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Stats reveal early enough that the slow counter climb stays visible */
+.stats-strip {
+  --sp: clamp(0, calc((var(--progress, 0) - 0.55) / 0.1), 1);
+  opacity: var(--sp);
+  transform: translateY(calc((1 - var(--sp)) * 24px));
+}
+
+@media (max-width: 768px) {
+  .statement {
+    height: 190vh;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .word { opacity: 1; transform: none; }
+  .stats-strip { opacity: 1; transform: none; }
+}

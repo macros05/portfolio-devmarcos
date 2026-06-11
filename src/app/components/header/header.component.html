@@ -1,4 +1,5 @@
-<header class="fixed top-4 md:top-6 inset-x-0 z-50 flex justify-center pointer-events-none">
+<header class="header-bar fixed top-4 md:top-6 inset-x-0 z-50 flex justify-center pointer-events-none"
+        [class.nav-hidden]="isHidden()">
   <nav liquidGlass [liquidGlassMaxScale]="6" [liquidGlassRadius]="220"
        class="pointer-events-auto pill glass-strong rounded-full px-3 py-2 md:px-4 md:py-2.5 flex items-center gap-2 md:gap-1.5"
        [class.scrolled]="isScrolled()">

@@ -29,14 +29,39 @@
 
 .marquee-fade-l {
   left: 0;
-  background: linear-gradient(90deg, rgb(5, 7, 16) 0%, transparent 100%);
+  background: linear-gradient(90deg, rgb(9, 10, 12) 0%, transparent 100%);
 }
 
 .marquee-fade-r {
   right: 0;
-  background: linear-gradient(270deg, rgb(5, 7, 16) 0%, transparent 100%);
+  background: linear-gradient(270deg, rgb(9, 10, 12) 0%, transparent 100%);
+}
+
+/* ── Giant watermark with scroll-driven light fill ──
+   Sized so the nowrap line always fits its box: the gradient fill layer is
+   background-clip:text and would go invisible outside the box. */
+.watermark {
+  font-size: clamp(2.4rem, 9.5vw, 9rem);
+  line-height: 1;
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+}
+
+.watermark-fill {
+  position: absolute;
+  inset: 0;
+  padding-top: 3.5rem; /* mirror .watermark-wrap pt-14 */
+  background: linear-gradient(110deg,
+    rgb(var(--text-strong)) 0%,
+    rgb(var(--accent)) 55%,
+    rgb(var(--warm-white)) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  clip-path: inset(0 calc((1 - var(--fillp, 0)) * 100%) 0 0);
 }
 
 @media (prefers-reduced-motion: reduce) {
   .marquee-track { animation: none; }
+  .watermark-fill { clip-path: none; }
 }
