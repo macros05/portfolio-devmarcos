@@ -19,6 +19,21 @@
           {{ t().about.bio }}
         </p>
 
+        <!-- AI specialization chips -->
+        <div>
+          <h3 class="text-sm font-mono uppercase tracking-[0.3em] text-white/50 mb-5">
+            {{ t().about.aiTitle }}
+          </h3>
+          <div class="flex flex-wrap gap-2">
+            @for (skill of t().about.aiSkills; track skill; let i = $index) {
+              <span [reveal]="'scale'" [revealDelay]="80 + i * 50"
+                    class="ai-chip glass-subtle text-xs font-mono px-3.5 py-2 rounded-full text-white/80">
+                {{ skill }}
+              </span>
+            }
+          </div>
+        </div>
+
         <a magnetic
            [href]="lang() === 'en' ? '/assets/CV-Marcos-Morales-EN.pdf' : '/assets/CV-Marcos-Morales-ES.pdf'"
            [download]="lang() === 'en' ? 'CV-Marcos-Morales-EN.pdf' : 'CV-Marcos-Morales-ES.pdf'"

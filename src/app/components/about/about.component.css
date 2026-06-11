@@ -5,6 +5,15 @@
   background: linear-gradient(90deg, rgba(255, 255, 255, 0.5), transparent);
 }
 
+.ai-chip {
+  transition: border-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
+}
+.ai-chip:hover {
+  border-color: rgba(154, 177, 209, 0.45);
+  color: #fff;
+  transform: translateY(-2px);
+}
+
 .cv-btn {
   border: 1px solid rgba(255, 255, 255, 0.16);
   box-shadow:

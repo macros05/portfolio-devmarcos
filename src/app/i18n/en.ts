@@ -25,9 +25,20 @@ export const EN = {
   about: {
     kicker: '01 — Profile',
     title: 'About Me',
-    bio: 'I\'m a software developer specialized in building full-stack web applications with Angular on the frontend and AI integration on the backend. I\'m passionate about solving real problems by creating tools that combine great user experience with cutting-edge technology.',
+    bio: 'I\'m a full-stack developer specialized in AI engineering: I integrate LLMs like Claude and Gemini into real products — from RAG pipelines and tool-calling agents to MCP servers and multi-agent orchestration — deploying on Google Cloud and Vertex AI. Equally at home on the frontend (Angular, React) and on the backend behind each model (Python, FastAPI), with one goal: making AI feel like a natural part of the product.',
     downloadCv: 'Download CV',
     techTitle: 'Technologies',
+    aiTitle: 'AI Specialization',
+    aiSkills: [
+      'LLM integration · Claude · Gemini · watsonx',
+      'RAG & embeddings',
+      'Agents & tool calling',
+      'MCP servers',
+      'Multi-agent orchestration',
+      'Multimodal pipelines · vision · voice · video',
+      'Vertex AI & Google Cloud',
+      'Prompt engineering',
+    ],
   },
   projects: {
     builtWith: 'Built with:',

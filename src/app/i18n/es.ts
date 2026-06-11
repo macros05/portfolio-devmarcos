@@ -25,9 +25,20 @@ export const ES = {
   about: {
     kicker: '01 — Perfil',
     title: 'Sobre Mí',
-    bio: 'Soy un desarrollador de software especializado en construir aplicaciones web completas con Angular en el frontend y la integración de Inteligencia Artificial en el backend. Me apasiona resolver problemas reales creando herramientas que combinan una buena experiencia de usuario con tecnología de vanguardia.',
+    bio: 'Soy desarrollador full stack especializado en ingeniería de IA: integro LLMs como Claude y Gemini en productos reales, desde pipelines RAG y agentes con tool calling hasta servidores MCP y orquestación multi-agente, desplegando sobre Google Cloud y Vertex AI. Tan cómodo en el frontend (Angular, React) como en el backend que hay detrás de cada modelo (Python, FastAPI), con un objetivo: que la IA se sienta parte natural del producto.',
     downloadCv: 'Descargar CV',
     techTitle: 'Tecnologías',
+    aiTitle: 'Especialización en IA',
+    aiSkills: [
+      'Integración de LLMs · Claude · Gemini · watsonx',
+      'RAG y embeddings',
+      'Agentes y tool calling',
+      'Servidores MCP',
+      'Orquestación multi-agente',
+      'Pipelines multimodales · visión · voz · vídeo',
+      'Vertex AI y Google Cloud',
+      'Prompt engineering',
+    ],
   },
   projects: {
     builtWith: 'Construido con:',
