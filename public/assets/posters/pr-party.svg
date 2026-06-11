@@ -1,0 +1,122 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0b0e14"/>
+      <stop offset="1" stop-color="#10121c"/>
+    </linearGradient>
+    <radialGradient id="glowViolet" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#5a7ba6" stop-opacity="0.35"/>
+      <stop offset="1" stop-color="#5a7ba6" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glowBlue" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#5a7ba6" stop-opacity="0.4"/>
+      <stop offset="1" stop-color="#5a7ba6" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="hp" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#f87171"/>
+      <stop offset="1" stop-color="#fb923c"/>
+    </linearGradient>
+    <style>
+      .drift { animation: drift 10s ease-in-out infinite; }
+      @keyframes drift { 0%,100% { transform: translate(0,0); } 50% { transform: translate(24px,-18px); } }
+      .hpbar { animation: hp 5.5s cubic-bezier(0.7, 0, 0.3, 1) infinite; transform-origin: left center; transform-box: fill-box; }
+      @keyframes hp {
+        0%, 12% { transform: scaleX(1); }
+        30%     { transform: scaleX(0.72); }
+        52%     { transform: scaleX(0.55); }
+        74%     { transform: scaleX(0.31); }
+        90%, 100% { transform: scaleX(0.18); }
+      }
+      .dmg { animation: dmg 5.5s ease-out infinite; opacity: 0; }
+      @keyframes dmg {
+        0%, 24% { opacity: 0; transform: translateY(0); }
+        30% { opacity: 1; transform: translateY(-14px); }
+        44% { opacity: 1; transform: translateY(-30px); }
+        56%, 100% { opacity: 0; transform: translateY(-44px); }
+      }
+      .dmg2 { animation: dmg2 5.5s ease-out infinite; opacity: 0; }
+      @keyframes dmg2 {
+        0%, 62% { opacity: 0; transform: translateY(0); }
+        68% { opacity: 1; transform: translateY(-14px); }
+        80% { opacity: 1; transform: translateY(-30px); }
+        92%, 100% { opacity: 0; transform: translateY(-44px); }
+      }
+      .bob { animation: bob 2.8s ease-in-out infinite; }
+      @keyframes bob { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-7px); } }
+      .typed { animation: typed 5.5s steps(1) infinite; }
+      @keyframes typed { 0%, 20% { opacity: 0; } 26%, 100% { opacity: 1; } }
+    </style>
+  </defs>
+
+  <rect width="1280" height="720" fill="url(#bg)"/>
+
+  <!-- grid -->
+  <g stroke="#ffffff" stroke-opacity="0.035">
+    <path d="M0 130H1280M0 250H1280M0 370H1280M0 490H1280M0 610H1280"/>
+    <path d="M180 0V720M360 0V720M540 0V720M720 0V720M900 0V720M1080 0V720"/>
+  </g>
+
+  <circle class="drift" cx="1020" cy="180" r="280" fill="url(#glowViolet)"/>
+  <circle class="drift" cx="240" cy="560" r="260" fill="url(#glowBlue)" style="animation-delay:1.6s"/>
+
+  <!-- header -->
+  <text x="80" y="92" fill="#f5f6f8" font-size="30" font-weight="700" letter-spacing="6">PR PARTY</text>
+  <text x="80" y="124" fill="#8a93a3" font-size="15" letter-spacing="3">IBM BOB HACKATHON · SIX AGENTS · ONE ENCOUNTER</text>
+
+  <!-- boss: the pull request -->
+  <g>
+    <rect x="150" y="180" width="980" height="120" rx="20" fill="#ffffff" fill-opacity="0.04" stroke="#ffffff" stroke-opacity="0.14"/>
+    <text x="190" y="230" fill="#f5f6f8" font-size="22" font-weight="700" letter-spacing="2">PULL REQUEST #42</text>
+    <text x="190" y="258" fill="#8a93a3" font-size="13" letter-spacing="2">feat: payments refactor · +1,204 −388</text>
+    <!-- HP bar -->
+    <rect x="640" y="222" width="440" height="18" rx="9" fill="#ffffff" fill-opacity="0.07"/>
+    <rect class="hpbar" x="640" y="222" width="440" height="18" rx="9" fill="url(#hp)"/>
+    <text x="640" y="210" fill="#fca5a5" font-size="13" letter-spacing="2">HP</text>
+    <!-- damage popups -->
+    <text class="dmg"  x="980" y="200" fill="#fbbf24" font-size="26" font-weight="700">CRIT 92!</text>
+    <text class="dmg2" x="860" y="200" fill="#bdcce3" font-size="22" font-weight="700">HIT 45</text>
+  </g>
+
+  <!-- the party: six specialist agents -->
+  <g text-anchor="middle" font-size="15" font-weight="700">
+    <g class="bob" style="animation-delay:0s">
+      <circle cx="225" cy="410" r="36" fill="#1d4ed8" fill-opacity="0.32" stroke="#9ab1d1" stroke-opacity="0.7" stroke-width="2"/>
+      <text x="225" y="416" fill="#bfdbfe">AE</text>
+      <text x="225" y="478" fill="#8a93a3" font-size="11" font-weight="400" letter-spacing="2">SECURITY</text>
+    </g>
+    <g class="bob" style="animation-delay:.3s">
+      <circle cx="391" cy="410" r="36" fill="#7c3aed" fill-opacity="0.32" stroke="#a78bfa" stroke-opacity="0.7" stroke-width="2"/>
+      <text x="391" y="416" fill="#ddd6fe">SC</text>
+      <text x="391" y="478" fill="#8a93a3" font-size="11" font-weight="400" letter-spacing="2">DATABASE</text>
+    </g>
+    <g class="bob" style="animation-delay:.6s">
+      <circle cx="557" cy="410" r="36" fill="#db2777" fill-opacity="0.3" stroke="#f9a8d4" stroke-opacity="0.7" stroke-width="2"/>
+      <text x="557" y="416" fill="#fbcfe8">PX</text>
+      <text x="557" y="478" fill="#8a93a3" font-size="11" font-weight="400" letter-spacing="2">UX</text>
+    </g>
+    <g class="bob" style="animation-delay:.9s">
+      <circle cx="723" cy="410" r="36" fill="#0e7490" fill-opacity="0.34" stroke="#67e8f9" stroke-opacity="0.7" stroke-width="2"/>
+      <text x="723" y="416" fill="#cffafe">AT</text>
+      <text x="723" y="478" fill="#8a93a3" font-size="11" font-weight="400" letter-spacing="2">ARCHITECTURE</text>
+    </g>
+    <g class="bob" style="animation-delay:1.2s">
+      <circle cx="889" cy="410" r="36" fill="#15803d" fill-opacity="0.32" stroke="#86efac" stroke-opacity="0.7" stroke-width="2"/>
+      <text x="889" y="416" fill="#bbf7d0">EC</text>
+      <text x="889" y="478" fill="#8a93a3" font-size="11" font-weight="400" letter-spacing="2">TESTS</text>
+    </g>
+    <g class="bob" style="animation-delay:1.5s">
+      <circle cx="1055" cy="410" r="36" fill="#b45309" fill-opacity="0.3" stroke="#fcd34d" stroke-opacity="0.7" stroke-width="2"/>
+      <text x="1055" y="416" fill="#fde68a">CX</text>
+      <text x="1055" y="478" fill="#8a93a3" font-size="11" font-weight="400" letter-spacing="2">DOCS</text>
+    </g>
+  </g>
+
+  <!-- dialogue line -->
+  <g class="typed">
+    <rect x="150" y="540" width="980" height="64" rx="16" fill="#ffffff" fill-opacity="0.04" stroke="#ffffff" stroke-opacity="0.12"/>
+    <text x="190" y="579" fill="#bfdbfe" font-size="16">AEGIS:</text>
+    <text x="268" y="579" fill="#d7dde7" font-size="16">hardcoded secret in payments.ts:88 — crit_hit · SCHEMA nods grimly</text>
+  </g>
+
+  <text x="640" y="668" fill="#8a93a3" font-size="13" text-anchor="middle" letter-spacing="3">WATSONX.AI VOICES · TWO-PASS NOISE FILTER · POWERED BY IBM BOB</text>
+</svg>

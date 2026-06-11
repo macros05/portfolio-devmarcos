@@ -1,0 +1,93 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0b0e14"/>
+      <stop offset="1" stop-color="#0d1117"/>
+    </linearGradient>
+    <radialGradient id="glowBlue" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#5a7ba6" stop-opacity="0.45"/>
+      <stop offset="1" stop-color="#5a7ba6" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glowGreen" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#4ade80" stop-opacity="0.25"/>
+      <stop offset="1" stop-color="#4ade80" stop-opacity="0"/>
+    </radialGradient>
+    <style>
+      .drift { animation: drift 9s ease-in-out infinite; }
+      @keyframes drift { 0%,100% { transform: translate(0,0); } 50% { transform: translate(-26px,18px); } }
+      .draw {
+        stroke-dasharray: 1400;
+        stroke-dashoffset: 1400;
+        animation: draw 6s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+      }
+      @keyframes draw {
+        0% { stroke-dashoffset: 1400; opacity: 1; }
+        70% { stroke-dashoffset: 0; opacity: 1; }
+        92% { opacity: 1; }
+        100% { stroke-dashoffset: 0; opacity: 0; }
+      }
+      .tick { animation: tick 1.6s ease-in-out infinite; transform-origin: center; transform-box: fill-box; }
+      @keyframes tick { 0%,100% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.7); opacity: 0.45; } }
+      .blink { animation: blink 2.2s steps(2, jump-none) infinite; }
+      @keyframes blink { 50% { opacity: 0.25; } }
+    </style>
+  </defs>
+
+  <rect width="1280" height="720" fill="url(#bg)"/>
+
+  <!-- grid -->
+  <g stroke="#ffffff" stroke-opacity="0.04">
+    <path d="M0 130H1280M0 230H1280M0 330H1280M0 430H1280M0 530H1280M0 630H1280"/>
+    <path d="M140 0V720M300 0V720M460 0V720M620 0V720M780 0V720M940 0V720M1100 0V720"/>
+  </g>
+
+  <circle class="drift" cx="1010" cy="180" r="280" fill="url(#glowBlue)"/>
+  <circle class="drift" cx="260" cy="560" r="260" fill="url(#glowGreen)" style="animation-delay:1.4s"/>
+
+  <!-- header -->
+  <text x="80" y="92" fill="#f5f6f8" font-size="30" font-weight="700" letter-spacing="6">BTC TRADING BOT</text>
+  <text x="80" y="124" fill="#8a93a3" font-size="15" letter-spacing="3">MOMENTUM RSI + SMA · MACRO FILTER · BINANCE TESTNET</text>
+
+  <!-- live chip -->
+  <g>
+    <rect x="1052" y="64" width="148" height="40" rx="20" fill="#ffffff" fill-opacity="0.05" stroke="#ffffff" stroke-opacity="0.16"/>
+    <circle class="blink" cx="1078" cy="84" r="5" fill="#4ade80"/>
+    <text x="1096" y="89" fill="#d7dde7" font-size="14" letter-spacing="2">BTC/USDT</text>
+  </g>
+
+  <!-- candlesticks -->
+  <g stroke-width="2">
+    <g stroke="#4ade80" fill="#4ade80">
+      <path d="M180 470 V 350"/><rect x="166" y="382" width="28" height="58" rx="3"/>
+      <path d="M260 430 V 318"/><rect x="246" y="346" width="28" height="56" rx="3"/>
+      <path d="M420 420 V 300"/><rect x="406" y="330" width="28" height="62" rx="3"/>
+      <path d="M580 380 V 262"/><rect x="566" y="290" width="28" height="60" rx="3"/>
+      <path d="M660 350 V 240"/><rect x="646" y="268" width="28" height="54" rx="3"/>
+      <path d="M820 330 V 212"/><rect x="806" y="244" width="28" height="58" rx="3"/>
+      <path d="M980 290 V 176"/><rect x="966" y="204" width="28" height="56" rx="3"/>
+      <path d="M1060 260 V 150"/><rect x="1046" y="178" width="28" height="52" rx="3"/>
+    </g>
+    <g stroke="#f87171" fill="#f87171">
+      <path d="M340 460 V 352"/><rect x="326" y="376" width="28" height="56" rx="3"/>
+      <path d="M500 430 V 318"/><rect x="486" y="340" width="28" height="58" rx="3"/>
+      <path d="M740 372 V 262"/><rect x="726" y="286" width="28" height="56" rx="3"/>
+      <path d="M900 330 V 220"/><rect x="886" y="246" width="28" height="54" rx="3"/>
+    </g>
+  </g>
+
+  <!-- animated price line -->
+  <path class="draw" d="M150 452 L 250 420 L 330 432 L 430 392 L 510 404 L 590 348 L 670 318 L 750 336 L 830 296 L 910 304 L 990 252 L 1070 222 L 1140 198"
+        fill="none" stroke="#bdcce3" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle class="tick" cx="1140" cy="198" r="7" fill="#bdcce3"/>
+
+  <!-- RSI strip -->
+  <g>
+    <rect x="150" y="540" width="990" height="74" rx="14" fill="#ffffff" fill-opacity="0.03" stroke="#ffffff" stroke-opacity="0.08"/>
+    <path d="M150 584 H1140" stroke="#ffffff" stroke-opacity="0.1" stroke-dasharray="5 7"/>
+    <path d="M170 596 L 260 572 L 350 588 L 440 558 L 530 580 L 620 552 L 710 566 L 800 548 L 890 572 L 980 552 L 1070 562 L 1120 556"
+          fill="none" stroke="#e6decc" stroke-opacity="0.7" stroke-width="2.5" stroke-linecap="round"/>
+    <text x="170" y="562" fill="#8a93a3" font-size="12" letter-spacing="2">RSI 14</text>
+  </g>
+
+  <text x="640" y="668" fill="#8a93a3" font-size="13" text-anchor="middle" letter-spacing="3">227 TESTS · BACKTEST 129,602 VELAS · WEBSOCKET + REST FALLBACK · TELEGRAM ALERTS</text>
+</svg>

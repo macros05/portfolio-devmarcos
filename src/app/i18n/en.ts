@@ -11,8 +11,19 @@ export const EN = {
     bio: 'I\'m a developer focused on building modern, scalable, and efficient tools. Here you can explore my main technical projects:',
     cta: 'View my projects',
     and: 'and',
+    badge: 'Available for new projects',
+  },
+  statement: {
+    kicker: 'The idea',
+    line: 'Code that thinks. Design that breathes. I build products where AI feels natural.',
+  },
+  stats: {
+    projects: 'Projects in production',
+    technologies: 'Technologies in the stack',
+    ai: 'AI integrations',
   },
   about: {
+    kicker: '01 — Profile',
     title: 'About Me',
     bio: 'I\'m a software developer specialized in building full-stack web applications with Angular on the frontend and AI integration on the backend. I\'m passionate about solving real problems by creating tools that combine great user experience with cutting-edge technology.',
     downloadCv: 'Download CV',
@@ -26,6 +37,8 @@ export const EN = {
     notFound: 'Project not found',
     notFoundBack: 'Back to home',
     sectionTitle: 'Featured Projects',
+    kicker: '02 — Work',
+    featuredLabel: 'Featured project',
     detailSections: {
       tech: 'Technologies',
       links: 'Links',
@@ -36,27 +49,42 @@ export const EN = {
       videoDemo: 'Video Demo',
     },
     items: {
+      'ai-reels-factory': {
+        shortDescription: 'End-to-end studio producing hyperrealistic AI-directed reels: Claude writes the script and directs shot by shot, Higgsfield renders the video, and ElevenLabs voices it.',
+        fullDescription: 'AI Reels Factory is a complete vertical-video production pipeline: from a brief (topic, audience, tone, visual references), Claude generates the script, extracts the visual style from references, and builds a cinematographic shot-by-shot plan (framing, lens, camera, lighting, and a final prompt per clip). Higgsfield renders the clips, ElevenLabs synthesizes the voice, Whisper generates subtitles, and ffmpeg assembles the final MP4 with audio mixing. Everything is driven from a web interface (React 19 + FastAPI) or from any MCP client through a custom tool server.',
+        aiIntegration: 'Three chained Claude roles —scriptwriter, vision-based style extractor, and director of photography—, ElevenLabs voice synthesis and Whisper subtitles. It also exposes an MCP server with typed tools to drive the whole pipeline conversationally from Claude Desktop or Claude Code.',
+        challenges: 'Orchestrating a seven-stage multimodal pipeline with reusable intermediate artifacts: you can edit the script or a single shot, regenerate only that clip, and reassemble the video without re-running the rest. The web UI and the MCP server share exactly the same functional coverage.',
+      },
+      'trading-bot': {
+        shortDescription: 'Algorithmic BTC/USDT trading bot with a momentum strategy, an AI macro filter, and validation over 129,000 historical candles. 227 automated tests.',
+        fullDescription: 'Trading bot written in Python 3.13 on asyncio, trading BTC/USDT on Binance Testnet. It implements a momentum strategy (RSI + SMA) with a macro filter weighing news and market context, streams prices via WebSocket with automatic REST fallback, and reports fills and circuit-breakers through Telegram. The whole strategy was validated with a 90-day backtest over 129,602 one-minute candles before deployment, and the full system (bot, FastAPI API, and Next.js dashboard) runs on Docker Compose.',
+        aiIntegration: 'A macro signal layer combining the Binance Futures API and market news analyzed with Gemini to adjust the strategy\'s aggressiveness to context, avoiding trades against adverse macro trends.',
+        challenges: 'Real-time reliability: WebSocket streaming with reconnection and REST fallback without losing candles, circuit-breakers for anomalous conditions, and a pure-function indicator pipeline that allowed covering the system with 227 async unit and integration tests.',
+      },
+      'pr-party': {
+        shortDescription: 'IBM Hackathon 2026: six specialist AI agents review your Pull Request in parallel and present findings as an RPG encounter with damage, verdicts, and cross-character dialogue.',
+        fullDescription: 'PR Party reinvents code review: six specialist characters (security, database, UX, architecture, tests, and docs) analyze the Pull Request in parallel and report each finding as a hit in a turn-based encounter, where severity translates into damage and disagreements between agents surface as dialogue. Built end-to-end during the IBM hackathon with IBM Bob as the cognitive core, watsonx.ai for each character\'s voice, and a two-pass pattern for noise filtering. FastAPI backend, Next.js 16 + React 19 frontend.',
+        aiIntegration: 'Multi-agent orchestration: six reviewers with their own domains and personalities on watsonx.ai, coordinated by IBM Bob, with a second filtering pass that removes false positives before the encounter is presented.',
+        challenges: 'Turning technical severity into visual hierarchy without losing rigor: mapping findings to a coherent damage system, resolving contradictions between agents as cross-dialogue, and shipping the whole thing end-to-end within hackathon time.',
+      },
+      'seo-costa-del-sol': {
+        shortDescription: 'Landing page and blog for local SEO services on the Costa del Sol, with per-route prerendered technical SEO and structured data. Live in production at seocostadelsol.com.',
+        fullDescription: 'Lead-generation website for local SEO services in Málaga and the Costa del Sol: a conversion landing with a free-audit form, per-city and per-sector pages, FAQ, and a blog with dozens of local SEO guides. Being a Vite SPA, SEO is solved with a custom post-build generator that produces a static HTML per route with its title, description, canonical, Open Graph, and JSON-LD, plus a sitemap with lastmod and robots.txt — no SSR needed. Deployed in production on Cloudflare Pages.',
+        aiIntegration: '',
+        challenges: 'First-class technical SEO on a SPA without SSR: framer-motion and browser-only APIs made server rendering fragile, so a post-build script generates dist/<route>/index.html with per-page metadata and JSON-LD (LocalBusiness, BlogPosting), with route fallback via _redirects on Cloudflare Pages. Same result for crawlers with far less complexity.',
+      },
       tecnoambiente: {
         shortDescription: 'Document management platform with intelligent AI-powered metadata extraction for an environmental company.',
         fullDescription: 'Tecnoambiente is a web application built for Tradebe that centralizes the management of environmental technical documentation. It allows uploading PDFs, automatically extracting metadata such as title, authors, year, and keywords using the Gemini API, and classifying them by family and species. It includes an advanced search system with multiple filters and an admin panel for user management.',
         aiIntegration: 'Integration with Google Gemini for automatic metadata extraction from PDFs: title, authors, publication year, keywords, family and species.',
-        challenges: 'Asynchronous processing of large PDFs and precise AI metadata extraction, ensuring consistency across documents with heterogeneous formats. The system implements duplicate detection via file hash, preventing two PDFs with different names but identical content from being indexed twice.',      },
-      sentinel: {
-        shortDescription: 'Productivity app with Pomodoro timer, distraction blocking, and digital habit monitoring via Chrome extension.',
-        fullDescription: 'Sentinel is a productivity tool that combines a customizable Pomodoro timer with a digital distraction monitoring system. Users define a list of forbidden apps/websites during their focus sessions. A Chrome extension detects in real time how long the user spends on those sites and reports it to the server, visualized on the dashboard. It includes a reward system with coins for completed sessions.',
-        aiIntegration: 'Distraction pattern detection system and digital habit analysis through a Chrome extension with real-time reporting.',
-        challenges: 'Process watcher architecture: since the backend runs in Docker without access to client processes, a Chrome extension was designed as a professional solution that monitors active tabs and reports to the server.',
-      },
-      'lead-scout': {
-        shortDescription: 'AI-powered lead generation tool that analyzes local businesses, detects web improvement opportunities, and automates outreach.',
-        fullDescription: 'Lead Scout is a platform that combines the Google Places API with AI analysis to identify local businesses with digital improvement potential. It searches companies by sector and location, analyzes their web presence via PageSpeed Insights, and uses Gemini AI to generate personalized reports with improvement opportunities. It is designed for digital agencies and freelancers looking to automate client prospecting.',
-        aiIntegration: 'Gemini AI analyzes each business\'s data and automatically generates a report with weaknesses in their digital presence and personalized improvement recommendations.',
-        challenges: 'Coordination of multiple external APIs (Google Places, PageSpeed, Gemini) with rate limiting control and error handling to ensure consistent results.',
+        challenges: 'Asynchronous processing of large PDFs and precise AI metadata extraction, ensuring consistency across documents with heterogeneous formats. The system implements duplicate detection via file hash, preventing two PDFs with different names but identical content from being indexed twice.',
       },
     },
   },
   contact: {
+    kicker: '03 — Contact',
     title: 'Contact',
+    finaleTitle: "Let's talk",
     subtitle: 'Have a question or want to work together? Leave your details and I\'ll get back to you as soon as possible.',
     name: 'Name',
     email: 'Email',

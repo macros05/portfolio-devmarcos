@@ -1,25 +1,26 @@
 import { Component, Input, ChangeDetectionStrategy, inject } from '@angular/core';
 import { Project } from '../../models/project.model';
 import { RouterLink } from '@angular/router';
-import { NgClass } from '@angular/common';
 import { LanguageService } from '../../services/language.service';
 import { TiltDirective } from '../../directives/tilt.directive';
 import { RevealDirective } from '../../directives/reveal.directive';
 import { MagneticDirective } from '../../directives/magnetic.directive';
 
-type ProjectId = 'tecnoambiente' | 'sentinel' | 'lead-scout';
+type ProjectId = 'ai-reels-factory' | 'trading-bot' | 'pr-party' | 'seo-costa-del-sol' | 'tecnoambiente';
 
 @Component({
   selector: 'app-project-card',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink, NgClass, TiltDirective, RevealDirective, MagneticDirective],
+  imports: [RouterLink, TiltDirective, RevealDirective, MagneticDirective],
   templateUrl: './project-card.component.html',
   styleUrl: './project-card.component.css',
+  host: {
+    '[style.--stack-i]': 'index',
+  },
 })
 export class ProjectCardComponent {
   @Input({ required: true }) project!: Project;
-  @Input() even: boolean = false;
   @Input() index: number = 0;
 
   readonly t = inject(LanguageService).t;

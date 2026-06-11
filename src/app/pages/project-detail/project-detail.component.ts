@@ -5,7 +5,7 @@ import { PROJECTS } from '../../data/project.data';
 import { LanguageService } from '../../services/language.service';
 import { RevealDirective } from '../../directives/reveal.directive';
 
-type ProjectId = 'tecnoambiente' | 'sentinel' | 'lead-scout';
+type ProjectId = 'ai-reels-factory' | 'trading-bot' | 'pr-party' | 'seo-costa-del-sol' | 'tecnoambiente';
 
 @Component({
   selector: 'app-project-detail',

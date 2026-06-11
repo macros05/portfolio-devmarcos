@@ -9,4 +9,6 @@ export interface Project {
   githubUrl?: string;
   demoUrl?: string;
   videoUrl?: string;
+  /** Animated poster shown when there is no screen recording yet. */
+  imageUrl?: string;
 }

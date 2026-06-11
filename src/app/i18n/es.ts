@@ -11,8 +11,19 @@ export const ES = {
     bio: 'Soy un desarrollador enfocado en crear herramientas modernas, escalables y eficientes. Aquí puedes explorar mis proyectos técnicos principales:',
     cta: 'Ver mis proyectos',
     and: 'y',
+    badge: 'Disponible para nuevos proyectos',
+  },
+  statement: {
+    kicker: 'La idea',
+    line: 'Código que piensa. Diseño que respira. Construyo productos donde la IA se siente natural.',
+  },
+  stats: {
+    projects: 'Proyectos en producción',
+    technologies: 'Tecnologías en el stack',
+    ai: 'Integraciones de IA',
   },
   about: {
+    kicker: '01 — Perfil',
     title: 'Sobre Mí',
     bio: 'Soy un desarrollador de software especializado en construir aplicaciones web completas con Angular en el frontend y la integración de Inteligencia Artificial en el backend. Me apasiona resolver problemas reales creando herramientas que combinan una buena experiencia de usuario con tecnología de vanguardia.',
     downloadCv: 'Descargar CV',
@@ -26,6 +37,8 @@ export const ES = {
     notFound: 'Proyecto no encontrado',
     notFoundBack: 'Volver al inicio',
     sectionTitle: 'Proyectos Destacados',
+    kicker: '02 — Trabajo',
+    featuredLabel: 'Proyecto destacado',
     detailSections: {
       tech: 'Tecnologías',
       links: 'Enlaces',
@@ -36,27 +49,42 @@ export const ES = {
       videoDemo: 'Demo en vídeo',
     },
     items: {
+      'ai-reels-factory': {
+        shortDescription: 'Estudio end-to-end que produce reels hiperrealistas dirigidos por IA: Claude escribe el guion y dirige plano a plano, Higgsfield genera el vídeo y ElevenLabs pone la voz.',
+        fullDescription: 'AI Reels Factory es un pipeline completo de producción de vídeo vertical: a partir de un brief (tema, audiencia, tono, referencias visuales), Claude genera el guion, extrae el estilo visual de las referencias y elabora un shot plan cinematográfico plano a plano (encuadre, lente, cámara, luz y prompt final por clip). Higgsfield renderiza los clips, ElevenLabs sintetiza la voz, Whisper genera los subtítulos y ffmpeg ensambla el MP4 final con mezcla de audio. Todo se controla desde una interfaz web (React 19 + FastAPI) o desde cualquier cliente MCP mediante un servidor de tools propio.',
+        aiIntegration: 'Tres roles de Claude encadenados —guionista, extractor de estilo por visión y director de fotografía—, voz sintetizada con ElevenLabs y subtítulos con Whisper. Además expone un servidor MCP con tools tipadas para dirigir todo el pipeline conversando desde Claude Desktop o Claude Code.',
+        challenges: 'Orquestar un pipeline multimodal de siete etapas con artefactos intermedios reutilizables: se puede editar el guion o un solo plano, regenerar únicamente ese clip y re-ensamblar el vídeo sin repetir el resto del proceso. La interfaz web y el servidor MCP comparten exactamente la misma cobertura funcional.',
+      },
+      'trading-bot': {
+        shortDescription: 'Bot de trading algorítmico para BTC/USDT con estrategia de momentum, filtro macro con IA y validación sobre 129.000 velas históricas. 227 tests automatizados.',
+        fullDescription: 'Bot de trading escrito en Python 3.13 sobre asyncio que opera BTC/USDT en Binance Testnet. Implementa una estrategia de momentum (RSI + SMA) con un filtro macro que pondera noticias y contexto de mercado, recibe precios por WebSocket con fallback automático a REST y notifica operaciones y circuit-breakers por Telegram. Toda la estrategia se validó con un backtest de 90 días sobre 129.602 velas de un minuto antes de desplegarse, y el sistema completo (bot, API FastAPI y dashboard Next.js) se levanta con Docker Compose.',
+        aiIntegration: 'Capa de señales macro que combina la API de futuros de Binance y noticias de mercado analizadas con Gemini para ajustar la agresividad de la estrategia según el contexto, evitando operar contra tendencias macro adversas.',
+        challenges: 'Fiabilidad en tiempo real: streaming WebSocket con reconexión y fallback a REST sin perder velas, circuit-breakers ante condiciones anómalas y una pipeline de indicadores con funciones puras que permitió cubrir el sistema con 227 tests de unidad e integración asíncronos.',
+      },
+      'pr-party': {
+        shortDescription: 'Hackathon de IBM 2026: seis agentes de IA especializados revisan tu Pull Request en paralelo y presentan los hallazgos como un combate RPG con daño, veredictos y diálogo entre personajes.',
+        fullDescription: 'PR Party reinventa la code review: seis personajes especialistas (seguridad, base de datos, UX, arquitectura, tests y documentación) analizan el Pull Request en paralelo y reportan cada hallazgo como un golpe en un encuentro por turnos, donde la severidad se traduce en daño y los desacuerdos entre agentes emergen como diálogo. Construido end-to-end durante el hackathon de IBM con IBM Bob como núcleo cognitivo, watsonx.ai para la voz de cada personaje y un patrón de doble pasada para filtrar ruido. Backend FastAPI y frontend Next.js 16 + React 19.',
+        aiIntegration: 'Orquestación multi-agente: seis revisores con dominios y personalidades propias sobre watsonx.ai, coordinados por IBM Bob, con una segunda pasada de filtrado que elimina falsos positivos antes de presentar el encuentro.',
+        challenges: 'Convertir severidad técnica en jerarquía visual sin perder rigor: mapear hallazgos a un sistema de daño coherente, resolver contradicciones entre agentes como diálogo cruzado y conseguir que todo funcionara de punta a punta dentro del tiempo del hackathon.',
+      },
+      'seo-costa-del-sol': {
+        shortDescription: 'Landing y blog de servicios de SEO local para negocios de la Costa del Sol, con SEO técnico prerenderizado por ruta y datos estructurados. En producción en seocostadelsol.com.',
+        fullDescription: 'Web de captación para servicios de SEO local en Málaga y la Costa del Sol: landing de conversión con formulario de auditoría gratuita, páginas por ciudad y sector, FAQ y un blog con decenas de guías de posicionamiento local. Al ser una SPA de Vite, el SEO se resuelve con un generador post-build propio que crea un HTML estático por ruta con su título, descripción, canonical, Open Graph y JSON-LD, además de sitemap con lastmod y robots.txt — sin necesidad de SSR. Desplegada en producción sobre Cloudflare Pages.',
+        aiIntegration: '',
+        challenges: 'Conseguir SEO técnico de primera en una SPA sin SSR: framer-motion y las APIs de navegador hacían frágil el render en servidor, así que un script post-build genera dist/<ruta>/index.html con metadatos y JSON-LD (LocalBusiness, BlogPosting) por página, con fallback de rutas vía _redirects en Cloudflare Pages. Mismo resultado para los crawlers con mucha menos complejidad.',
+      },
       tecnoambiente: {
         shortDescription: 'Plataforma de gestión documental con extracción inteligente de metadatos mediante IA para una empresa medioambiental.',
         fullDescription: 'Tecnoambiente es una aplicación web desarrollada para Tradebe que centraliza la gestión de documentación técnica medioambiental. Permite subir PDFs, extraer automáticamente metadatos como título, autores, año y palabras clave usando la API de Gemini, y clasificarlos por familia y especie. Incluye un sistema de búsqueda avanzada con filtros múltiples y un panel de administración para gestión de usuarios.',
         aiIntegration: 'Integración con Google Gemini para extracción automática de metadatos desde PDFs: título, autores, año de publicación, palabras clave, familia y especie.',
-        challenges: 'Procesamiento asíncrono de PDFs de gran tamaño y extracción precisa de metadatos con IA, garantizando coherencia en documentos con formatos heterogéneos. El sistema implementa detección de duplicados mediante hash de archivo, evitando que dos PDFs con diferente nombre pero contenido idéntico se indexen dos veces.',      },
-      sentinel: {
-        shortDescription: 'App de productividad con temporizador Pomodoro, bloqueo de distracciones y monitoreo de hábitos digitales mediante extensión de Chrome.',
-        fullDescription: 'Sentinel es una herramienta de productividad que combina un temporizador Pomodoro personalizable con un sistema de monitoreo de distracciones digitales. Los usuarios definen una lista de apps/webs prohibidas durante sus sesiones de enfoque. Una extensión de Chrome detecta en tiempo real cuánto tiempo pasa el usuario en esas webs y lo reporta al servidor, visualizándose en el dashboard. Incluye un sistema de recompensas con monedas por sesiones completadas.',
-        aiIntegration: 'Sistema de detección de patrones de distracción y análisis de hábitos digitales a través de una extensión de Chrome con reporte en tiempo real.',
-        challenges: 'Arquitectura del watcher de procesos: al estar el backend en Docker sin acceso a los procesos del cliente, se diseñó una extensión de Chrome como solución profesional que monitorea las pestañas activas y reporta al servidor.',
-      },
-      'lead-scout': {
-        shortDescription: 'Herramienta de generación de leads con IA que analiza negocios locales, detecta oportunidades de mejora web y automatiza el outreach.',
-        fullDescription: 'Lead Scout es una plataforma que combina la API de Google Places con análisis de IA para identificar negocios locales con potencial de mejora digital. Busca empresas por sector y ubicación, analiza su presencia web mediante PageSpeed Insights, y usa Gemini AI para generar informes personalizados con oportunidades de mejora. Está diseñado para agencias digitales y freelancers que buscan automatizar la prospección de clientes.',
-        aiIntegration: 'Gemini AI analiza los datos de cada negocio y genera automáticamente un informe con puntos débiles de su presencia digital y recomendaciones de mejora personalizadas.',
-        challenges: 'Coordinación de múltiples APIs externas (Google Places, PageSpeed, Gemini) con control de rate limiting y manejo de errores para garantizar resultados consistentes.',
+        challenges: 'Procesamiento asíncrono de PDFs de gran tamaño y extracción precisa de metadatos con IA, garantizando coherencia en documentos con formatos heterogéneos. El sistema implementa detección de duplicados mediante hash de archivo, evitando que dos PDFs con diferente nombre pero contenido idéntico se indexen dos veces.',
       },
     },
   },
   contact: {
+    kicker: '03 — Contacto',
     title: 'Contacto',
+    finaleTitle: '¿Hablamos?',
     subtitle: '¿Tienes alguna pregunta o quieres que trabajemos juntos? Déjame tus datos y te responderé lo antes posible.',
     name: 'Nombre',
     email: 'Email',
