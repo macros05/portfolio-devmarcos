@@ -1,59 +1,222 @@
-.section-label .line {
-  display: inline-block;
-  width: 56px;
+/* ══════════════════════════════════════════════════════════════════
+   ABOUT — spec-sheet / manual-page aesthetic
+   Monochrome paper-on-near-black, hairline panels, mono tabular data.
+   Spectral cyan used ONLY as micro-signal (dot, row marker, cv underline).
+   ══════════════════════════════════════════════════════════════════ */
+
+/* Section wrapper */
+.about-section {
+  position: relative;
+}
+
+/* Title */
+.about-title {
+  line-height: 1.05;
+}
+
+/* Horizontal rule next to labels */
+.header-rule {
+  display: block;
+  flex: 1;
   height: 1px;
-  background: linear-gradient(90deg, rgba(255, 255, 255, 0.5), transparent);
+  background: rgba(var(--line), 0.10);
+}
+
+/* ── Two-column grid ──────────────────────────────────────────────── */
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 3rem;
+}
+@media (min-width: 1024px) {
+  .about-grid {
+    grid-template-columns: 2fr 3fr;
+    gap: 4rem;
+    align-items: start;
+  }
+}
+
+/* ── Bio panel ────────────────────────────────────────────────────── */
+.about-bio-panel {
+  display: flex;
+  gap: 0;
+  padding: 0;
+  overflow: hidden;
+  border-radius: 2px;
+}
+
+.bio-gutter {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding: 1.25rem 0.75rem 1.25rem 1rem;
+  border-right: 1px solid rgba(var(--line), 0.10);
+  background: rgba(var(--ink-0), 0.5);
+  min-width: 3rem;
+  user-select: none;
+  pointer-events: none;
+}
+
+.bio-ln {
+  line-height: 1.75;
+  color: rgba(var(--paper-soft), 0.35);
+  font-size: 10px;
+}
+
+.bio-text {
+  padding: 1.25rem 1.5rem;
+  font-size: 13.5px;
+  line-height: 1.85;
+  color: rgba(var(--paper), 0.75);
+  letter-spacing: 0.025em;
+  flex: 1;
+}
+
+/* ── AI chips ─────────────────────────────────────────────────────── */
+.ai-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
 }
 
 .ai-chip {
-  transition: border-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
+  display: inline-block;
+  padding: 0.35rem 0.75rem;
+  border: 1px solid rgba(var(--line), 0.14);
+  border-radius: 2px;
+  color: rgb(var(--paper-soft));
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  transition: border-color 0.25s ease, color 0.25s ease;
 }
+
 .ai-chip:hover {
-  border-color: rgba(154, 177, 209, 0.45);
-  color: #fff;
-  transform: translateY(-2px);
+  border-color: rgba(var(--spectral-a), 0.45);
+  color: rgb(var(--paper));
 }
 
-.cv-btn {
-  border: 1px solid rgba(255, 255, 255, 0.16);
-  box-shadow:
-    inset 0 1px 0 0 rgba(255, 255, 255, 0.22),
-    0 8px 32px 0 rgba(0, 0, 0, 0.4);
-  transition: box-shadow 0.5s ease, border-color 0.4s ease;
-}
-.cv-btn:hover {
-  border-color: rgba(255, 255, 255, 0.3);
-  box-shadow:
-    inset 0 1px 0 0 rgba(255, 255, 255, 0.28),
-    0 12px 40px 0 rgba(0, 0, 0, 0.5),
-    0 0 40px -10px rgba(154, 177, 209, 0.3);
-}
-
-.tech-tile {
-  aspect-ratio: 1 / 1;
-  justify-content: center;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s ease;
-}
-.tech-tile:hover {
-  transform: translateY(-4px);
-  border-color: rgba(255, 255, 255, 0.18);
+/* ── CV link ──────────────────────────────────────────────────────── */
+.cv-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  color: rgb(var(--paper));
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: color 0.25s ease;
+  position: relative;
 }
 
-/* Directional radial glow that follows the cursor inside the tile */
-.tile-glow {
+/* Override link-uline underline color to spectral-a */
+.cv-link::after {
+  background: rgb(var(--spectral-a));
+}
+
+.cv-bracket {
+  color: rgba(var(--spectral-a), 0.7);
+  font-size: 13px;
+  line-height: 1;
+}
+
+.cv-icon {
+  width: 13px;
+  height: 13px;
+  stroke: rgb(var(--paper-soft));
+  transition: stroke 0.25s ease;
+  flex-shrink: 0;
+}
+.cv-link:hover .cv-icon {
+  stroke: rgb(var(--spectral-a));
+}
+
+/* ── Tech matrix table ───────────────────────────────────────────── */
+.tech-table-wrap {
+  border-radius: 2px;
+  overflow: hidden;
+  padding: 0;
+}
+
+/* Column proportions */
+.col-idx    { width: 2.5rem;  flex-shrink: 0; }
+.col-icon   { width: 2rem;    flex-shrink: 0; }
+.col-name   { flex: 1; }
+.col-domain { width: 6.5rem;  flex-shrink: 0; text-align: right; }
+
+/* Row base */
+.tech-row {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.875rem;
+  padding: 0.65rem 1.125rem;
+  border-bottom: 1px solid rgba(var(--line), 0.07);
+  text-decoration: none;
+  transition: background 0.18s ease;
+  cursor: default;
+}
+.tech-row:last-child {
+  border-bottom: none;
+}
+
+/* Header row */
+.tech-row--header {
+  padding: 0.55rem 1.125rem;
+  background: rgba(var(--ink-0), 0.45);
+  border-bottom: 1px solid rgba(var(--line), 0.12);
+}
+
+/* Data row hover */
+.tech-row--data {
+  cursor: pointer;
+}
+.tech-row--data:hover,
+.tech-row--hovered {
+  background: rgba(var(--line), 0.05);
+}
+
+/* Left spectral marker — invisible by default, appears on hover */
+.row-marker {
   position: absolute;
-  inset: -1px;
-  border-radius: inherit;
-  background: radial-gradient(circle at var(--mx, 50%) var(--my, 50%),
-    rgba(255, 255, 255, 0.14),
-    rgba(154, 177, 209, 0.12) 35%,
-    transparent 65%);
-  opacity: 0;
-  transition: opacity 0.4s ease;
-  pointer-events: none;
-  mix-blend-mode: screen;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: rgb(var(--spectral-a));
+  transform: scaleY(0);
+  transform-origin: center;
+  transition: transform 0.18s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
-.tech-tile:hover .tile-glow {
+.tech-row--data:hover .row-marker,
+.tech-row--hovered .row-marker {
+  transform: scaleY(1);
+}
+
+/* Icon */
+.tech-icon {
+  width: 20px;
+  height: 20px;
+  display: block;
+  object-fit: contain;
+  opacity: 0.72;
+  transition: opacity 0.2s ease;
+}
+.tech-row--data:hover .tech-icon {
   opacity: 1;
+}
+.tech-icon.invert {
+  filter: invert(1);
+}
+
+/* Domain tag */
+.domain-tag {
+  display: inline-block;
+  padding: 0.2rem 0.45rem;
+  border: 1px solid rgba(var(--line), 0.12);
+  border-radius: 1px;
+  color: rgba(var(--paper-soft), 0.7);
+  font-size: 9.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
 }

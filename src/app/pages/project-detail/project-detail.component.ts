@@ -1,8 +1,18 @@
-import { Component, inject, OnInit, ViewChild, ElementRef, ChangeDetectionStrategy } from '@angular/core';
+import {
+  Component,
+  inject,
+  OnInit,
+  ViewChild,
+  ElementRef,
+  ChangeDetectionStrategy,
+  PLATFORM_ID,
+} from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { Project } from '../../models/project.model';
 import { PROJECTS } from '../../data/project.data';
 import { LanguageService } from '../../services/language.service';
+import { MotionService } from '../../services/motion.service';
 import { RevealDirective } from '../../directives/reveal.directive';
 
 type ProjectId = 'ai-reels-factory' | 'trading-bot' | 'pr-party' | 'seo-costa-del-sol' | 'tecnoambiente';
@@ -17,10 +27,13 @@ type ProjectId = 'ai-reels-factory' | 'trading-bot' | 'pr-party' | 'seo-costa-de
 })
 export class ProjectDetailComponent implements OnInit {
   private route = inject(ActivatedRoute);
+  private platformId = inject(PLATFORM_ID);
   readonly t = inject(LanguageService).t;
+  readonly reduced = inject(MotionService).reduced;
 
   project: Project | undefined;
   isPlaying = false;
+  readonly isBrowser = isPlatformBrowser(this.platformId);
 
   @ViewChild('projectVideo') videoRef!: ElementRef<HTMLVideoElement>;
 
@@ -58,8 +71,35 @@ export class ProjectDetailComponent implements OnInit {
     return String(i + 1).padStart(2, '0');
   }
 
+  /** Index of this project in the full list (1-based), zero-padded. */
+  get projectIndex(): string {
+    if (!this.project) return '00';
+    const i = PROJECTS.findIndex(p => p.id === this.project!.id);
+    return String(i + 1).padStart(2, '0');
+  }
+
+  /** Total number of projects, zero-padded. */
+  get projectTotal(): string {
+    return String(PROJECTS.length).padStart(2, '0');
+  }
+
+  /** Faux path shown in the app-window title bar. */
+  get mockWindowPath(): string {
+    if (!this.project) return '/';
+    if (this.project.demoUrl) {
+      try {
+        return new URL(this.project.demoUrl).hostname;
+      } catch {
+        return this.project.demoUrl;
+      }
+    }
+    return `/${this.project.id}`;
+  }
+
   toggleVideo() {
-    const video = this.videoRef.nativeElement;
+    if (!this.isBrowser) return;
+    const video = this.videoRef?.nativeElement;
+    if (!video) return;
     if (video.paused) {
       video.play();
       this.isPlaying = true;

@@ -1,77 +1,125 @@
-<section id="about" class="relative px-6 md:px-16 lg:px-24 w-full pt-32 md:pt-40">
-
+<section id="about" class="about-section px-6 md:px-16 lg:px-24 w-full pt-32 md:pt-40">
   <div class="max-w-7xl mx-auto">
-    <div [reveal]="'up'" class="section-label flex items-center gap-3 mb-6">
-      <span class="line"></span>
-      <span class="font-mono text-xs tracking-[0.3em] uppercase text-white/50">{{ t().about.kicker }}</span>
+
+    <!-- ── Section header ──────────────────────────────────────────── -->
+    <div [reveal]="'up'" class="mb-3 flex items-center gap-4">
+      <span class="label text-[rgb(var(--paper-soft))]">{{ t().about.kicker }}</span>
+      <span class="header-rule" aria-hidden="true"></span>
     </div>
 
-    <h2 [reveal]="'up'" [revealDelay]="60"
-        class="text-5xl md:text-6xl lg:text-7xl font-display font-bold text-white mb-20 tracking-tight leading-[1.05]">
-      {{ t().about.title }}<span class="text-gradient-aurora">.</span>
-    </h2>
+    <h2
+      decode
+      [decodeDuration]="motion.reduced() ? 0 : 900"
+      [reveal]="'up'" [revealDelay]="60"
+      class="about-title mono text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-16"
+      style="color: rgb(var(--paper)); font-family: 'Geist', sans-serif;"
+    >{{ t().about.title }}</h2>
 
-    <div class="grid grid-cols-1 lg:grid-cols-5 gap-12 lg:gap-20 items-start">
+    <!-- ── Two-column layout ───────────────────────────────────────── -->
+    <div class="about-grid">
 
-      <!-- Bio + CV -->
-      <div [reveal]="'left'" class="lg:col-span-2 space-y-10">
-        <p class="text-white/70 text-xl md:text-2xl leading-relaxed font-light">
-          {{ t().about.bio }}
-        </p>
+      <!-- LEFT COLUMN: bio + AI chips + CV -->
+      <div [reveal]="'left'" class="about-col-left space-y-10">
 
-        <!-- AI specialization chips -->
-        <div>
-          <h3 class="text-sm font-mono uppercase tracking-[0.3em] text-white/50 mb-5">
-            {{ t().about.aiTitle }}
-          </h3>
-          <div class="flex flex-wrap gap-2">
+        <!-- Bio panel -->
+        <div class="panel panel--solid ticks about-bio-panel">
+          <div class="bio-gutter" aria-hidden="true">
+            @for (_ of [1,2,3,4,5,6,7,8]; track $index) {
+              <span class="label bio-ln">{{ ($index + 1).toString().padStart(2,'0') }}</span>
+            }
+          </div>
+          <p class="bio-text mono">{{ t().about.bio }}</p>
+        </div>
+
+        <!-- AI specialization -->
+        <div [reveal]="'up'" [revealDelay]="120">
+          <div class="flex items-center gap-3 mb-5">
+            <span class="spectral-dot" aria-hidden="true"></span>
+            <span class="label">{{ t().about.aiTitle }}</span>
+          </div>
+          <div class="ai-chips">
             @for (skill of t().about.aiSkills; track skill; let i = $index) {
-              <span [reveal]="'scale'" [revealDelay]="80 + i * 50"
-                    class="ai-chip glass-subtle text-xs font-mono px-3.5 py-2 rounded-full text-white/80">
-                {{ skill }}
-              </span>
+              <span
+                [reveal]="'scale'" [revealDelay]="motion.reduced() ? 0 : 80 + i * 40"
+                class="ai-chip label"
+              >{{ skill }}</span>
             }
           </div>
         </div>
 
-        <a magnetic
-           [href]="lang() === 'en' ? '/assets/CV-Marcos-Morales-EN.pdf' : '/assets/CV-Marcos-Morales-ES.pdf'"
-           [download]="lang() === 'en' ? 'CV-Marcos-Morales-EN.pdf' : 'CV-Marcos-Morales-ES.pdf'"
-           class="cv-btn glass-strong sheen inline-flex items-center gap-3 px-7 py-4 rounded-full
-                  font-mono text-sm tracking-wide text-white">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M7 10l5 5m0 0l5-5m-5 5V4"/>
-          </svg>
-          {{ t().about.downloadCv }}
-        </a>
-      </div>
+        <!-- CV download -->
+        <div [reveal]="'up'" [revealDelay]="200">
+          <a
+            [href]="lang() === 'en' ? '/assets/CV-Marcos-Morales-EN.pdf' : '/assets/CV-Marcos-Morales-ES.pdf'"
+            [download]="lang() === 'en' ? 'CV-Marcos-Morales-EN.pdf' : 'CV-Marcos-Morales-ES.pdf'"
+            class="cv-link mono link-uline"
+          >
+            <span class="cv-bracket">[</span>
+            <svg class="cv-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M7 10l5 5m0 0l5-5m-5 5V4"/>
+            </svg>
+            {{ t().about.downloadCv }}
+            <span class="cv-bracket">]</span>
+          </a>
+        </div>
 
-      <!-- Tech tiles -->
-      <div [reveal]="'right'" [revealDelay]="120" class="lg:col-span-3">
-        <h3 class="text-sm font-mono uppercase tracking-[0.3em] text-white/50 mb-8">
-          {{ t().about.techTitle }}
-        </h3>
+      </div><!-- /left col -->
 
-        <div class="grid grid-cols-2 sm:grid-cols-3 gap-4">
-          @for (tech of techIcons; track tech.name; let i = $index) {
-            <a [href]="tech.url" target="_blank" rel="noopener noreferrer"
-               [reveal]="'scale'" [revealDelay]="160 + i * 60"
-               (mousemove)="onTileMove($event)"
-               class="tech-tile group glass-medium relative rounded-2xl p-6 flex flex-col items-center gap-3
-                      overflow-hidden">
-              <span class="tile-glow" aria-hidden="true"></span>
-              <img [src]="tech.icon" [alt]="tech.name"
-                   class="w-12 h-12 relative z-10 opacity-80 group-hover:opacity-100 transition-opacity duration-500"
-                   [class.invert]="tech.invert"
-                   loading="lazy">
-              <span class="text-white/85 group-hover:text-white text-sm font-mono tracking-wide relative z-10 transition-colors">
+      <!-- RIGHT COLUMN: tech matrix -->
+      <div [reveal]="'right'" [revealDelay]="80" class="about-col-right">
+
+        <div class="flex items-center gap-3 mb-4">
+          <span class="label">{{ t().about.techTitle }}</span>
+          <span class="header-rule" aria-hidden="true"></span>
+        </div>
+
+        <div class="panel panel--solid tech-table-wrap">
+          <!-- Table header -->
+          <div class="tech-row tech-row--header" aria-hidden="true">
+            <span class="label col-idx">#</span>
+            <span class="label col-icon"></span>
+            <span class="label col-name">Technology</span>
+            <span class="label col-domain">Domain</span>
+          </div>
+
+          @for (tech of techRows; track tech.name; let i = $index) {
+            <a
+              [href]="tech.url"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="tech-row tech-row--data"
+              [class.tech-row--hovered]="hoveredRow === tech.name"
+              (mouseenter)="onRowEnter(tech.name)"
+              (mouseleave)="onRowLeave()"
+            >
+              <!-- spectral left marker (shown on hover via CSS) -->
+              <span class="row-marker" aria-hidden="true"></span>
+
+              <span class="label col-idx mono" style="color: rgb(var(--paper-soft))">{{ tech.index }}</span>
+
+              <span class="col-icon">
+                <img
+                  [src]="tech.icon"
+                  [alt]="tech.name"
+                  class="tech-icon"
+                  [class.invert]="tech.invert"
+                  loading="lazy"
+                />
+              </span>
+
+              <span class="col-name mono" style="color: rgb(var(--paper)); font-size: 13px; letter-spacing: 0.04em;">
                 {{ tech.name }}
+              </span>
+
+              <span class="col-domain">
+                <span class="domain-tag label">{{ tech.domain }}</span>
               </span>
             </a>
           }
         </div>
-      </div>
 
-    </div>
+      </div><!-- /right col -->
+
+    </div><!-- /about-grid -->
   </div>
 </section>

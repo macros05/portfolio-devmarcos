@@ -1,0 +1,102 @@
+<section id="gallery" class="gallery-section">
+  <div class="gallery-inner">
+
+    <!-- ── Section header ─────────────────────────────────────────────── -->
+    <header class="gallery-header" [reveal]="'up'">
+      <span class="label">{{ t().projects.kicker }}</span>
+      <div class="gallery-header__right mono">
+        <span class="gallery-hint">{{ t().projects.galleryHint }}</span>
+        <span class="gallery-count">{{ totalCount }}</span>
+      </div>
+    </header>
+    <div class="gallery-rule" aria-hidden="true"></div>
+
+    <!-- ── Featured panel ─────────────────────────────────────────────── -->
+    <article class="featured panel panel--solid ticks" [reveal]="'up'" [revealDelay]="60">
+      <a class="featured__link" [routerLink]="['/proyecto', featured.id]" [attr.aria-label]="featured.title">
+
+        <!-- Procedural preview -->
+        <div class="featured__preview preview preview--dot-matrix" [class.preview--reduced]="motion.reduced()">
+          <div class="preview__inner" aria-hidden="true"></div>
+          <!-- spectral accent line -->
+          <div class="preview__accent" aria-hidden="true"></div>
+        </div>
+
+        <!-- Copy -->
+        <div class="featured__copy">
+          <div class="featured__meta">
+            <span class="featured__kicker label">
+              <span class="spectral-dot" aria-hidden="true"></span>
+              {{ t().projects.featuredLabel }}
+            </span>
+            <span class="featured__idx mono">01</span>
+          </div>
+
+          <h2 class="featured__title mono">{{ featured.title }}</h2>
+
+          <div class="featured__cat-row">
+            <span class="cat-chip mono">{{ featured.category }}</span>
+          </div>
+
+          <p class="featured__desc">{{ shortDescription(featured.id) }}</p>
+
+          <ul class="featured__stack" aria-label="{{ t().projects.builtWith }}">
+            @for (tech of featured.techStack.slice(0, 6); track tech) {
+              <li class="stack-chip mono">{{ tech }}</li>
+            }
+          </ul>
+
+          <span class="featured__cta link-uline mono">
+            {{ t().projects.openCase }}
+          </span>
+        </div>
+      </a>
+    </article>
+
+    <!-- ── Grid ────────────────────────────────────────────────────────── -->
+    <div class="gallery-grid" role="list">
+      @for (project of gridProjects; track project.id; let i = $index) {
+        <article
+          class="thumb panel panel--solid ticks"
+          role="listitem"
+          tilt
+          [tiltStrength]="6"
+          [tiltScale]="1.018"
+          [tiltGlare]="false"
+          [reveal]="'up'"
+          [revealDelay]="i * 60"
+        >
+          <a class="thumb__link" [routerLink]="['/proyecto', project.id]" [attr.aria-label]="project.title">
+
+            <!-- Procedural preview -->
+            <div
+              class="thumb__preview preview"
+              [class]="'preview--' + motif(i)"
+              [class.preview--reduced]="motion.reduced()"
+            >
+              <div class="preview__inner" aria-hidden="true"></div>
+              <div class="preview__accent" aria-hidden="true"></div>
+            </div>
+
+            <!-- Footer bar -->
+            <footer class="thumb__footer">
+              <span class="thumb__idx mono">{{ gridIndexLabel(i) }}</span>
+              <div class="thumb__info">
+                <span class="thumb__title mono">{{ project.title }}</span>
+                <div class="thumb__meta-row">
+                  <span class="cat-chip cat-chip--sm mono">{{ project.category }}</span>
+                </div>
+              </div>
+              <span class="thumb__view mono link-uline">{{ t().projects.view }} →</span>
+            </footer>
+
+            <!-- Ghost index -->
+            <span class="thumb__ghost text-outline mono" aria-hidden="true">{{ gridIndexLabel(i) }}</span>
+
+          </a>
+        </article>
+      }
+    </div>
+
+  </div>
+</section>
