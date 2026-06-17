@@ -22,9 +22,9 @@
 
 .word.accent {
   background: linear-gradient(135deg,
-    rgb(var(--text-strong)) 0%,
-    rgb(var(--accent)) 55%,
-    rgb(var(--warm-white)) 100%);
+    rgb(var(--spectral-a)) 0%,
+    rgb(var(--spectral-mid)) 50%,
+    rgb(var(--spectral-b)) 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;

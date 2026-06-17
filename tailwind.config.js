@@ -14,7 +14,7 @@ module.exports = {
         },
       },
       fontFamily: {
-        display: ['"Clash Display"', 'Geist', 'system-ui', 'sans-serif'],
+        display: ['Geist', 'system-ui', 'sans-serif'],
         sans: ['Geist', 'system-ui', 'sans-serif'],
         mono: ['"Geist Mono"', 'ui-monospace', 'monospace'],
       },

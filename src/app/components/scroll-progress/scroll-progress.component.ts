@@ -26,7 +26,7 @@ import { MotionService } from '../../services/motion.service';
     }
     .progress-bar {
       height: 100%;
-      background: linear-gradient(90deg, rgba(255, 255, 255, 0.4), #9ab1d1, rgba(255, 255, 255, 0.6));
+      background: linear-gradient(90deg, rgb(0, 229, 255), rgb(122, 92, 255), rgb(255, 0, 229));
       transform-origin: left;
       transition: transform 0.1s ease-out;
     }
