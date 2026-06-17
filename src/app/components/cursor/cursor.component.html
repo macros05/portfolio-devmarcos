@@ -1,7 +1,33 @@
-<div class="cursor"
+<!-- Outer host: fixed full-viewport, pointer-events: none (set in CSS on :host) -->
+
+<!-- Reticle group: translated to (x, y) and centered -->
+<div class="reticle-group"
+     [class.visible]="motion.visible()"
      [class.snapped]="snapped()"
-     [style.transform]="'translate3d(' + (x() - width() / 2) + 'px, ' + (y() - height() / 2) + 'px, 0)'"
-     [style.width.px]="width()"
-     [style.height.px]="height()"
-     [style.border-radius.px]="radius()">
+     [style.transform]="'translate3d(' + x() + 'px, ' + y() + 'px, 0)'">
+
+  <!-- FREE STATE: crosshair lines + center dot -->
+  <div class="crosshair" aria-hidden="true">
+    <div class="ch-h"></div>
+    <div class="ch-v"></div>
+    <div class="ch-dot"></div>
+  </div>
+
+  <!-- SNAPPED STATE: 4 corner brackets sized to the hovered element -->
+  <div class="brackets"
+       aria-hidden="true"
+       [style.width.px]="width()"
+       [style.height.px]="height()">
+    <span class="br br-tl"></span>
+    <span class="br br-tr"></span>
+    <span class="br br-bl"></span>
+    <span class="br br-br"></span>
+  </div>
+
+  <!-- Coordinate readout (free state only) -->
+  <div class="coords" aria-hidden="true">
+    <span class="coords-label">xy</span>
+    <span class="coords-value">{{ coordX() }},{{ coordY() }}</span>
+  </div>
+
 </div>

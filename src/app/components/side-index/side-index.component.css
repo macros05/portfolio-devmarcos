@@ -1,0 +1,349 @@
+/* ═══════════════════════════════════════════════════════════════════════
+   SIDE-INDEX — three.js examples HUD left-hand navigation
+   Fixed column overlaying the left gutter. Strictly monochrome chrome;
+   spectral color used only for active dot and active line marker.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+/* ── Root nav wrapper ── */
+.side-index {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 210px;
+  height: 100dvh;
+  z-index: 50;
+  pointer-events: none; /* column itself is non-blocking */
+  display: flex;
+  flex-direction: column;
+}
+
+/* ══════════════════════════════════════════════════════════
+   DESKTOP COLUMN
+   ══════════════════════════════════════════════════════════ */
+.side-col {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 28px 24px 28px 28px;
+  border-right: 1px solid rgba(var(--line), 0.08);
+  pointer-events: all;
+  /* No background fill — column is transparent, content behind shows through */
+}
+
+/* ── Wordmark ── */
+.side-wordmark {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: auto; /* push middle content to center */
+  padding-bottom: 0;
+}
+
+.side-wordmark__text {
+  font-size: 12px;
+  color: rgb(var(--paper));
+  letter-spacing: 0.04em;
+  line-height: 1;
+}
+
+/* ── Section list ── */
+.side-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  /* Vertically centered between wordmark and gui panel */
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+/* Push list to vertical center: wordmark already has margin-bottom:auto,
+   gui panel has margin-top:auto — list sits between them */
+.side-list {
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+.side-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+/* Active left marker — 1px spectral-line on the far-left of each row */
+.side-item__marker {
+  position: absolute;
+  left: -24px; /* extends to the column edge */
+  width: 2px;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.side-item.is-active .side-item__marker::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 2px;
+  background: linear-gradient(
+    180deg,
+    rgb(var(--spectral-a)),
+    rgb(var(--spectral-mid)),
+    rgb(var(--spectral-b))
+  );
+}
+
+.side-item__dot {
+  /* spectral-dot from global styles, positioned inline */
+  flex-shrink: 0;
+  margin-right: 0;
+}
+
+/* ── Row link ── */
+.side-item__link {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  width: 100%;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(var(--line), 0.06);
+  text-decoration: none;
+  color: rgb(var(--paper-soft));
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  transition: color 0.18s ease;
+  line-height: 1;
+}
+
+.side-item:last-child .side-item__link {
+  border-bottom: 0;
+}
+
+.side-item__link:hover {
+  color: rgb(var(--paper));
+}
+
+.side-item.is-active .side-item__link {
+  color: rgb(var(--paper));
+}
+
+/* Hover hairline — faint left stripe for inactive rows */
+.side-item:not(.is-active) .side-item__link:hover::before {
+  content: '';
+  position: absolute;
+  left: -24px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: rgba(var(--line), 0.22);
+}
+
+.side-item__num {
+  color: rgb(var(--paper-soft));
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  opacity: 0.6;
+  flex-shrink: 0;
+  width: 20px;
+}
+
+.side-item.is-active .side-item__num {
+  opacity: 0.85;
+}
+
+.side-item__sep {
+  color: rgba(var(--paper-soft), 0.4);
+  flex-shrink: 0;
+}
+
+.side-item__label {
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+/* ── Lang control gui panel ── */
+.side-gui {
+  flex-shrink: 0;
+  margin-top: auto;
+}
+
+.side-lang-btn {
+  background: transparent;
+  border: none;
+  padding: 0;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  color: rgb(var(--paper));
+  text-transform: uppercase;
+  line-height: 1;
+  transition: color 0.18s ease;
+}
+
+.side-lang-btn:hover {
+  color: rgb(var(--spectral-a));
+}
+
+/* ══════════════════════════════════════════════════════════
+   MOBILE — hide desktop column, show toggle button
+   ══════════════════════════════════════════════════════════ */
+@media (max-width: 1023px) {
+  .side-col {
+    display: none;
+  }
+
+  .mobile-toggle {
+    display: block;
+    pointer-events: all;
+  }
+}
+
+@media (min-width: 1024px) {
+  .mobile-toggle {
+    display: none;
+  }
+}
+
+/* ── Mobile toggle button ── */
+.mobile-toggle {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  z-index: 50;
+  background: rgba(var(--ink-1), 0.88);
+  border: 1px solid rgba(var(--line), 0.10);
+  color: rgb(var(--paper-soft));
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 7px 10px;
+  line-height: 1;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  transition: color 0.18s ease, border-color 0.18s ease;
+}
+
+.mobile-toggle:hover {
+  color: rgb(var(--paper));
+  border-color: rgba(var(--line), 0.20);
+}
+
+/* ══════════════════════════════════════════════════════════
+   MOBILE OVERLAY
+   ══════════════════════════════════════════════════════════ */
+.mobile-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  padding: 24px 32px 40px;
+  pointer-events: all;
+  overflow-y: auto;
+}
+
+/* Close button */
+.mobile-close {
+  align-self: flex-end;
+  background: transparent;
+  border: 1px solid rgba(var(--line), 0.10);
+  color: rgb(var(--paper-soft));
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 7px 10px;
+  line-height: 1;
+  margin-bottom: 40px;
+  transition: color 0.18s ease;
+}
+
+.mobile-close:hover {
+  color: rgb(var(--paper));
+}
+
+/* Mobile wordmark */
+.mobile-wordmark {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 48px;
+}
+
+.mobile-wordmark__text {
+  font-size: 13px;
+  color: rgb(var(--paper));
+  letter-spacing: 0.04em;
+}
+
+/* Mobile nav list */
+.mobile-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0;
+}
+
+.mobile-item {
+  border-bottom: 1px solid rgba(var(--line), 0.08);
+}
+
+.mobile-item:first-child {
+  border-top: 1px solid rgba(var(--line), 0.08);
+}
+
+.mobile-item__link {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  padding: 16px 0;
+  text-decoration: none;
+  color: rgb(var(--paper-soft));
+  transition: color 0.18s ease;
+}
+
+.mobile-item__link:hover,
+.mobile-item.is-active .mobile-item__link {
+  color: rgb(var(--paper));
+}
+
+.mobile-item__num {
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  opacity: 0.5;
+  flex-shrink: 0;
+}
+
+.mobile-item__label {
+  font-size: clamp(28px, 7vw, 44px);
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+  line-height: 1.1;
+}
+
+/* Mobile lang panel */
+.mobile-lang {
+  margin-top: 40px;
+}
+
+/* ══════════════════════════════════════════════════════════
+   REDUCED MOTION
+   ══════════════════════════════════════════════════════════ */
+@media (prefers-reduced-motion: reduce) {
+  .side-item__link,
+  .side-lang-btn,
+  .mobile-toggle,
+  .mobile-close,
+  .mobile-item__link {
+    transition: none;
+  }
+}

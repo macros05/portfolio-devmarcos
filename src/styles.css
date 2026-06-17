@@ -1,20 +1,41 @@
 @import url('https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800;900&family=Geist+Mono:wght@400;500;600&display=swap');
-@import url('https://api.fontshare.com/v2/css?f[]=clash-display@400,500,600,700&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/* ════════════════════════════════════════════════════════════════════════
+   PORTFOLIO — "three.js examples HUD"
+   Monochrome technical chrome (mono, hairlines, blueprint grid, registration
+   ticks) wrapping a spectral WebGL showpiece. Color (cyan→magenta) is reserved
+   for the canvas and tiny "live" micro-signals only.
+   ════════════════════════════════════════════════════════════════════════ */
+
 @layer base {
   :root {
-    --bg-base: 9 10 12;        /* neutral ink, no blue cast */
-    --bg-surface: 16 18 22;    /* graphite */
-    --text-strong: 246 246 244;
-    --text-soft: 156 163 173;
-    --accent: 154 177 209;     /* desaturated steel blue */
+    /* ── Ink (near-black surfaces) ── */
+    --ink-0: 7 8 10;          /* root background */
+    --ink-1: 12 13 16;        /* panel base */
+    --ink-2: 18 20 24;        /* elevated panel */
+    --paper: 244 245 247;     /* strong text (paper-white ink) */
+    --paper-soft: 150 154 160;/* secondary mono text */
+    --line: 255 255 255;      /* hairlines — always used with alpha 0.06–0.14 */
+
+    /* ── Spectral — WebGL + micro-signals ONLY ── */
+    --spectral-a: 0 229 255;    /* cyan  #00E5FF */
+    --spectral-b: 255 0 229;    /* magenta #FF00E5 */
+    --spectral-mid: 122 92 255; /* transition violet for UI micro-signals */
+
+    /* ── Legacy tokens (kept so not-yet-reskinned sections keep rendering;
+          removed in the final cleanup pass) ── */
+    --bg-base: 7 8 10;
+    --bg-surface: 12 13 16;
+    --text-strong: 244 245 247;
+    --text-soft: 150 154 160;
+    --accent: 154 177 209;
     --accent-strong: 90 123 166;
     --accent-soft: 207 219 235;
-    --warm-white: 230 222 204; /* champagne highlight */
+    --warm-white: 230 222 204;
   }
 
   html {
@@ -23,8 +44,8 @@
   }
 
   body {
-    background-color: rgb(var(--bg-base));
-    color: rgb(var(--text-strong));
+    background-color: rgb(var(--ink-0));
+    color: rgb(var(--paper));
     font-family: 'Geist', system-ui, sans-serif;
     font-feature-settings: 'ss01', 'ss02', 'ss05';
     -webkit-font-smoothing: antialiased;
@@ -39,237 +60,282 @@
   }
 
   ::selection {
-    background: rgba(var(--accent), 0.3);
-    color: rgb(var(--text-strong));
+    background: rgba(var(--spectral-a), 0.22);
+    color: rgb(var(--paper));
+  }
+
+  /* Technical focus ring — mono, square, spectral */
+  :focus-visible {
+    outline: 1px solid rgba(var(--spectral-a), 0.8);
+    outline-offset: 2px;
   }
 
   /* Scrollbar */
   ::-webkit-scrollbar { width: 8px; }
   ::-webkit-scrollbar-track { background: transparent; }
   ::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.08);
-    border-radius: 4px;
+    background: rgba(var(--line), 0.08);
   }
-  ::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.15); }
+  ::-webkit-scrollbar-thumb:hover { background: rgba(var(--line), 0.16); }
 }
 
 @layer components {
-  /* ────────────────────────────────────────────────────────
-     LIQUID GLASS TIERS
-     Use these classes for the Apple-style frosted glass look
-     ──────────────────────────────────────────────────────── */
-  .glass-strong {
-    background: rgba(255, 255, 255, 0.06);
-    backdrop-filter: blur(40px) saturate(180%);
-    -webkit-backdrop-filter: blur(40px) saturate(180%);
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    box-shadow:
-      0 8px 32px 0 rgba(0, 0, 0, 0.4),
-      inset 0 1px 0 0 rgba(255, 255, 255, 0.18),
-      inset 0 -1px 0 0 rgba(255, 255, 255, 0.04);
+  /* ──────────────────────────────────────────────────────────────────────
+     MONO CHROME PRIMITIVES
+     ────────────────────────────────────────────────────────────────────── */
+
+  /* Monospace technical type */
+  .mono {
+    font-family: 'Geist Mono', ui-monospace, 'SF Mono', monospace;
+    font-feature-settings: 'zero' 1;
+    letter-spacing: 0.02em;
   }
 
-  .glass-medium {
-    background: rgba(255, 255, 255, 0.04);
-    backdrop-filter: blur(24px) saturate(160%);
-    -webkit-backdrop-filter: blur(24px) saturate(160%);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    box-shadow:
-      0 4px 24px 0 rgba(0, 0, 0, 0.3),
-      inset 0 1px 0 0 rgba(255, 255, 255, 0.12);
+  /* Section / control label — small uppercase mono */
+  .label {
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 11px;
+    line-height: 1;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgb(var(--paper-soft));
   }
 
-  .glass-subtle {
-    background: rgba(255, 255, 255, 0.02);
-    backdrop-filter: blur(12px) saturate(140%);
-    -webkit-backdrop-filter: blur(12px) saturate(140%);
-    border: 1px solid rgba(255, 255, 255, 0.06);
+  .hairline {
+    border-color: rgba(var(--line), 0.10);
   }
 
-  /* Fallback for browsers without backdrop-filter (older Firefox) */
-  @supports not (backdrop-filter: blur(1px)) {
-    .glass-strong, .glass-medium, .glass-subtle {
-      background: rgba(15, 19, 36, 0.85);
-    }
-  }
-
-  /* Refined gradient text — corporate, single-accent */
-  .text-gradient-aurora {
-    background: linear-gradient(135deg,
-      rgb(var(--text-strong)) 0%,
-      rgb(var(--accent)) 55%,
-      rgb(var(--warm-white)) 100%);
-    background-size: 200% 100%;
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    animation: gradient-flow 10s ease infinite;
-  }
-
-  /* Conic-gradient border — subtle, monochrome on blue */
-  .conic-border {
+  /* ── Technical panel: hairline border, near-black fill, optional blur,
+        registration ticks in all four corners ── */
+  .panel {
     position: relative;
-    isolation: isolate;
+    background: rgba(var(--ink-1), 0.72);
+    border: 1px solid rgba(var(--line), 0.10);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
   }
-  .conic-border::before {
+  .panel--solid {
+    background: rgb(var(--ink-1));
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+  .panel--elevated {
+    background: rgba(var(--ink-2), 0.78);
+  }
+  @supports not (backdrop-filter: blur(1px)) {
+    .panel { background: rgb(var(--ink-1)); }
+  }
+
+  /* Registration ticks — 8px corner brackets drawn as one pseudo with 8
+     gradient slivers (2 per corner). Add `.ticks` to any element. */
+  .ticks::before {
     content: '';
     position: absolute;
-    inset: -1px;
-    border-radius: inherit;
-    padding: 1px;
-    background: conic-gradient(
-      from var(--angle, 0deg),
-      transparent 0%,
-      rgba(255, 255, 255, 0.3) 25%,
-      rgba(var(--accent), 0.5) 50%,
-      rgba(255, 255, 255, 0.25) 75%,
-      transparent 100%);
-    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-    -webkit-mask-composite: xor;
-            mask-composite: exclude;
-    z-index: -1;
-    opacity: 0;
-    transition: opacity 0.4s ease;
+    inset: 0;
+    pointer-events: none;
+    --t: rgba(var(--line), 0.28);
+    background:
+      linear-gradient(var(--t), var(--t)) 0 0 / 8px 1px no-repeat,
+      linear-gradient(var(--t), var(--t)) 0 0 / 1px 8px no-repeat,
+      linear-gradient(var(--t), var(--t)) 100% 0 / 8px 1px no-repeat,
+      linear-gradient(var(--t), var(--t)) 100% 0 / 1px 8px no-repeat,
+      linear-gradient(var(--t), var(--t)) 0 100% / 8px 1px no-repeat,
+      linear-gradient(var(--t), var(--t)) 0 100% / 1px 8px no-repeat,
+      linear-gradient(var(--t), var(--t)) 100% 100% / 8px 1px no-repeat,
+      linear-gradient(var(--t), var(--t)) 100% 100% / 1px 8px no-repeat;
   }
-  .conic-border:hover::before { opacity: 1; }
 
-  /* Animated angle custom property for conic gradient */
+  /* ── lil-gui style control panel (rows: mono label left, control right) ── */
+  .gui {
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 11px;
+    background: rgba(var(--ink-1), 0.82);
+    border: 1px solid rgba(var(--line), 0.10);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+  .gui-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 7px 10px;
+    border-bottom: 1px solid rgba(var(--line), 0.07);
+    color: rgb(var(--paper-soft));
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+  .gui-row:last-child { border-bottom: 0; }
+  .gui-row > .gui-val { color: rgb(var(--paper)); }
+
+  /* ── Micro-signals: the ONLY UI use of spectral color ── */
+  .spectral-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 9999px;
+    background: rgb(var(--spectral-a));
+    box-shadow: 0 0 8px rgba(var(--spectral-a), 0.9);
+  }
+  .live-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 9999px;
+    background: rgb(var(--spectral-b));
+    box-shadow: 0 0 10px rgba(var(--spectral-b), 0.9);
+    animation: pulse-live 1.8s ease-in-out infinite;
+  }
+  @keyframes pulse-live {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.35; transform: scale(0.85); }
+  }
+
+  /* Spectral hairline accent (e.g. active nav marker) */
+  .spectral-line {
+    background: linear-gradient(90deg,
+      rgb(var(--spectral-a)), rgb(var(--spectral-mid)), rgb(var(--spectral-b)));
+  }
+
+  /* Link with mono underline that draws in on hover */
+  .link-uline {
+    position: relative;
+    color: rgb(var(--paper));
+    text-decoration: none;
+  }
+  .link-uline::after {
+    content: '';
+    position: absolute;
+    left: 0; right: 0; bottom: -2px;
+    height: 1px;
+    background: rgb(var(--spectral-a));
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.32s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  .link-uline:hover::after { transform: scaleX(1); }
+
+  /* ──────────────────────────────────────────────────────────────────────
+     BLUEPRINT GRID — fixed background chrome, exists even without WebGL.
+     ────────────────────────────────────────────────────────────────────── */
+  .blueprint {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background-image:
+      linear-gradient(rgba(var(--line), 0.035) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(var(--line), 0.035) 1px, transparent 1px);
+    background-size: 72px 72px;
+    background-position: center center;
+    mask-image: radial-gradient(ellipse 90% 80% at 50% 40%, #000 55%, transparent 100%);
+    -webkit-mask-image: radial-gradient(ellipse 90% 80% at 50% 40%, #000 55%, transparent 100%);
+  }
+  /* Corner crosshairs */
+  .blueprint .crosshair {
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    opacity: 0.5;
+  }
+  .blueprint .crosshair::before,
+  .blueprint .crosshair::after {
+    content: '';
+    position: absolute;
+    background: rgba(var(--line), 0.22);
+  }
+  .blueprint .crosshair::before { left: 50%; top: 0; width: 1px; height: 100%; transform: translateX(-0.5px); }
+  .blueprint .crosshair::after { top: 50%; left: 0; height: 1px; width: 100%; transform: translateY(-0.5px); }
+  .blueprint .crosshair.tl { top: 28px; left: 28px; }
+  .blueprint .crosshair.tr { top: 28px; right: 28px; }
+  .blueprint .crosshair.bl { bottom: 28px; left: 28px; }
+  .blueprint .crosshair.br { bottom: 28px; right: 28px; }
+
+  /* ──────────────────────────────────────────────────────────────────────
+     DECODE / scramble headline support
+     ────────────────────────────────────────────────────────────────────── */
+  .decode-caret::after {
+    content: '▋';
+    margin-left: 0.08em;
+    color: rgb(var(--spectral-a));
+    animation: blink-caret 1s steps(2, start) infinite;
+  }
+  @keyframes blink-caret { 50% { opacity: 0; } }
+
+  /* ──────────────────────────────────────────────────────────────────────
+     LEGACY surfaces (kept for not-yet-reskinned sections; removed in cleanup)
+     ────────────────────────────────────────────────────────────────────── */
+  .glass-strong {
+    background: rgba(255, 255, 255, 0.04);
+    backdrop-filter: blur(28px) saturate(140%);
+    -webkit-backdrop-filter: blur(28px) saturate(140%);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
+  }
+  .glass-medium {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(18px) saturate(130%);
+    -webkit-backdrop-filter: blur(18px) saturate(130%);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+  }
+  .glass-subtle {
+    background: rgba(255, 255, 255, 0.02);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+  }
+  @supports not (backdrop-filter: blur(1px)) {
+    .glass-strong, .glass-medium, .glass-subtle { background: rgba(12, 13, 16, 0.9); }
+  }
+
+  .text-gradient-aurora {
+    color: rgb(var(--paper));
+  }
+
   @property --angle {
     syntax: '<angle>';
     initial-value: 0deg;
     inherits: false;
   }
+  @keyframes conic-spin { to { --angle: 360deg; } }
 
-  @keyframes conic-spin {
-    to { --angle: 360deg; }
-  }
-
-  /* Sheen / shimmer effect for highlighted buttons */
-  .sheen {
-    position: relative;
-    overflow: hidden;
-  }
-  .sheen::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg,
-      transparent,
-      rgba(255, 255, 255, 0.18),
-      transparent);
-    transition: left 0.7s ease;
-  }
-  .sheen:hover::after { left: 100%; }
-
-  /* Outlined ghost text — giant watermarks (footer, section backdrops) */
   .text-outline {
     color: transparent;
-    -webkit-text-stroke: 1px rgba(255, 255, 255, 0.14);
-    text-stroke: 1px rgba(255, 255, 255, 0.14);
+    -webkit-text-stroke: 1px rgba(255, 255, 255, 0.12);
+    text-stroke: 1px rgba(255, 255, 255, 0.12);
   }
 
-  /* Horizon glow — Apple-keynote light line with bloom (section finales) */
-  .glow-horizon {
-    position: relative;
-    height: 1px;
-    background: linear-gradient(90deg,
-      transparent 0%,
-      rgba(var(--accent), 0.7) 35%,
-      rgba(255, 255, 255, 0.95) 50%,
-      rgba(var(--accent), 0.7) 65%,
-      transparent 100%);
-  }
-  .glow-horizon::before {
-    content: '';
-    position: absolute;
-    left: 15%;
-    right: 15%;
-    top: -40px;
-    height: 80px;
-    background: radial-gradient(ellipse at center,
-      rgba(var(--accent), 0.35) 0%,
-      rgba(var(--accent), 0.12) 40%,
-      transparent 70%);
-    filter: blur(12px);
-    pointer-events: none;
-  }
-
-  /* Announcement chip — rotating conic halo (Apple-Intelligence style) */
-  .glow-chip {
-    position: relative;
-    isolation: isolate;
-    border-radius: 9999px;
-  }
-  .glow-chip::before {
-    content: '';
-    position: absolute;
-    inset: -1px;
-    border-radius: inherit;
-    padding: 1px;
-    background: conic-gradient(
-      from var(--angle, 0deg),
-      rgba(154, 177, 209, 0) 0%,
-      rgba(154, 177, 209, 0.9) 12%,
-      rgba(230, 222, 204, 0.9) 22%,
-      rgba(154, 177, 209, 0) 38%,
-      rgba(154, 177, 209, 0) 100%);
-    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-    -webkit-mask-composite: xor;
-            mask-composite: exclude;
-    animation: conic-spin 4s linear infinite;
-    z-index: -1;
-  }
-
-  /* Noise overlay — adds grain to prevent banding on gradients */
+  /* Noise overlay — grain to prevent banding on gradients (kept) */
   .noise-overlay::before {
     content: '';
     position: absolute;
     inset: 0;
     background-image: url("data:image/svg+xml;utf8,<svg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.6 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
-    opacity: 0.04;
+    opacity: 0.05;
     pointer-events: none;
     mix-blend-mode: overlay;
   }
 }
 
 @layer utilities {
-  .bg-300\% { background-size: 300% 300%; }
   .perspective-1000 { perspective: 1000px; }
   .preserve-3d { transform-style: preserve-3d; }
   .backface-hidden { backface-visibility: hidden; }
 
-  /* Hard-stop scrolling on touch devices (cursor disabled) */
+  /* Hard-stop custom cursor on touch devices */
   @media (hover: none) {
     body, a, button, [role="button"], input, textarea { cursor: auto; }
   }
 }
 
-/* ────────────────────────────────────────────────────────
+/* ════════════════════════════════════════════════════════════════════════
    WEBGL HANDOFF
-   When the liquid-metal scene is live (body.webgl-on), the CSS aurora
-   fallback fades out and the hero's CSS halo/bloom step aside so the
-   real WebGL orb owns the glow. On reduced-motion / no-WebGL the class
-   is never set, so all CSS fallbacks stay visible.
-   ──────────────────────────────────────────────────────── */
-app-aurora-background {
-  transition: opacity 0.9s ease 0.5s;
-}
-body.webgl-on app-aurora-background {
-  opacity: 0;
-}
-body.webgl-on .hero-halo,
-body.webgl-on .hero-bloom {
-  opacity: 0 !important;
-  transition: opacity 0.9s ease;
-}
-body.webgl-on .hero-grid {
-  opacity: 0.4;
-}
+   The WebGL showpiece owns the hero glow when live (body.webgl-on). On
+   reduced-motion / no-WebGL the class is never set and the CSS fallbacks
+   (blueprint grid + hero poster) stay visible.
+   ════════════════════════════════════════════════════════════════════════ */
+body.webgl-on app-aurora-background { opacity: 0; }
+app-aurora-background { transition: opacity 0.9s ease 0.4s; }
 
-/* Honor user's reduced motion preference globally */
+/* Honor reduced motion globally */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.001ms !important;

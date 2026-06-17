@@ -1,0 +1,120 @@
+<nav class="side-index" aria-label="Site sections">
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       DESKTOP COLUMN (≥1024px)
+       ═══════════════════════════════════════════════════════════════ -->
+  <div class="side-col" aria-hidden="false">
+
+    <!-- Wordmark -->
+    <div class="side-wordmark">
+      <span class="spectral-dot" aria-hidden="true"></span>
+      <span class="mono side-wordmark__text">{{ t().nav.wordmark }}</span>
+    </div>
+
+    <!-- Section index -->
+    <ul class="side-list" role="list">
+      @for (s of sections; track s.id) {
+        <li class="side-item" [class.is-active]="activeSection() === s.id">
+          <span class="side-item__marker" aria-hidden="true">
+            @if (activeSection() === s.id) {
+              <span class="spectral-dot side-item__dot" aria-hidden="true"></span>
+            }
+          </span>
+          <a
+            class="side-item__link mono"
+            [href]="'#' + s.id"
+            [attr.aria-current]="activeSection() === s.id ? 'location' : null"
+            (click)="$event.preventDefault(); scrollTo(s.id)"
+          >
+            <span class="side-item__num">{{ s.num }}</span>
+            <span class="side-item__sep" aria-hidden="true">/</span>
+            <span class="side-item__label">{{ t().nav.sections[s.key] }}</span>
+          </a>
+        </li>
+      }
+    </ul>
+
+    <!-- Lang control -->
+    <div class="side-gui gui ticks" role="group" [attr.aria-label]="t().nav.lang">
+      <div class="gui-row">
+        <span class="label">{{ t().nav.lang }}</span>
+        <button
+          class="gui-val side-lang-btn mono"
+          type="button"
+          (click)="toggleLang()"
+          [attr.aria-label]="'Switch language, current: ' + (t().nav.lang === 'lang' ? langService.lang() : langService.lang())"
+        >{{ langService.lang() === 'es' ? 'ES' : 'EN' }}</button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       MOBILE TOGGLE BUTTON (<1024px)
+       ═══════════════════════════════════════════════════════════════ -->
+  <button
+    class="mobile-toggle mono"
+    type="button"
+    aria-expanded="{{ menuOpen() }}"
+    aria-controls="mobile-nav-overlay"
+    (click)="openMenu()"
+  >[ {{ t().nav.menu }} ]</button>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       MOBILE OVERLAY
+       ═══════════════════════════════════════════════════════════════ -->
+  @if (menuOpen()) {
+    <div
+      class="mobile-overlay panel--solid"
+      id="mobile-nav-overlay"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Site sections"
+    >
+      <!-- Close -->
+      <button
+        class="mobile-close mono"
+        type="button"
+        (click)="closeMenu()"
+        aria-label="{{ t().nav.close }}"
+      >[ {{ t().nav.close }} ]</button>
+
+      <!-- Wordmark -->
+      <div class="mobile-wordmark">
+        <span class="spectral-dot" aria-hidden="true"></span>
+        <span class="mono mobile-wordmark__text">{{ t().nav.wordmark }}</span>
+      </div>
+
+      <!-- Nav rows -->
+      <ul class="mobile-list" role="list">
+        @for (s of sections; track s.id) {
+          <li class="mobile-item" [class.is-active]="activeSection() === s.id">
+            <a
+              class="mobile-item__link mono"
+              [href]="'#' + s.id"
+              [attr.aria-current]="activeSection() === s.id ? 'location' : null"
+              (click)="$event.preventDefault(); scrollTo(s.id)"
+            >
+              <span class="mobile-item__num">{{ s.num }}</span>
+              <span class="mobile-item__label">{{ t().nav.sections[s.key] }}</span>
+            </a>
+          </li>
+        }
+      </ul>
+
+      <!-- Lang in overlay -->
+      <div class="mobile-lang gui" role="group" [attr.aria-label]="t().nav.lang">
+        <div class="gui-row">
+          <span class="label">{{ t().nav.lang }}</span>
+          <button
+            class="gui-val side-lang-btn mono"
+            type="button"
+            (click)="toggleLang()"
+            [attr.aria-label]="'Switch language, current: ' + langService.lang()"
+          >{{ langService.lang() === 'es' ? 'ES' : 'EN' }}</button>
+        </div>
+      </div>
+    </div>
+  }
+
+</nav>

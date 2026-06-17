@@ -3,7 +3,6 @@ import { HeroComponent } from '../../components/hero/hero.component';
 import { ProjectsShowcaseComponent } from '../../components/projects-showcase/projects-showcase.component';
 import { StatementComponent } from '../../components/statement/statement.component';
 import { AboutComponent } from '../../components/about/about.component';
-import { HeaderComponent } from '../../components/header/header.component';
 import { FooterComponent } from '../../components/footer/footer.component';
 import { ContactComponent } from '../../components/contact/contact.component';
 
@@ -16,7 +15,6 @@ import { ContactComponent } from '../../components/contact/contact.component';
     ProjectsShowcaseComponent,
     StatementComponent,
     AboutComponent,
-    HeaderComponent,
     FooterComponent,
     ContactComponent,
   ],

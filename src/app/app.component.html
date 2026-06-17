@@ -1,7 +1,19 @@
-<!-- CSS aurora is the always-present fallback; the WebGL scene overlays and
-     fades it out once live (or stays hidden on reduced-motion / no-WebGL). -->
-<app-aurora-background></app-aurora-background>
-<app-webgl-scene></app-webgl-scene>
+<!-- Left technical index — primary navigation (replaces the old top header) -->
+<app-side-index></app-side-index>
+
+<!-- Fixed blueprint grid + corner crosshairs; present even without WebGL -->
+<div class="blueprint" aria-hidden="true">
+  <span class="crosshair tl"></span>
+  <span class="crosshair tr"></span>
+  <span class="crosshair bl"></span>
+  <span class="crosshair br"></span>
+</div>
+
+<!-- WebGL showpiece (lazy three.js). Exposes live render stats for the HUD. -->
+<app-webgl-scene #scene></app-webgl-scene>
+
+<!-- Render-stats HUD (decorative). Real stats once WebGL is live, else mock. -->
+<app-hud [stats]="scene.stats()" [section]="activeSection()"></app-hud>
 
 <app-scroll-progress></app-scroll-progress>
 <app-cursor></app-cursor>

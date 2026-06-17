@@ -1,0 +1,120 @@
+/* ══════════════════════════════════════════════════════════════════════
+   HUD — render-stats overlay, three.js examples aesthetic.
+   Monochrome chrome: paper-white on near-black, mono 11px, hairlines.
+   Spectral cyan is ONLY used in the sparkline.
+   Spectral magenta is ONLY used in the .live-dot (from global .live-dot).
+   ══════════════════════════════════════════════════════════════════════ */
+
+:host {
+  /* Position: fixed top-right, above page content */
+  position: fixed;
+  top: 88px;
+  right: 28px;
+  z-index: 50;
+  display: block;
+  width: 200px;
+  pointer-events: none;
+  user-select: none;
+
+  /* Tabular mono numerals for all rendered numbers */
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── Responsive: hide on small screens ─────────────────────────────── */
+@media (max-width: 900px) {
+  :host {
+    display: none;
+  }
+}
+
+/* ── Root panel ─────────────────────────────────────────────────────── */
+.hud-panel {
+  width: 100%;
+  overflow: hidden;
+  /* Slightly more opaque than default .panel for legibility */
+  background: rgba(var(--ink-1), 0.90);
+  border: 1px solid rgba(var(--line), 0.12);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+@supports not (backdrop-filter: blur(1px)) {
+  .hud-panel {
+    background: rgb(var(--ink-1));
+  }
+}
+
+/* ── Header ─────────────────────────────────────────────────────────── */
+.hud-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 10px 6px;
+  border-bottom: 1px solid rgba(var(--line), 0.10);
+}
+
+.hud-title {
+  /* inherits .label: 11px uppercase mono paper-soft */
+}
+
+.hud-live-group {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.hud-live-label {
+  font-family: 'Geist Mono', ui-monospace, monospace;
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(var(--paper-soft), 0.75);
+}
+
+/* ── Sparkline ──────────────────────────────────────────────────────── */
+.hud-sparkline-wrap {
+  padding: 4px 10px 0;
+  border-bottom: 1px solid rgba(var(--line), 0.07);
+}
+
+.hud-sparkline {
+  display: block;
+  width: 176px;
+  height: 26px;
+  /* Canvas paints itself — no bg needed */
+  background: transparent;
+  /* Slight bottom margin so the area-fill doesn't clip */
+  margin-bottom: 4px;
+}
+
+/* ── Stats gui block ────────────────────────────────────────────────── */
+.hud-gui {
+  /* Override .gui border/bg — the .hud-panel already provides those */
+  background: transparent;
+  border: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+/* .gui-row and .gui-val come from global styles.css:
+     .gui-row: flex, space-between, 7px 10px padding, hairline bottom, 11px mono paper-soft uppercase
+     .gui-val: paper color
+   No overrides needed. */
+
+/* ── Footer ─────────────────────────────────────────────────────────── */
+.hud-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5px 10px 7px;
+  border-top: 1px solid rgba(var(--line), 0.10);
+}
+
+.hud-footer-renderer,
+.hud-footer-mode {
+  font-family: 'Geist Mono', ui-monospace, monospace;
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgba(var(--paper-soft), 0.55);
+}

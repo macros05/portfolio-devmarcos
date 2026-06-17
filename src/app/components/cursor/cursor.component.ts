@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, signal, Inject, PLATFORM_ID, inject, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, OnDestroy, signal, computed, Inject, PLATFORM_ID, inject, ChangeDetectionStrategy } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { MotionService } from '../../services/motion.service';
 
@@ -18,6 +18,9 @@ export class CursorComponent implements OnInit, OnDestroy {
   protected height = signal(28);
   protected radius = signal(14);
   protected snapped = signal(false);
+
+  protected coordX = computed(() => Math.round(this.x()));
+  protected coordY = computed(() => Math.round(this.y()));
 
   private currentX = -100;
   private currentY = -100;

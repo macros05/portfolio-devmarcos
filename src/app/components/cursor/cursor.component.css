@@ -1,38 +1,205 @@
-.cursor {
+/* ─── Host ─────────────────────────────────────────────────────────────────── */
+:host {
   position: fixed;
-  top: 0;
-  left: 0;
+  inset: 0;
   pointer-events: none;
-  z-index: 10000;
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.5);
-  backdrop-filter: blur(2px);
-  -webkit-backdrop-filter: blur(2px);
-  box-shadow:
-    inset 0 0 0 1px rgba(255, 255, 255, 0.08),
-    0 0 24px -6px rgba(154, 177, 209, 0.25);
-  transition:
-    width 0.5s cubic-bezier(0.16, 1, 0.3, 1),
-    height 0.5s cubic-bezier(0.16, 1, 0.3, 1),
-    border-radius 0.5s cubic-bezier(0.16, 1, 0.3, 1),
-    border-color 0.3s ease,
-    background 0.3s ease,
-    box-shadow 0.4s ease;
-  will-change: transform, width, height, border-radius;
-}
-
-.cursor.snapped {
-  border-color: rgba(255, 255, 255, 0.7);
-  background: rgba(255, 255, 255, 0.04);
-  box-shadow:
-    inset 0 0 0 1px rgba(255, 255, 255, 0.15),
-    0 0 40px -6px rgba(154, 177, 209, 0.35);
+  z-index: 9999;
+  overflow: hidden;
 }
 
 @media (hover: none) {
-  .cursor { display: none; }
+  :host { display: none; }
 }
 
+/* ─── Reticle group ─────────────────────────────────────────────────────────── */
+/* Anchored at top-left = 0,0; the translate3d puts it at cursor position.
+   Centering is handled per-child via translate(-50%, -50%). */
+.reticle-group {
+  position: absolute;
+  top: 0;
+  left: 0;
+  will-change: transform;
+  /* Fade in/out on visibility */
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.reticle-group.visible {
+  opacity: 1;
+}
+
+/* ─── Crosshair ─────────────────────────────────────────────────────────────── */
+.crosshair {
+  position: absolute;
+  top: 0;
+  left: 0;
+  /* centered on origin */
+  transform: translate(-50%, -50%);
+  width: 0;
+  height: 0;
+  /* visible in free state */
+  opacity: 1;
+  transition: opacity 0.18s ease;
+  mix-blend-mode: difference;
+}
+
+/* Horizontal bar */
+.ch-h {
+  position: absolute;
+  top: 0;
+  left: -10px;
+  width: 20px;
+  height: 1px;
+  /* gap in the center: mask the middle 4px */
+  background:
+    linear-gradient(to right,
+      white 0,
+      white calc(50% - 2px),
+      transparent calc(50% - 2px),
+      transparent calc(50% + 2px),
+      white calc(50% + 2px),
+      white 100%
+    );
+}
+
+/* Vertical bar */
+.ch-v {
+  position: absolute;
+  top: -10px;
+  left: 0;
+  width: 1px;
+  height: 20px;
+  background:
+    linear-gradient(to bottom,
+      white 0,
+      white calc(50% - 2px),
+      transparent calc(50% - 2px),
+      transparent calc(50% + 2px),
+      white calc(50% + 2px),
+      white 100%
+    );
+}
+
+/* Center dot in spectral-a (cyan) */
+.ch-dot {
+  position: absolute;
+  top: -1.5px;
+  left: -1.5px;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: rgb(var(--spectral-a, 0 229 255));
+  /* dot sits above difference blend — use normal blend */
+  mix-blend-mode: normal;
+  box-shadow: 0 0 4px 1px rgba(var(--spectral-a, 0 229 255), 0.6);
+}
+
+/* ─── Coordinate readout ─────────────────────────────────────────────────────── */
+.coords {
+  position: absolute;
+  top: 0;
+  left: 0;
+  /* offset to lower-right of cursor */
+  transform: translate(14px, 12px);
+  display: flex;
+  align-items: baseline;
+  gap: 3px;
+  white-space: nowrap;
+  font-family: 'Geist Mono', 'JetBrains Mono', 'Fira Code', monospace;
+  font-size: 10px;
+  line-height: 1;
+  letter-spacing: 0.02em;
+  pointer-events: none;
+  /* visible in free state */
+  opacity: 1;
+  transition: opacity 0.18s ease;
+  /* keep above blend layer */
+  mix-blend-mode: normal;
+}
+
+.coords-label {
+  color: rgba(var(--paper-soft, 150 154 160), 0.5);
+  font-size: 8px;
+  text-transform: lowercase;
+  user-select: none;
+}
+
+.coords-value {
+  color: rgba(var(--paper-soft, 150 154 160), 0.85);
+  user-select: none;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ─── Corner brackets ────────────────────────────────────────────────────────── */
+/* Sized via inline [style.width/height]; centered with translate(-50%,-50%) */
+.brackets {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: translate(-50%, -50%);
+  /* hidden in free state */
+  opacity: 0;
+  transition:
+    opacity 0.18s ease,
+    width 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+    height 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+  mix-blend-mode: difference;
+}
+
+/* Each bracket arm */
+.br {
+  position: absolute;
+  display: block;
+  width: 10px;
+  height: 10px;
+  border-color: rgba(255, 255, 255, 0.95);
+  border-style: solid;
+}
+
+.br-tl {
+  top: 0;
+  left: 0;
+  border-width: 1px 0 0 1px;
+}
+
+.br-tr {
+  top: 0;
+  right: 0;
+  border-width: 1px 1px 0 0;
+}
+
+.br-bl {
+  bottom: 0;
+  left: 0;
+  border-width: 0 0 1px 1px;
+}
+
+.br-br {
+  bottom: 0;
+  right: 0;
+  border-width: 0 1px 1px 0;
+}
+
+/* ─── Snapped state ──────────────────────────────────────────────────────────── */
+.reticle-group.snapped .crosshair {
+  opacity: 0;
+}
+
+.reticle-group.snapped .coords {
+  opacity: 0;
+}
+
+.reticle-group.snapped .brackets {
+  opacity: 1;
+}
+
+/* ─── Reduced motion ─────────────────────────────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
-  .cursor { transition: none; }
+  .reticle-group,
+  .crosshair,
+  .coords,
+  .brackets {
+    transition: none;
+  }
 }

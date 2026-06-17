@@ -12,6 +12,7 @@ import {
 import { DOCUMENT } from '@angular/common';
 import { MotionService } from '../../services/motion.service';
 import type { SceneHandle, SceneState } from './scene/scene-engine';
+import type { HudStats } from '../hud/hud.component';
 
 /**
  * Host for the global liquid-metal WebGL background. Renders one fixed canvas
@@ -33,6 +34,9 @@ export class WebglSceneComponent implements OnDestroy {
   private readonly motion = inject(MotionService);
   private readonly doc = inject(DOCUMENT);
   private readonly canvasRef = viewChild<ElementRef<HTMLCanvasElement>>('canvas');
+
+  /** Live render stats consumed by the HUD; null while the scene is down. */
+  readonly stats = signal<HudStats | null>(null);
 
   private readonly viewReady = signal(false);
   private handle: SceneHandle | null = null;
@@ -98,6 +102,7 @@ export class WebglSceneComponent implements OnDestroy {
     const h = this.handle;
     this.handle = null;
     h?.dispose();
+    this.stats.set(null);
     this.doc.body.classList.remove('webgl-on');
     this.canvasRef()?.nativeElement?.classList.remove('is-ready');
   }

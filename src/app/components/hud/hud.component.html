@@ -1,0 +1,68 @@
+<div class="hud-panel panel ticks">
+
+  <!-- 1. Header row -->
+  <div class="hud-header">
+    <span class="label hud-title">{{ t().hud.title }}</span>
+    <div class="hud-live-group">
+      <span class="live-dot"></span>
+      <span class="hud-live-label">{{ t().hud.live }}</span>
+    </div>
+  </div>
+
+  <!-- 2. FPS sparkline canvas -->
+  <div class="hud-sparkline-wrap">
+    <canvas class="hud-sparkline"></canvas>
+  </div>
+
+  <!-- 3. Stats rows -->
+  <div class="gui hud-gui">
+
+    <div class="gui-row">
+      <span class="label">{{ t().hud.fps }}</span>
+      <span class="gui-val">{{ displayFps() }}</span>
+    </div>
+
+    <div class="gui-row">
+      <span class="label">{{ t().hud.ms }}</span>
+      <span class="gui-val">{{ displayMs() }}</span>
+    </div>
+
+    <div class="gui-row">
+      <span class="label">{{ t().hud.tris }}</span>
+      <span class="gui-val">{{ displayTris() }}</span>
+    </div>
+
+    <div class="gui-row">
+      <span class="label">{{ t().hud.calls }}</span>
+      <span class="gui-val">{{ displayCalls() }}</span>
+    </div>
+
+    <div class="gui-row">
+      <span class="label">{{ t().hud.points }}</span>
+      <span class="gui-val">{{ displayPts() }}</span>
+    </div>
+
+    <div class="gui-row">
+      <span class="label">{{ t().hud.section }}</span>
+      <span class="gui-val">{{ sectionLabel() }}</span>
+    </div>
+
+    <div class="gui-row">
+      <span class="label">{{ t().hud.scroll }}</span>
+      <span class="gui-val">{{ displayScroll() }}</span>
+    </div>
+
+    <div class="gui-row">
+      <span class="label">{{ t().hud.cursor }}</span>
+      <span class="gui-val">{{ displayCursor() }}</span>
+    </div>
+
+  </div>
+
+  <!-- 4. Footer -->
+  <div class="hud-footer">
+    <span class="hud-footer-renderer">{{ t().hud.renderer }}</span>
+    <span class="hud-footer-mode">{{ t().hud.mode }}&nbsp;high</span>
+  </div>
+
+</div>
