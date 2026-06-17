@@ -3,6 +3,7 @@ import { HeroComponent } from '../../components/hero/hero.component';
 import { ProjectsGalleryComponent } from '../../components/projects-gallery/projects-gallery.component';
 import { StatementComponent } from '../../components/statement/statement.component';
 import { AboutComponent } from '../../components/about/about.component';
+import { LabComponent } from '../../components/lab/lab.component';
 import { FooterComponent } from '../../components/footer/footer.component';
 import { ContactComponent } from '../../components/contact/contact.component';
 
@@ -15,6 +16,7 @@ import { ContactComponent } from '../../components/contact/contact.component';
     ProjectsGalleryComponent,
     StatementComponent,
     AboutComponent,
+    LabComponent,
     FooterComponent,
     ContactComponent,
   ],

@@ -1,0 +1,81 @@
+<section class="lab-section">
+
+  <!-- ── Section header ─────────────────────────────────────────────── -->
+  <header class="lab-header" reveal="up">
+    <span class="label lab-kicker">{{ t().lab.kicker }}</span>
+    <h2 class="lab-title">{{ t().lab.title }}</h2>
+    <p class="lab-intro mono">{{ t().lab.intro }}</p>
+    <span class="hint-chip mono">
+      <svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true" fill="none">
+        <circle cx="6" cy="6" r="5" stroke="currentColor" stroke-width="1"/>
+        <path d="M4 6l2-2 2 2M6 4v4" stroke="currentColor" stroke-width="1" stroke-linecap="round"/>
+      </svg>
+      {{ t().lab.hint }}
+    </span>
+  </header>
+
+  <!-- ── Experiment grid ────────────────────────────────────────────── -->
+  <div class="lab-grid">
+    @for (exp of experiments; track exp.id; let i = $index) {
+      <article
+        class="lab-card panel ticks"
+        [class.lab-card--active]="isActive(i)"
+        [attr.data-kind]="exp.id"
+        [reveal]="'up'"
+        [revealDelay]="i * 80"
+      >
+
+        <!-- Canvas area -->
+        <div
+          class="canvas-wrap"
+          (pointermove)="onPointerMove($event, i)"
+        >
+          <!-- WebGL canvas — aria-hidden; actual title/blurb are in footer -->
+          <canvas
+            #canvas
+            class="toy-canvas"
+            aria-hidden="true"
+            [class.toy-canvas--hidden]="isReduced() || hasFailed(i)"
+          ></canvas>
+
+          <!-- Static poster (reduced-motion or WebGL2 failure) -->
+          @if (isReduced() || hasFailed(i)) {
+            <div class="toy-poster" [attr.data-kind]="exp.id" aria-hidden="true"></div>
+          }
+
+          <!-- Corner "frame" labels (decorative) -->
+          <span class="frame-label frame-label--tl mono" aria-hidden="true">{{ exp.id }}</span>
+          <span class="frame-label frame-label--tr mono" aria-hidden="true">frag</span>
+        </div>
+
+        <!-- Card footer -->
+        <footer class="card-footer mono">
+          <span class="card-index" aria-hidden="true">{{ (i + 1).toString().padStart(2, '0') }}</span>
+
+          <div class="card-meta">
+            <span class="card-title">{{ labItem(exp.id).title }}</span>
+            <span class="card-blurb">{{ labItem(exp.id).blurb }}</span>
+          </div>
+
+          <span
+            class="status-chip"
+            [class.status-chip--live]="isRunning(i)"
+            [class.status-chip--paused]="!isRunning(i)"
+          >
+            @if (isReduced()) {
+              <span class="live-dot live-dot--off" aria-hidden="true"></span>static
+            } @else if (hasFailed(i)) {
+              <span class="live-dot live-dot--off" aria-hidden="true"></span>no webgl2
+            } @else if (isRunning(i)) {
+              <span class="live-dot" aria-hidden="true"></span>live
+            } @else {
+              <span class="live-dot live-dot--off" aria-hidden="true"></span>paused
+            }
+          </span>
+        </footer>
+
+      </article>
+    }
+  </div>
+
+</section>

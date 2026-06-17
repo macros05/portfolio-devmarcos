@@ -1,0 +1,303 @@
+/* ───────────────────────────────────────────────────────────────────────────
+   Lab section — three.js-examples-HUD aesthetic
+   Monochrome chrome frame / hairlines / mono text.
+   Spectral colour lives only inside the shader canvases.
+   ─────────────────────────────────────────────────────────────────────────── */
+
+:host {
+  display: block;
+  container-type: inline-size;
+}
+
+/* ── Section ──────────────────────────────────────────────────────────────── */
+
+.lab-section {
+  padding: clamp(4rem, 8vw, 7rem) clamp(1.25rem, 5vw, 5rem);
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* ── Header ─────────────────────────────────────────────────────────────── */
+
+.lab-header {
+  margin-bottom: clamp(2.5rem, 5vw, 4rem);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  max-width: 680px;
+}
+
+.lab-kicker {
+  color: rgb(var(--paper-soft));
+}
+
+.lab-title {
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+  color: rgb(var(--paper));
+  margin: 0;
+}
+
+.lab-intro {
+  font-size: 0.8125rem;
+  color: rgb(var(--paper-soft));
+  line-height: 1.65;
+  max-width: 60ch;
+  margin: 0.25rem 0 0;
+}
+
+.hint-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.6875rem;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: rgb(var(--paper-soft));
+  border: 1px solid rgba(var(--line), 0.12);
+  padding: 0.25rem 0.6rem;
+  border-radius: 2px;
+  width: fit-content;
+}
+
+/* ── Grid ───────────────────────────────────────────────────────────────── */
+
+.lab-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.25rem;
+}
+
+@container (max-width: 680px) {
+  .lab-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ── Card ───────────────────────────────────────────────────────────────── */
+
+.lab-card {
+  display: flex;
+  flex-direction: column;
+  border-radius: 3px;
+  overflow: hidden;
+  transition: box-shadow 0.3s ease;
+  background: rgb(var(--ink-1));
+}
+
+.lab-card--active {
+  box-shadow: 0 0 0 1px rgba(var(--spectral-a), 0.25),
+              0 8px 32px -8px rgba(var(--spectral-a), 0.12);
+}
+
+/* ── Canvas wrap ─────────────────────────────────────────────────────────── */
+
+.canvas-wrap {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  background: rgb(var(--ink-0));
+  overflow: hidden;
+  cursor: crosshair;
+  touch-action: none; /* allow pointer events on mobile */
+}
+
+.toy-canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.toy-canvas--hidden {
+  display: none;
+}
+
+/* ── Static posters (reduced-motion / no WebGL2) ─────────────────────────── */
+/* A CSS-only motif per kind: geometric, tasteful, monochrome */
+
+.toy-poster {
+  position: absolute;
+  inset: 0;
+  background: rgb(var(--ink-0));
+  overflow: hidden;
+}
+
+/* Curl: animated CSS radial waves */
+.toy-poster[data-kind="curl"]::before {
+  content: '';
+  position: absolute;
+  inset: -50%;
+  background:
+    radial-gradient(ellipse 60% 40% at 50% 50%, rgba(var(--spectral-a), 0.04) 0%, transparent 70%),
+    radial-gradient(ellipse 30% 50% at 30% 70%, rgba(var(--spectral-b), 0.03) 0%, transparent 70%);
+  border-radius: 50%;
+}
+
+.toy-poster[data-kind="curl"]::after {
+  content: '';
+  position: absolute;
+  inset: 15%;
+  border-radius: 50%;
+  border: 1px solid rgba(var(--line), 0.08);
+  box-shadow:
+    0 0 0 12px rgba(var(--line), 0.03),
+    0 0 0 28px rgba(var(--line), 0.02);
+}
+
+/* SDF: a simple circle / sphere suggestion */
+.toy-poster[data-kind="sdf"]::before {
+  content: '';
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 40%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  border: 1px solid rgba(var(--spectral-a), 0.18);
+  box-shadow:
+    inset 0 0 20px rgba(var(--spectral-a), 0.05),
+    0 0 40px rgba(var(--spectral-b), 0.06);
+}
+
+.toy-poster[data-kind="sdf"]::after {
+  content: '';
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 42%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  border: 1px dashed rgba(var(--line), 0.07);
+}
+
+/* Lattice: a faint grid */
+.toy-poster[data-kind="lattice"]::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(var(--line), 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(var(--line), 0.05) 1px, transparent 1px);
+  background-size: 5% 5%;
+}
+
+.toy-poster[data-kind="lattice"]::after {
+  content: '';
+  position: absolute;
+  inset: 30%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(var(--spectral-mid), 0.06) 0%, transparent 70%);
+}
+
+/* Feedback: concentric rings / glow */
+.toy-poster[data-kind="feedback"]::before {
+  content: '';
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(var(--spectral-a), 0.5);
+  box-shadow:
+    0 0 0 14px rgba(var(--spectral-a), 0.04),
+    0 0 0 30px rgba(var(--spectral-b), 0.03),
+    0 0 0 52px rgba(var(--spectral-mid), 0.02);
+}
+
+/* ── Frame corner labels (decorative) ───────────────────────────────────── */
+
+.frame-label {
+  position: absolute;
+  font-size: 0.5625rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(var(--paper-soft), 0.35);
+  pointer-events: none;
+  user-select: none;
+}
+
+.frame-label--tl { top: 6px;  left: 10px; }
+.frame-label--tr { top: 6px;  right: 10px; }
+
+/* ── Card footer ─────────────────────────────────────────────────────────── */
+
+.card-footer {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  border-top: 1px solid rgba(var(--line), 0.08);
+  background: rgb(var(--ink-1));
+}
+
+.card-index {
+  font-size: 0.6875rem;
+  color: rgba(var(--paper-soft), 0.45);
+  letter-spacing: 0.05em;
+  flex-shrink: 0;
+  padding-top: 2px;
+}
+
+.card-meta {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.card-title {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: rgb(var(--paper));
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.card-blurb {
+  font-size: 0.625rem;
+  color: rgb(var(--paper-soft));
+  line-height: 1.5;
+  letter-spacing: 0.01em;
+}
+
+/* ── Status chip ─────────────────────────────────────────────────────────── */
+
+.status-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.5625rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgb(var(--paper-soft));
+  white-space: nowrap;
+  flex-shrink: 0;
+  padding-top: 3px;
+}
+
+.status-chip--live {
+  color: rgb(var(--spectral-a));
+}
+
+/* live-dot OFF state (paused / static) */
+.live-dot--off {
+  background: rgba(var(--paper-soft), 0.3) !important;
+  box-shadow: none !important;
+  animation: none !important;
+}
+
+/* ── Reduced-motion overrides ─────────────────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  .lab-card,
+  .toy-canvas {
+    transition: none;
+    animation: none;
+  }
+}

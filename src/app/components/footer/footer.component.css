@@ -1,3 +1,21 @@
+/* ── HUD top hairline with registration ticks ── */
+.hud-rule {
+  position: relative;
+  height: 1px;
+  background: rgba(var(--line), 0.10);
+}
+
+.tick {
+  position: absolute;
+  top: -3px;
+  width: 1px;
+  height: 7px;
+  background: rgba(var(--line), 0.22);
+}
+.tick-l { left: 0; }
+.tick-r { right: 0; }
+
+/* ── Marquee ── */
 .marquee-wrap {
   --marquee-duration: 40s;
 }
@@ -8,38 +26,46 @@
   padding-inline: 2rem;
 }
 
+.marquee-track.paused {
+  animation-play-state: paused;
+}
+
 @keyframes marquee {
   from { transform: translateX(0); }
   to   { transform: translateX(-50%); }
 }
 
-.marquee-dot {
-  color: rgba(255, 255, 255, 0.15);
-  font-size: 0.6rem;
+/* Hairline separator cross between items */
+.marquee-sep {
+  font-family: 'Geist Mono', ui-monospace, monospace;
+  font-size: 0.55rem;
+  color: rgba(var(--line), 0.18);
+  line-height: 1;
+  user-select: none;
 }
 
 .marquee-fade {
   position: absolute;
   top: 0;
   bottom: 0;
-  width: 120px;
+  width: 100px;
   pointer-events: none;
   z-index: 2;
 }
 
 .marquee-fade-l {
   left: 0;
-  background: linear-gradient(90deg, rgb(9, 10, 12) 0%, transparent 100%);
+  background: linear-gradient(90deg, rgb(var(--ink-0)) 0%, transparent 100%);
 }
 
 .marquee-fade-r {
   right: 0;
-  background: linear-gradient(270deg, rgb(9, 10, 12) 0%, transparent 100%);
+  background: linear-gradient(270deg, rgb(var(--ink-0)) 0%, transparent 100%);
 }
 
-/* ── Giant watermark with scroll-driven light fill ──
-   Sized so the nowrap line always fits its box: the gradient fill layer is
-   background-clip:text and would go invisible outside the box. */
+/* ── Giant watermark — monochrome scroll-driven fill ──
+   Base layer: .text-outline (from global, white/12 hairline stroke)
+   Fill layer: clips in from left as --fillp goes 0→1, paper-white only (no aurora). */
 .watermark {
   font-size: clamp(2.4rem, 9.5vw, 9rem);
   line-height: 1;
@@ -51,16 +77,24 @@
   position: absolute;
   inset: 0;
   padding-top: 3.5rem; /* mirror .watermark-wrap pt-14 */
-  background: linear-gradient(110deg,
-    rgb(var(--text-strong)) 0%,
-    rgb(var(--accent)) 55%,
-    rgb(var(--warm-white)) 100%);
+  background: linear-gradient(
+    100deg,
+    rgb(var(--paper)) 0%,
+    rgba(var(--paper), 0.85) 60%,
+    rgba(var(--paper-soft), 0.6) 100%
+  );
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
   clip-path: inset(0 calc((1 - var(--fillp, 0)) * 100%) 0 0);
 }
 
+/* ── HUD bottom bar divider ── */
+.hud-bar {
+  border-top: 1px solid rgba(var(--line), 0.06);
+}
+
+/* ── Reduced-motion: freeze marquee, skip fill animation ── */
 @media (prefers-reduced-motion: reduce) {
   .marquee-track { animation: none; }
   .watermark-fill { clip-path: none; }
