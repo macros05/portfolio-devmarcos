@@ -5,6 +5,7 @@ import {
   PLATFORM_ID,
   OnDestroy,
   afterNextRender,
+  effect,
   inject,
   input,
   signal,
@@ -97,10 +98,28 @@ export class HudComponent implements OnDestroy {
   private smoothedMs  = 16.7;
 
   constructor() {
+    // Reduced-motion: drive the readout reactively from signals (cursor / scroll
+    // / stats) instead of a continuous 60 Hz rAF loop, which would defeat the
+    // user's motion preference and churn change-detection every frame.
+    effect(() => {
+      if (!this.motion.reduced()) return;
+      const s = this.stats();
+      this.displayFps.set(fmtFps(s ? s.fps : 60));
+      this.displayMs.set(fmtMs(s ? s.ms : 16.7));
+      this.displayTris.set(fmtThousands(s ? s.triangles : MOCK_TRIANGLES));
+      this.displayCalls.set((s ? s.calls : MOCK_CALLS).toString());
+      this.displayPts.set(fmtThousands(s ? s.points : MOCK_POINTS));
+      const cur = this.motion.cursor();
+      this.displayCursor.set(`${Math.round(cur.x)},${Math.round(cur.y)}`);
+      this.displayScroll.set(`${Math.round(this.motion.scrollProgress() * 100)}%`);
+    });
+
     afterNextRender(() => {
       if (!isPlatformBrowser(this.platformId)) return;
       this.initSparkline();
-      this.startLoop();
+      // Skip the continuous rAF loop under reduced-motion (the effect above
+      // keeps the readout current without per-frame churn).
+      if (!this.motion.reduced()) this.startLoop();
     });
   }
 
