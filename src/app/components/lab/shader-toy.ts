@@ -51,7 +51,7 @@ function linkProgram(gl: WebGL2RenderingContext, vertSrc: string, fragSrc: strin
   return prog;
 }
 
-const MAX_DPR = 1.5;
+const MAX_DPR = 1.25;
 
 export function createShaderToy(canvas: HTMLCanvasElement, fragmentSource: string): ShaderToy | null {
   const ctx = canvas.getContext('webgl2', { antialias: false, powerPreference: 'low-power' });
@@ -124,7 +124,7 @@ out vec4 fragColor;
 
 // Spectral palette constants
 const vec3 CYAN    = vec3(0.0, 0.898, 1.0);
-const vec3 MAGENTA = vec3(1.0, 0.0,  0.898);
+const vec3 MAGENTA = vec3(0.76, 0.227, 0.839);
 const vec3 VIOLET  = vec3(0.478, 0.361, 1.0);
 
 // --- Hash / value noise ---
@@ -266,7 +266,7 @@ void main() {
 
   float d = 0.0;
   float hit = -1.0;
-  for (int i = 0; i < 64; i++) {
+  for (int i = 0; i < 48; i++) {
     float s = scene(ro + rd * d);
     if (s < 0.001) { hit = d; break; }
     if (d > 8.0) break;

@@ -144,9 +144,10 @@ export function createParticleMorph(renderer: THREE.WebGLRenderer, size: number)
   const renderUniforms: Record<string, THREE.IUniform> = {
     uPosTex: { value: gpgpu.getPosition() },
     uVelTex: { value: gpgpu.getVelocity() },
-    uSize: { value: 2.0 },
+    uSize: { value: 1.5 },
     uPixelRatio: { value: dpr },
     uCyan: { value: new THREE.Color(PALETTE.cyan) },
+    uViolet: { value: new THREE.Color(PALETTE.violet) },
     uMagenta: { value: new THREE.Color(PALETTE.magenta) },
     uFade: { value: 1 },
   };

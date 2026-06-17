@@ -433,13 +433,14 @@ void main(){
   vec4 mv = modelViewMatrix * vec4(pos, 1.0);
   gl_Position = projectionMatrix * mv;
 
-  float size = uSize * (0.55 + vSpeed * 6.0 + aSeed * 0.5);
+  float size = uSize * (0.5 + vSpeed * 3.2 + aSeed * 0.4);
   gl_PointSize = size * uPixelRatio * (170.0 / -mv.z);
 }
 `;
 
 export const POINTS_FRAGMENT = /* glsl */ `
 uniform vec3 uCyan;
+uniform vec3 uViolet;
 uniform vec3 uMagenta;
 uniform float uFade;
 
@@ -452,11 +453,14 @@ void main(){
   float a = smoothstep(0.5, 0.0, d);
   if (a < 0.02) discard;
 
-  float t = clamp(vSpeed * 4.0 + (vPos.y + 2.0) * 0.12, 0.0, 1.0);
-  vec3 col = mix(uCyan, uMagenta, t);
-  col += vec3(0.20) * pow(a, 2.0);   // hot core trending to white
+  // Mostly cyan→violet; magenta only at the very top end so it never dazzles.
+  float t = clamp(vSpeed * 2.6 + (vPos.y + 2.0) * 0.09, 0.0, 1.0);
+  vec3 col = t < 0.6
+    ? mix(uCyan, uViolet, t / 0.6)
+    : mix(uViolet, uMagenta, (t - 0.6) / 0.4);
+  col += vec3(0.10) * pow(a, 2.6);   // subtle core, no white-out
 
-  gl_FragColor = vec4(col, a * uFade);
+  gl_FragColor = vec4(col, a * uFade * 0.85);
 }
 `;
 

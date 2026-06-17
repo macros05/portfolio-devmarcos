@@ -23,7 +23,7 @@
 
     /* ── Spectral — WebGL + micro-signals ONLY ── */
     --spectral-a: 0 229 255;    /* cyan  #00E5FF */
-    --spectral-b: 255 0 229;    /* magenta #FF00E5 */
+    --spectral-b: 194 58 214;   /* magenta (tamed) #C23AD6 */
     --spectral-mid: 122 92 255; /* transition violet for UI micro-signals */
 
     /* ── Legacy tokens (kept so not-yet-reskinned sections keep rendering;

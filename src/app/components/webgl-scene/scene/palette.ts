@@ -16,7 +16,7 @@ export const PALETTE = {
   // ── spectral (cyan → violet → magenta) ──
   cyan: '#00e5ff', //    --spectral-a
   violet: '#7a5cff', //  --spectral-mid
-  magenta: '#ff00e5', // --spectral-b
+  magenta: '#c23ad6', // --spectral-b (tamed: less retina-searing than #ff00e5)
 
   // ── legacy (kept only for the legacy liquid-orb / flow-field modules) ──
   steel: '#9ab1d1',

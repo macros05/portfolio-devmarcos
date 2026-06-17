@@ -68,9 +68,9 @@ export function createScene(
   THREE.ColorManagement.enabled = true;
 
   const high = opts.quality === 'high';
-  const simSize = high ? 256 : 128; // 65k / 16k points
-  const dustCount = high ? 280 : 110;
-  const maxDpr = high ? 1.75 : 1;
+  const simSize = high ? 192 : 112; // ~37k / ~12.5k points (perf-tuned)
+  const dustCount = high ? 220 : 90;
+  const maxDpr = high ? 1.5 : 1;
 
   let width = window.innerWidth;
   let height = window.innerHeight;
@@ -120,7 +120,7 @@ export function createScene(
       composer.setSize(width, height);
       composer.addPass(new RenderPass(scene, camera));
       // strength, radius, threshold — glow the bright spectral points.
-      bloomPass = new UnrealBloomPass(new THREE.Vector2(width, height), 0.72, 0.6, 0.12);
+      bloomPass = new UnrealBloomPass(new THREE.Vector2(width, height), 0.5, 0.5, 0.2);
       composer.addPass(bloomPass);
       outputPass = new OutputPass();
       composer.addPass(outputPass);
