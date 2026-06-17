@@ -247,6 +247,28 @@
   }
 }
 
+/* ────────────────────────────────────────────────────────
+   WEBGL HANDOFF
+   When the liquid-metal scene is live (body.webgl-on), the CSS aurora
+   fallback fades out and the hero's CSS halo/bloom step aside so the
+   real WebGL orb owns the glow. On reduced-motion / no-WebGL the class
+   is never set, so all CSS fallbacks stay visible.
+   ──────────────────────────────────────────────────────── */
+app-aurora-background {
+  transition: opacity 0.9s ease 0.5s;
+}
+body.webgl-on app-aurora-background {
+  opacity: 0;
+}
+body.webgl-on .hero-halo,
+body.webgl-on .hero-bloom {
+  opacity: 0 !important;
+  transition: opacity 0.9s ease;
+}
+body.webgl-on .hero-grid {
+  opacity: 0.4;
+}
+
 /* Honor user's reduced motion preference globally */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {

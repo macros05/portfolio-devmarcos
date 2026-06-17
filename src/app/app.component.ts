@@ -3,10 +3,17 @@ import { RouterOutlet } from '@angular/router';
 import { CursorComponent } from './components/cursor/cursor.component';
 import { AuroraBackgroundComponent } from './components/aurora-background/aurora-background.component';
 import { ScrollProgressComponent } from './components/scroll-progress/scroll-progress.component';
+import { WebglSceneComponent } from './components/webgl-scene/webgl-scene.component';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, CursorComponent, AuroraBackgroundComponent, ScrollProgressComponent],
+  imports: [
+    RouterOutlet,
+    CursorComponent,
+    AuroraBackgroundComponent,
+    ScrollProgressComponent,
+    WebglSceneComponent,
+  ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 })

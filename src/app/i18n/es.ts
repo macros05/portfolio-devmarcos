@@ -51,6 +51,8 @@ export const ES = {
     kicker: '02 — Trabajo',
     featuredLabel: 'Proyecto destacado',
     detailSections: {
+      caseStudy: 'Caso de estudio',
+      overview: 'Resumen',
       tech: 'Tecnologías',
       links: 'Enlaces',
       sourceCode: 'Ver Código Fuente',
@@ -58,6 +60,7 @@ export const ES = {
       ai: 'Integración de Inteligencia Artificial',
       challenges: 'Retos Técnicos y Soluciones',
       videoDemo: 'Demo en vídeo',
+      next: 'Siguiente proyecto',
     },
     items: {
       'ai-reels-factory': {

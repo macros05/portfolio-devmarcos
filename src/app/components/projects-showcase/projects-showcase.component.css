@@ -1,0 +1,239 @@
+:host {
+  display: block;
+}
+
+.section-label .line {
+  width: 2rem;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.25);
+}
+
+/* ── Showcase rhythm ─────────────────────────────────────── */
+.showcase {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(7rem, 15vh, 15rem);
+}
+
+.proj {
+  display: grid;
+  grid-template-columns: minmax(0, 1.08fr) minmax(0, 0.92fr);
+  align-items: center;
+  gap: 3rem 5rem;
+}
+.proj.flip {
+  grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr);
+}
+.proj.flip .proj-visual {
+  order: 2;
+}
+.proj.flip .proj-copy {
+  order: 1;
+}
+
+/* ── Visual ──────────────────────────────────────────────── */
+.proj-visual {
+  position: relative;
+}
+
+.proj-reveal {
+  position: relative;
+  z-index: 1;
+}
+
+.proj-media {
+  display: block;
+  position: relative;
+  border-radius: 1.5rem;
+  cursor: none;
+}
+
+.media-clip {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  border-radius: 1.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgb(10, 12, 16);
+  box-shadow:
+    0 40px 90px -34px rgba(0, 0, 0, 0.85),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.07);
+  transition: box-shadow 0.6s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.6s ease;
+}
+.proj-media:hover .media-clip {
+  border-color: rgba(154, 177, 209, 0.35);
+  box-shadow:
+    0 55px 120px -30px rgba(0, 0, 0, 0.9),
+    0 0 70px -12px rgba(154, 177, 209, 0.28),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.1);
+}
+
+/* Scroll-parallax: media drifts against the page (var --progress from [scrub]). */
+.media-img {
+  position: absolute;
+  inset: -11% 0;
+  width: 100%;
+  height: 122%;
+  object-fit: cover;
+  /* Overscan (11%) comfortably exceeds the ±26px parallax travel, so no edge gap. */
+  transform: translateY(calc((var(--progress, 0.5) - 0.5) * 52px));
+  will-change: transform;
+}
+
+.media-vignette {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 28%, transparent 48%, rgba(6, 8, 12, 0.45) 100%);
+  pointer-events: none;
+}
+
+/* Diagonal light sweep on hover. */
+.media-sheen {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(115deg, transparent 32%, rgba(255, 255, 255, 0.12) 48%, transparent 62%);
+  transform: translateX(-120%);
+  transition: transform 0.95s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+}
+.proj-media:hover .media-sheen {
+  transform: translateX(120%);
+}
+
+/* Big parallaxed ghost index peeking past the media edge. */
+.proj-ghost {
+  position: absolute;
+  top: -0.45em;
+  left: -1rem;
+  z-index: 0;
+  font-size: clamp(5rem, 11vw, 11rem);
+  line-height: 1;
+  letter-spacing: -0.04em;
+  pointer-events: none;
+  transform: translateY(calc((var(--progress, 0.5) - 0.5) * -90px));
+  will-change: transform;
+}
+.proj.flip .proj-ghost {
+  left: auto;
+  right: -1rem;
+}
+
+/* ── Copy ────────────────────────────────────────────────── */
+.proj-copy {
+  display: flex;
+  flex-direction: column;
+}
+
+.proj-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  margin-bottom: 1.4rem;
+}
+.proj-idx {
+  font-size: 0.85rem;
+  color: rgb(var(--accent));
+  letter-spacing: 0.05em;
+}
+.proj-rule {
+  width: 2.2rem;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.2);
+}
+.proj-cat {
+  font-size: 0.66rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.proj-title {
+  font-size: clamp(2.4rem, 5vw, 4rem);
+  line-height: 1.0;
+  color: #fff;
+  margin-bottom: 1.4rem;
+}
+
+.proj-desc {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 1.05rem;
+  line-height: 1.7;
+  max-width: 34rem;
+  margin-bottom: 1.8rem;
+}
+
+.proj-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+.chip {
+  font-size: 0.7rem;
+  letter-spacing: 0.04em;
+  color: rgba(255, 255, 255, 0.7);
+  padding: 0.35rem 0.75rem;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.035);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+}
+
+.proj-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  width: fit-content;
+  margin-top: 2rem;
+  padding: 0.85rem 1.6rem;
+  border-radius: 9999px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  font-family: 'Geist Mono', monospace;
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+  color: #fff;
+  transition: border-color 0.4s ease, background 0.4s ease, transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.proj-cta:hover {
+  border-color: rgba(154, 177, 209, 0.5);
+  background: rgba(255, 255, 255, 0.04);
+}
+.cta-arrow {
+  width: 1.1rem;
+  height: 1.1rem;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.proj-cta:hover .cta-arrow {
+  transform: translateX(5px);
+}
+
+/* ── Responsive ──────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .proj,
+  .proj.flip {
+    grid-template-columns: 1fr;
+    gap: 1.75rem;
+  }
+  .proj.flip .proj-visual,
+  .proj.flip .proj-copy {
+    order: 0;
+  }
+  .proj-ghost {
+    font-size: 5rem;
+    top: -0.5em;
+  }
+  .proj-desc {
+    font-size: 1rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .media-img,
+  .proj-ghost {
+    transform: none !important;
+  }
+  .media-sheen,
+  .media-clip,
+  .proj-cta,
+  .cta-arrow {
+    transition: none !important;
+  }
+}

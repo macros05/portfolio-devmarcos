@@ -1,6 +1,8 @@
 export interface Project {
   id: string;
   title: string;
+  /** Short, language-neutral discipline tag, e.g. "AI Video Pipeline". */
+  category?: string;
   shortDescription: string;
   fullDescription: string;
   techStack: string[];

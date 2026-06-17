@@ -1,0 +1,70 @@
+<section id="proyectos" class="px-6 md:px-16 lg:px-24 w-full mt-40 lg:mt-56 pb-24">
+  <div class="max-w-7xl mx-auto">
+    <div [reveal]="'up'" class="section-label flex items-center gap-3 mb-6">
+      <span class="line"></span>
+      <span class="font-mono text-xs tracking-[0.3em] uppercase text-white/55">{{ t().projects.kicker }}</span>
+    </div>
+    <h2 [reveal]="'up'" [revealDelay]="60"
+        class="text-5xl md:text-6xl lg:text-7xl font-display font-semibold text-white mb-20 lg:mb-28
+               tracking-tight leading-[1.05]">
+      {{ t().projects.sectionTitle }}<span class="text-gradient-aurora">.</span>
+    </h2>
+  </div>
+
+  <div class="showcase max-w-7xl mx-auto">
+    @for (project of projects; track project.id; let i = $index) {
+      <article class="proj" [class.flip]="i % 2 === 1">
+
+        <!-- Visual: scroll-parallax + reveal + 3D tilt -->
+        <div class="proj-visual" scrub>
+          <div class="proj-reveal" [reveal]="i % 2 === 1 ? 'right' : 'left'" [revealDuration]="1100">
+            <a class="proj-media" tilt [tiltStrength]="4" [tiltScale]="1.015"
+               [routerLink]="['/proyecto', project.id]" [attr.aria-label]="project.title">
+              <div class="media-clip">
+                @if (project.videoUrl) {
+                  <video class="media-img" [src]="project.videoUrl" autoplay loop muted playsinline></video>
+                } @else if (project.imageUrl) {
+                  <img class="media-img" [src]="project.imageUrl" [alt]="project.title">
+                }
+                <span class="media-vignette" aria-hidden="true"></span>
+                <span class="media-sheen" aria-hidden="true"></span>
+              </div>
+            </a>
+          </div>
+          <span class="proj-ghost text-outline font-display font-semibold" aria-hidden="true">{{ indexLabel(i) }}</span>
+        </div>
+
+        <!-- Copy -->
+        <div class="proj-copy">
+          <div class="proj-meta" [reveal]="'up'">
+            <span class="proj-idx font-mono">{{ indexLabel(i) }}</span>
+            <span class="proj-rule"></span>
+            <span class="proj-cat font-mono">{{ project.category }}</span>
+          </div>
+
+          <h3 class="proj-title font-display font-semibold tracking-tight" [reveal]="'up'" [revealDelay]="90">
+            {{ project.title }}
+          </h3>
+
+          <p class="proj-desc" [reveal]="'up'" [revealDelay]="170">
+            {{ shortDescription(project.id) }}
+          </p>
+
+          <ul class="proj-chips" [reveal]="'up'" [revealDelay]="250">
+            @for (tech of project.techStack.slice(0, 5); track tech) {
+              <li class="chip font-mono">{{ tech }}</li>
+            }
+          </ul>
+
+          <a magnetic [routerLink]="['/proyecto', project.id]"
+             class="proj-cta" [reveal]="'up'" [revealDelay]="330">
+            <span>{{ t().projects.viewDemo }}</span>
+            <svg class="cta-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14m0 0l-6-6m6 6l-6 6"/>
+            </svg>
+          </a>
+        </div>
+      </article>
+    }
+  </div>
+</section>

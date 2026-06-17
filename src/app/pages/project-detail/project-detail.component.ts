@@ -36,6 +36,28 @@ export class ProjectDetailComponent implements OnInit {
     return this.t().projects.items[this.project.id as ProjectId];
   }
 
+  /** Ordered body sections, numbered in the template; AI is optional. */
+  get sections(): { label: string; body: string }[] {
+    const tx = this.projectTexts;
+    if (!tx) return [];
+    const d = this.t().projects.detailSections;
+    const out = [{ label: d.overview, body: tx.fullDescription }];
+    if (tx.aiIntegration) out.push({ label: d.ai, body: tx.aiIntegration });
+    out.push({ label: d.challenges, body: tx.challenges });
+    return out;
+  }
+
+  /** Next project in the lineup (wraps), for the case-study footer link. */
+  get nextProject(): Project | null {
+    if (!this.project) return null;
+    const i = PROJECTS.findIndex((p) => p.id === this.project!.id);
+    return PROJECTS[(i + 1) % PROJECTS.length] ?? null;
+  }
+
+  sectionLabel(i: number): string {
+    return String(i + 1).padStart(2, '0');
+  }
+
   toggleVideo() {
     const video = this.videoRef.nativeElement;
     if (video.paused) {

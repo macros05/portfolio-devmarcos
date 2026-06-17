@@ -51,6 +51,8 @@ export const EN = {
     kicker: '02 — Work',
     featuredLabel: 'Featured project',
     detailSections: {
+      caseStudy: 'Case study',
+      overview: 'Overview',
       tech: 'Technologies',
       links: 'Links',
       sourceCode: 'View Source Code',
@@ -58,6 +60,7 @@ export const EN = {
       ai: 'Artificial Intelligence Integration',
       challenges: 'Technical Challenges & Solutions',
       videoDemo: 'Video Demo',
+      next: 'Next project',
     },
     items: {
       'ai-reels-factory': {

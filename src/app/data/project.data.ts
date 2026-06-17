@@ -4,6 +4,7 @@ export const PROJECTS: Project[] = [
   {
     id: 'ai-reels-factory',
     title: 'AI REELS FACTORY',
+    category: 'AI Video Pipeline',
     shortDescription: 'Estudio end-to-end que produce reels hiperrealistas dirigidos por IA: Claude escribe el guion y dirige plano a plano, Higgsfield genera el vídeo y ElevenLabs pone la voz.',
     fullDescription: 'AI Reels Factory es un pipeline completo de producción de vídeo vertical: a partir de un brief (tema, audiencia, tono, referencias visuales), Claude genera el guion, extrae el estilo visual de las referencias y elabora un shot plan cinematográfico plano a plano. Higgsfield renderiza los clips, ElevenLabs sintetiza la voz, Whisper genera subtítulos y ffmpeg ensambla el MP4 final. Se controla desde una interfaz web o desde cualquier cliente MCP mediante un servidor de tools propio.',
     techStack: ['Python', 'FastAPI', 'React 19', 'TypeScript', 'Claude AI', 'ElevenLabs', 'MCP', 'FFmpeg'],
@@ -15,6 +16,7 @@ export const PROJECTS: Project[] = [
   {
     id: 'trading-bot',
     title: 'TRADING BOT',
+    category: 'Algorithmic Trading',
     shortDescription: 'Bot de trading algorítmico para BTC/USDT con estrategia de momentum, filtro macro con IA y validación sobre 129.000 velas históricas. 227 tests automatizados.',
     fullDescription: 'Bot de trading escrito en Python 3.13 sobre asyncio que opera BTC/USDT en Binance Testnet. Implementa una estrategia de momentum (RSI + SMA) con un filtro macro de noticias, recibe precios por WebSocket con fallback automático a REST y notifica operaciones por Telegram. Validado con un backtest de 90 días sobre 129.602 velas antes de desplegarse en Docker Compose junto a su API y dashboard.',
     techStack: ['Python 3.13', 'asyncio', 'ccxt', 'FastAPI', 'Next.js', 'Gemini AI', 'Docker', 'Telegram API'],
@@ -26,6 +28,7 @@ export const PROJECTS: Project[] = [
   {
     id: 'pr-party',
     title: 'PR PARTY',
+    category: 'Multi-Agent Review',
     shortDescription: 'Hackathon de IBM 2026: seis agentes de IA especializados revisan tu Pull Request en paralelo y presentan los hallazgos como un combate RPG con daño, veredictos y diálogo entre personajes.',
     fullDescription: 'PR Party reinventa la code review: seis personajes especialistas (seguridad, base de datos, UX, arquitectura, tests y documentación) analizan el PR en paralelo y reportan cada hallazgo como un golpe en un encuentro por turnos. Construido end-to-end durante el hackathon de IBM con IBM Bob como núcleo cognitivo y watsonx.ai para la voz de cada personaje.',
     techStack: ['Python', 'FastAPI', 'Next.js 16', 'React 19', 'watsonx.ai', 'IBM Bob', 'Tailwind'],
@@ -37,6 +40,7 @@ export const PROJECTS: Project[] = [
   {
     id: 'seo-costa-del-sol',
     title: 'SEO COSTA DEL SOL',
+    category: 'Technical SEO',
     shortDescription: 'Landing y blog de servicios de SEO local para negocios de la Costa del Sol, con SEO técnico prerenderizado por ruta y datos estructurados. En producción en seocostadelsol.com.',
     fullDescription: 'Web de captación para servicios de SEO local en Málaga y la Costa del Sol: landing de conversión con formulario de auditoría gratuita, páginas por ciudad y sector, FAQ y un blog con decenas de guías locales. Al ser una SPA de Vite, el SEO se resuelve con un generador post-build propio que crea un HTML estático por ruta con título, descripción, canonical, Open Graph y JSON-LD, además de sitemap y robots.txt. Desplegada en Cloudflare Pages.',
     techStack: ['React 18', 'Vite', 'Framer Motion', 'React Router 7', 'JSON-LD', 'Cloudflare Pages'],
@@ -49,6 +53,7 @@ export const PROJECTS: Project[] = [
   {
     id: 'tecnoambiente',
     title: 'TECNOAMBIENTE',
+    category: 'Document AI',
     shortDescription: 'Plataforma de gestión documental con extracción inteligente de metadatos mediante IA para una empresa medioambiental.',
     fullDescription: 'Tecnoambiente es una aplicación web desarrollada para Tradebe que centraliza la gestión de documentación técnica medioambiental. Permite subir PDFs, extraer automáticamente metadatos como título, autores, año y palabras clave usando la API de Gemini, y clasificarlos por familia y especie. Incluye un sistema de búsqueda avanzada con filtros múltiples y un panel de administración para gestión de usuarios.',
     techStack: ['Angular', 'FastAPI', 'Python', 'MySQL', 'Gemini AI'],

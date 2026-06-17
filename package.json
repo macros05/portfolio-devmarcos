@@ -23,6 +23,7 @@
     "@tsparticles/engine": "^3.9.1",
     "@tsparticles/slim": "^3.9.1",
     "rxjs": "~7.8.0",
+    "three": "^0.184.0",
     "tslib": "^2.3.0",
     "tsparticles": "^3.9.1"
   },
@@ -30,6 +31,7 @@
     "@angular/build": "^21.2.0",
     "@angular/cli": "^21.2.0",
     "@angular/compiler-cli": "^21.2.0",
+    "@types/three": "^0.184.1",
     "autoprefixer": "^10.4.27",
     "jsdom": "^28.0.0",
     "postcss": "^8.5.6",
