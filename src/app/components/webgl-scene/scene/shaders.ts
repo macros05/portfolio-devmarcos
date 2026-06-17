@@ -316,3 +316,221 @@ void main(){
   gl_FragColor = vec4(uColor, a);
 }
 `;
+
+/* ════════════════════════════════════════════════════════════════════════
+   PARTICLE-MORPH SHOWPIECE (GPGPU)
+   A position/velocity simulation run in FBO ping-pong by GPUComputationRenderer.
+   The velocity field = divergence-free curl noise (organic flow) + spring
+   attraction toward a morph target + soft cursor repulsion. Targets cycle
+   between an abstract cloud, text point-clouds, and a structured lattice.
+   ════════════════════════════════════════════════════════════════════════ */
+
+/** Curl (divergence-free) noise built from the simplex `snoise` above. */
+export const CURL_GLSL = /* glsl */ `
+vec3 snoiseVec3(vec3 x){
+  float s  = snoise(x);
+  float s1 = snoise(vec3(x.y - 19.1, x.z + 33.4, x.x + 47.2));
+  float s2 = snoise(vec3(x.z + 74.2, x.x - 124.5, x.y + 99.4));
+  return vec3(s, s1, s2);
+}
+vec3 curlNoise(vec3 p){
+  const float e = 0.1;
+  vec3 dx = vec3(e, 0.0, 0.0);
+  vec3 dy = vec3(0.0, e, 0.0);
+  vec3 dz = vec3(0.0, 0.0, e);
+  vec3 p_x0 = snoiseVec3(p - dx);
+  vec3 p_x1 = snoiseVec3(p + dx);
+  vec3 p_y0 = snoiseVec3(p - dy);
+  vec3 p_y1 = snoiseVec3(p + dy);
+  vec3 p_z0 = snoiseVec3(p - dz);
+  vec3 p_z1 = snoiseVec3(p + dz);
+  float x = (p_y1.z - p_y0.z) - (p_z1.y - p_z0.y);
+  float y = (p_z1.x - p_z0.x) - (p_x1.z - p_x0.z);
+  float z = (p_x1.y - p_x0.y) - (p_y1.x - p_y0.x);
+  return normalize(vec3(x, y, z) / (2.0 * e) + 1e-6);
+}
+`;
+
+/**
+ * GPGPU position update. `texturePosition` / `textureVelocity` and `resolution`
+ * are injected by GPUComputationRenderer — do NOT redeclare them.
+ */
+export const GPGPU_POSITION_FRAG = /* glsl */ `
+uniform float uDt;
+void main(){
+  vec2 uv = gl_FragCoord.xy / resolution.xy;
+  vec3 pos = texture2D(texturePosition, uv).xyz;
+  vec3 vel = texture2D(textureVelocity, uv).xyz;
+  pos += vel * uDt;
+  gl_FragColor = vec4(pos, 1.0);
+}
+`;
+
+/** GPGPU velocity update: curl flow + target spring + cursor repulsion + damping. */
+export const GPGPU_VELOCITY_FRAG = /* glsl */ `
+${NOISE_GLSL}
+${CURL_GLSL}
+uniform float uTime;
+uniform float uDt;
+uniform float uCurl;
+uniform float uAttract;
+uniform float uRepel;
+uniform float uDamping;
+uniform float uNoiseScale;
+uniform vec3  uMouse;       // world-space cursor on z=0 plane
+uniform float uMorph;       // 0..1 blend between target A and B
+uniform sampler2D uTarget;
+uniform sampler2D uTargetNext;
+
+void main(){
+  vec2 uv = gl_FragCoord.xy / resolution.xy;
+  vec3 pos = texture2D(texturePosition, uv).xyz;
+  vec3 vel = texture2D(textureVelocity, uv).xyz;
+
+  vec3 tA = texture2D(uTarget, uv).xyz;
+  vec3 tB = texture2D(uTargetNext, uv).xyz;
+  vec3 target = mix(tA, tB, uMorph);
+
+  // Organic divergence-free flow.
+  vec3 flow = curlNoise(pos * uNoiseScale + vec3(0.0, 0.0, uTime * 0.06)) * uCurl;
+
+  // Spring toward the morph target.
+  vec3 attract = (target - pos) * uAttract;
+
+  // Soft inverse-square cursor repulsion.
+  vec3 d = pos - uMouse;
+  float dist2 = dot(d, d) + 0.25;
+  vec3 repel = (d / sqrt(dist2)) * (uRepel / dist2);
+
+  vel += (flow + attract + repel) * uDt;
+  vel *= uDamping;
+
+  gl_FragColor = vec4(vel, 1.0);
+}
+`;
+
+/** Render the simulated points; colour mapped to the spectral gradient by speed/height. */
+export const POINTS_VERTEX = /* glsl */ `
+uniform sampler2D uPosTex;
+uniform sampler2D uVelTex;
+uniform float uSize;
+uniform float uPixelRatio;
+
+attribute vec2 aRef;   // this point's texel in the sim textures
+attribute float aSeed;
+
+varying float vSpeed;
+varying float vSeed;
+varying vec3 vPos;
+
+void main(){
+  vec3 pos = texture2D(uPosTex, aRef).xyz;
+  vec3 vel = texture2D(uVelTex, aRef).xyz;
+  vSpeed = length(vel);
+  vSeed = aSeed;
+  vPos = pos;
+
+  vec4 mv = modelViewMatrix * vec4(pos, 1.0);
+  gl_Position = projectionMatrix * mv;
+
+  float size = uSize * (0.55 + vSpeed * 6.0 + aSeed * 0.5);
+  gl_PointSize = size * uPixelRatio * (170.0 / -mv.z);
+}
+`;
+
+export const POINTS_FRAGMENT = /* glsl */ `
+uniform vec3 uCyan;
+uniform vec3 uMagenta;
+uniform float uFade;
+
+varying float vSpeed;
+varying float vSeed;
+varying vec3 vPos;
+
+void main(){
+  float d = length(gl_PointCoord - 0.5);
+  float a = smoothstep(0.5, 0.0, d);
+  if (a < 0.02) discard;
+
+  float t = clamp(vSpeed * 4.0 + (vPos.y + 2.0) * 0.12, 0.0, 1.0);
+  vec3 col = mix(uCyan, uMagenta, t);
+  col += vec3(0.20) * pow(a, 2.0);   // hot core trending to white
+
+  gl_FragColor = vec4(col, a * uFade);
+}
+`;
+
+/* ════════════════════════════════════════════════════════════════════════
+   GRID BACKDROP
+   Fullscreen quad pinned to the far plane drawing a dim Tron-style perspective
+   floor + ceiling grid with a spectral horizon glow — depth coherent with the
+   CSS blueprint chrome. Replaces the old flow-field.
+   ════════════════════════════════════════════════════════════════════════ */
+export const GRID_VERTEX = /* glsl */ `
+varying vec2 vUv;
+void main(){
+  vUv = position.xy * 0.5 + 0.5;
+  gl_Position = vec4(position.xy, 0.9999, 1.0);
+}
+`;
+
+export const GRID_FRAGMENT = /* glsl */ `
+uniform vec2 uResolution;
+uniform float uTime;
+uniform vec2 uMouse;    // 0..1
+uniform float uScroll;
+uniform float uFade;    // 1 in hero, →0 in content
+uniform vec3 uBg;
+uniform vec3 uCyan;
+uniform vec3 uMagenta;
+
+varying vec2 vUv;
+
+float gridLines(vec2 c){
+  vec2 g = abs(fract(c) - 0.5);
+  float line = min(g.x, g.y);
+  return 1.0 - smoothstep(0.0, 0.045, line);
+}
+
+void main(){
+  vec2 uv = (vUv * 2.0 - 1.0);
+  float aspect = uResolution.x / max(uResolution.y, 1.0);
+  uv.x *= aspect;
+
+  vec3 ro = vec3(0.0, 0.0, 5.0);
+  vec3 rd = normalize(vec3(uv, -1.5));
+
+  vec3 col = uBg;
+
+  // Floor (i=0) + ceiling (i=1) perspective grids.
+  for (int i = 0; i < 2; i++){
+    float planeY = (i == 0) ? -2.4 : 2.4;
+    float t = (planeY - ro.y) / rd.y;
+    if (t > 0.0){
+      vec3 p = ro + rd * t;
+      vec2 cell = p.xz * 0.6 + vec2(0.0, uTime * 0.22);
+      float g = gridLines(cell);
+      float fade = exp(-t * 0.10);
+      vec3 lc = mix(uCyan, uMagenta, clamp(p.x * 0.05 + 0.5, 0.0, 1.0));
+      col += lc * g * fade * 0.06;
+    }
+  }
+
+  // Spectral horizon glow band.
+  float horizon = exp(-abs(uv.y) * 4.0);
+  col += mix(uCyan, uMagenta, uv.x * 0.5 + 0.5) * horizon * 0.04;
+
+  // Faint cursor lift.
+  vec2 m = (uMouse * 2.0 - 1.0); m.x *= aspect;
+  col += mix(uCyan, uMagenta, 0.5) * smoothstep(0.8, 0.0, length(uv - m)) * 0.02;
+
+  // Calm under content.
+  col *= mix(0.16, 1.0, uFade);
+
+  // Hashed grain to defeat banding.
+  float gn = fract(sin(dot(vUv * uResolution, vec2(12.9898, 78.233))) * 43758.5453);
+  col += (gn - 0.5) * 0.014;
+
+  gl_FragColor = vec4(col, 1.0);
+}
+`;

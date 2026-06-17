@@ -37,7 +37,7 @@ export function createParticles(count: number, pixelRatio: number): ParticleFiel
     uMouse: { value: new THREE.Vector2(0, 0) },
     uScroll: { value: 0 },
     uFade: { value: 1 },
-    uColor: { value: new THREE.Color(PALETTE.steel) },
+    uColor: { value: new THREE.Color(PALETTE.violet) },
   };
 
   const material = new THREE.ShaderMaterial({

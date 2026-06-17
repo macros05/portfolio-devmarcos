@@ -78,12 +78,13 @@ export class WebglSceneComponent implements OnDestroy {
 
     this.initializing = true;
     try {
-      const { createLiquidScene } = await import('./scene/scene-engine');
+      const { createScene } = await import('./scene/scene-engine');
       // The chunk loads async — bail if reduced-motion flipped meanwhile.
       if (this.motion.reduced()) return;
-      this.handle = createLiquidScene(canvas, this.getState, {
+      this.handle = createScene(canvas, this.getState, {
         quality: this.detectQuality(),
         onLost: () => this.teardown(),
+        onStats: s => this.stats.set(s),
       });
       this.doc.body.classList.add('webgl-on');
       canvas.classList.add('is-ready');
