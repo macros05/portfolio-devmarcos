@@ -433,8 +433,8 @@ void main(){
   vec4 mv = modelViewMatrix * vec4(pos, 1.0);
   gl_Position = projectionMatrix * mv;
 
-  float size = uSize * (0.5 + vSpeed * 3.2 + aSeed * 0.4);
-  gl_PointSize = size * uPixelRatio * (170.0 / -mv.z);
+  float size = uSize * (0.5 + vSpeed * 2.0 + aSeed * 0.4);
+  gl_PointSize = size * uPixelRatio * (34.0 / -mv.z);
 }
 `;
 
@@ -458,9 +458,10 @@ void main(){
   vec3 col = t < 0.6
     ? mix(uCyan, uViolet, t / 0.6)
     : mix(uViolet, uMagenta, (t - 0.6) / 0.4);
-  col += vec3(0.10) * pow(a, 2.6);   // subtle core, no white-out
 
-  gl_FragColor = vec4(col, a * uFade * 0.7);
+  // No white core — additive overlap alone gives density; keeps it from
+  // blowing out to a white blob.
+  gl_FragColor = vec4(col, a * uFade * 0.4);
 }
 `;
 

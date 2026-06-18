@@ -180,7 +180,7 @@ export function createScene(
       morph: m,
       attract: lerp(ATTRACT[from], ATTRACT[to], m),
       curl: lerp(CURL[from], CURL[to], m),
-      repel: 1.4,
+      repel: 0.8,
       damping: lerp(DAMP[from], DAMP[to], m),
       noiseScale: 0.25,
       fade,

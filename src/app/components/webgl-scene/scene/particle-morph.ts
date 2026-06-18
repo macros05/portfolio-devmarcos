@@ -39,7 +39,7 @@ export interface ParticleMorph {
 function flowCloud(count: number): Float32Array {
   const a = new Float32Array(count * 3);
   for (let i = 0; i < count; i++) {
-    const r = 1.7 * Math.cbrt(Math.random());
+    const r = 2.0 * Math.cbrt(Math.random());
     const u = Math.random() * 2 - 1;
     const th = Math.random() * Math.PI * 2;
     const s = Math.sqrt(1 - u * u);
@@ -144,7 +144,7 @@ export function createParticleMorph(renderer: THREE.WebGLRenderer, size: number)
   const renderUniforms: Record<string, THREE.IUniform> = {
     uPosTex: { value: gpgpu.getPosition() },
     uVelTex: { value: gpgpu.getVelocity() },
-    uSize: { value: 1.5 },
+    uSize: { value: 1.0 },
     uPixelRatio: { value: dpr },
     uCyan: { value: new THREE.Color(PALETTE.cyan) },
     uViolet: { value: new THREE.Color(PALETTE.violet) },
