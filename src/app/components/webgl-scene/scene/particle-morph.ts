@@ -39,7 +39,7 @@ export interface ParticleMorph {
 function flowCloud(count: number): Float32Array {
   const a = new Float32Array(count * 3);
   for (let i = 0; i < count; i++) {
-    const r = 2.7 * Math.cbrt(Math.random());
+    const r = 1.7 * Math.cbrt(Math.random());
     const u = Math.random() * 2 - 1;
     const th = Math.random() * Math.PI * 2;
     const s = Math.sqrt(1 - u * u);
@@ -92,9 +92,9 @@ export function createParticleMorph(renderer: THREE.WebGLRenderer, size: number)
   // Target order matters — the scene engine cycles through these indices.
   const shapes: Float32Array[] = [
     flowCloud(count), // 0
-    sampleTextPoints('MARCOS', count, { worldWidth: 7, fontWeight: 800 }), // 1
-    sampleTextPoints('AI ENGINEER', count, { worldWidth: 8.2, fontWeight: 700 }), // 2
-    fibSphere(count, 2.2), // 3
+    sampleTextPoints('MARCOS', count, { worldWidth: 5, fontWeight: 800 }), // 1
+    sampleTextPoints('AI ENGINEER', count, { worldWidth: 6, fontWeight: 700 }), // 2
+    fibSphere(count, 1.6), // 3
   ];
   const targetTex = shapes.map(s => positionsToTexture(s, size));
 

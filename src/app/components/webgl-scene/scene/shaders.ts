@@ -460,7 +460,7 @@ void main(){
     : mix(uViolet, uMagenta, (t - 0.6) / 0.4);
   col += vec3(0.10) * pow(a, 2.6);   // subtle core, no white-out
 
-  gl_FragColor = vec4(col, a * uFade * 0.85);
+  gl_FragColor = vec4(col, a * uFade * 0.7);
 }
 `;
 

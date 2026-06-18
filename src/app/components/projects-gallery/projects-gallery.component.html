@@ -15,11 +15,16 @@
     <article class="featured panel panel--solid ticks" [reveal]="'up'" [revealDelay]="60">
       <a class="featured__link" [routerLink]="['/proyecto', featured.id]" [attr.aria-label]="featured.title">
 
-        <!-- Procedural preview -->
+        <!-- Real poster / video, falling back to a procedural motif -->
         <div class="featured__preview preview preview--dot-matrix" [class.preview--reduced]="motion.reduced()">
-          <div class="preview__inner" aria-hidden="true"></div>
-          <!-- spectral accent line -->
-          <div class="preview__accent" aria-hidden="true"></div>
+          @if (featured.imageUrl) {
+            <img class="preview__media" [src]="featured.imageUrl" alt="" loading="lazy" />
+          } @else if (featured.videoUrl) {
+            <video class="preview__media" [src]="featured.videoUrl" muted loop autoplay playsinline></video>
+          } @else {
+            <div class="preview__inner" aria-hidden="true"></div>
+            <div class="preview__accent" aria-hidden="true"></div>
+          }
         </div>
 
         <!-- Copy -->
@@ -68,14 +73,20 @@
         >
           <a class="thumb__link" [routerLink]="['/proyecto', project.id]" [attr.aria-label]="project.title">
 
-            <!-- Procedural preview -->
+            <!-- Real poster / video, falling back to a procedural motif -->
             <div
               class="thumb__preview preview"
               [class]="'preview--' + motif(i)"
               [class.preview--reduced]="motion.reduced()"
             >
-              <div class="preview__inner" aria-hidden="true"></div>
-              <div class="preview__accent" aria-hidden="true"></div>
+              @if (project.imageUrl) {
+                <img class="preview__media" [src]="project.imageUrl" alt="" loading="lazy" />
+              } @else if (project.videoUrl) {
+                <video class="preview__media" [src]="project.videoUrl" muted loop autoplay playsinline></video>
+              } @else {
+                <div class="preview__inner" aria-hidden="true"></div>
+                <div class="preview__accent" aria-hidden="true"></div>
+              }
             </div>
 
             <!-- Footer bar -->

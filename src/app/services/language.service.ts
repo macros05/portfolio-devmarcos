@@ -7,7 +7,7 @@ export type Language = 'es' | 'en';
 @Injectable({ providedIn: 'root' })
 export class LanguageService {
   private readonly _lang = signal<Language>(
-    (localStorage.getItem('lang') as Language) ?? 'es'
+    (localStorage.getItem('lang') as Language) ?? 'en'
   );
 
   readonly lang = this._lang.asReadonly();

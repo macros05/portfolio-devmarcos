@@ -1,8 +1,4 @@
 import * as THREE from 'three';
-import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
-import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
-import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js';
-import { OutputPass } from 'three/examples/jsm/postprocessing/OutputPass.js';
 
 import { createParticleMorph } from './particle-morph';
 import { createGridBackdrop } from './grid-backdrop';
@@ -25,7 +21,7 @@ export interface SceneStats {
 }
 
 export interface SceneOptions {
-  /** 'high' = desktop (bloom, 256² sim, dense dust); 'low' = mobile/weak GPU (128²). */
+  /** 'high' = desktop (192² sim, dense dust, 1.5 DPR); 'low' = mobile/weak GPU (112²). */
   quality: 'high' | 'low';
   /** Called if the GL context is lost, so the host can restore the CSS fallback. */
   onLost?: () => void;
@@ -57,8 +53,9 @@ const PERIOD = HOLD + MORPH_T;
 
 /**
  * Builds the GPGPU particle-morph showpiece + grid backdrop + ambient dust and
- * starts the loop. Everything Three.js-related lives behind this module so it is
- * lazily imported as its own chunk — keeping the main bundle free of WebGL.
+ * starts the loop. Renders directly (no bloom) — additive points self-glow, and
+ * dropping the post chain keeps the hero off the "pink flood" failure mode and
+ * cheap on the GPU. Everything Three.js lives behind this lazily-imported module.
  */
 export function createScene(
   canvas: HTMLCanvasElement,
@@ -68,7 +65,7 @@ export function createScene(
   THREE.ColorManagement.enabled = true;
 
   const high = opts.quality === 'high';
-  const simSize = high ? 192 : 112; // ~37k / ~12.5k points (perf-tuned)
+  const simSize = high ? 192 : 112; // ~37k / ~12.5k points
   const dustCount = high ? 220 : 90;
   const maxDpr = high ? 1.5 : 1;
 
@@ -84,14 +81,11 @@ export function createScene(
   let morph: ReturnType<typeof createParticleMorph> | null = null;
   let grid: ReturnType<typeof createGridBackdrop> | null = null;
   let dust: ReturnType<typeof createParticles> | null = null;
-  let composer: EffectComposer | null = null;
-  let bloomPass: UnrealBloomPass | null = null;
-  let outputPass: OutputPass | null = null;
 
   try {
     renderer = new THREE.WebGLRenderer({
       canvas,
-      antialias: false, // additive points don't benefit; bloom hides edges
+      antialias: false,
       alpha: false,
       stencil: false,
       depth: false,
@@ -100,10 +94,9 @@ export function createScene(
     renderer.setPixelRatio(dpr);
     renderer.setSize(width, height, false);
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 1.0;
+    renderer.toneMappingExposure = 0.95;
     renderer.setClearColor(0x07080a, 1);
-    // Manual reset so the HUD stats accumulate the whole frame (all composer
-    // passes), not just the last one read after composer.render().
+    // Manual reset so the HUD stats reflect the whole frame, read after render.
     renderer.info.autoReset = false;
 
     morph = createParticleMorph(renderer, simSize);
@@ -113,25 +106,10 @@ export function createScene(
     scene.add(grid.mesh);
     scene.add(morph.points);
     scene.add(dust.points);
-
-    if (high) {
-      composer = new EffectComposer(renderer);
-      composer.setPixelRatio(dpr);
-      composer.setSize(width, height);
-      composer.addPass(new RenderPass(scene, camera));
-      // strength, radius, threshold — glow the bright spectral points.
-      bloomPass = new UnrealBloomPass(new THREE.Vector2(width, height), 0.5, 0.5, 0.2);
-      composer.addPass(bloomPass);
-      outputPass = new OutputPass();
-      composer.addPass(outputPass);
-    }
   } catch (err) {
     morph?.dispose();
     grid?.dispose();
     dust?.dispose();
-    bloomPass?.dispose();
-    outputPass?.dispose();
-    composer?.dispose();
     renderer?.dispose();
     renderer?.forceContextLoss();
     throw err;
@@ -230,13 +208,10 @@ export function createScene(
     // Slight camera dolly-back as the page scrolls.
     camera.position.z = lerp(camera.position.z, 6 + smoothScroll * 2.2, 0.05);
 
-    // GPUComputationRenderer restores the render target, but be explicit so the
-    // non-composer (low) path always draws to the screen. Reset stats here so
-    // they reflect the visible scene + post passes (not the GPGPU compute).
+    // Reset stats here so they reflect the visible scene (not the GPGPU compute).
     r.info.reset();
     r.setRenderTarget(null);
-    if (composer) composer.render();
-    else r.render(scene, camera);
+    r.render(scene, camera);
 
     // ── Stats (≈10 Hz) ──
     const instFps = dt > 0 ? 1 / dt : 60;
@@ -267,7 +242,6 @@ export function createScene(
     camera.updateProjectionMatrix();
     r.setSize(width, height, false);
     (theGrid.uniforms['uResolution'].value as THREE.Vector2).set(width, height);
-    composer?.setSize(width, height);
   }
   function onResize() {
     if (resizeQueued) return;
@@ -304,9 +278,6 @@ export function createScene(
       theMorph.dispose();
       theGrid.dispose();
       theDust.dispose();
-      bloomPass?.dispose();
-      outputPass?.dispose();
-      composer?.dispose();
       r.dispose();
       r.forceContextLoss();
     },
