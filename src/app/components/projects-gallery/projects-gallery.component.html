@@ -6,21 +6,24 @@
       <p class="lede">{{ t().projects.lede }}</p>
     </header>
 
-    <app-kairova></app-kairova>
+    @if (featured) {
+      <app-kairova [project]="featured"></app-kairova>
+    }
 
     <ol class="list">
       @for (project of projects; track project.id; let i = $index) {
-        <li class="project-card" [reveal]="'up'" [revealDelay]="i * 40">
+        <li
+          class="project-card"
+          [reveal]="'up'"
+          [revealDelay]="i * 40"
+          (pointerenter)="hoverId.set(project.id)"
+          (pointerleave)="hoverId.set(null)">
           <div class="preview">
-            @if (project.imageUrl) {
-              <img
-                [src]="project.imageUrl"
-                alt=""
-                width="1280"
-                height="720"
-                loading="lazy"
-                decoding="async" />
-            }
+            <app-project-preview
+              [src]="project.video?.src"
+              [poster]="poster(project)"
+              [label]="project.title"
+              [hovered]="hoverId() === project.id" />
           </div>
 
           <div class="copy">
@@ -38,6 +41,14 @@
             }
 
             <p class="summary">{{ text(project.summary) }}</p>
+
+            @if (project.highlights.length) {
+              <ul class="highlights">
+                @for (point of project.highlights; track point.en) {
+                  <li>{{ text(point) }}</li>
+                }
+              </ul>
+            }
 
             @if (project.techStack.length) {
               <ul class="tech" [attr.aria-label]="t().projects.builtWith">
@@ -62,6 +73,7 @@
               }
               @if (project.demoUrl) {
                 <a
+                  class="live"
                   [href]="project.demoUrl"
                   target="_blank"
                   rel="noopener noreferrer"

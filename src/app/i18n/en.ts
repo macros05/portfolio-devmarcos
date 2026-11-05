@@ -93,6 +93,8 @@ export const EN = {
     github: 'GitHub',
     privateRepo: 'Private repo',
     live: 'Live',
+    playPreview: 'Play preview',
+    pausePreview: 'Pause preview',
     newTab: 'opens in a new tab',
     featuredLabel: 'Featured project',
     galleryHint: 'index of work',
@@ -163,13 +165,6 @@ export const EN = {
     line: 'AI agency for real-estate agencies with international buyers — a 24/7 multilingual lead assistant, plus lead-handling audits.',
     launched: 'Launched November 2026',
     films: 'The launch films below are Kairova’s.',
-    highlights: [
-      'Next.js 16 landing',
-      'Docker + nginx on a VPS',
-      'Cloudflare DNS',
-      'Lenis smooth scroll',
-      'Own brand kit',
-    ],
   },
   films: {
     kicker: 'Films',

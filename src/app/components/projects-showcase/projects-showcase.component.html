@@ -21,8 +21,8 @@
             <a class="proj-media" tilt [tiltStrength]="4" [tiltScale]="1.015"
                [routerLink]="['/proyecto', project.id]" [attr.aria-label]="project.title">
               <div class="media-clip">
-                @if (project.videoUrl) {
-                  <video class="media-img" [src]="project.videoUrl" autoplay loop muted playsinline></video>
+                @if (project.video) {
+                  <video class="media-img" [src]="project.video.src" [poster]="project.video.poster" autoplay loop muted playsinline></video>
                 } @else if (project.imageUrl) {
                   <img class="media-img" [src]="project.imageUrl" [alt]="project.title">
                 }

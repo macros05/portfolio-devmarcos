@@ -60,10 +60,11 @@
     <div [reveal]="'right'" [revealDelay]="120" class="media-wrap w-full">
       <div tilt [tiltStrength]="5" [tiltScale]="1.01"
            class="media conic-border relative rounded-2xl overflow-hidden">
-        @if (project.videoUrl) {
+        @if (project.video) {
           <video autoplay loop muted playsinline
+                 [poster]="project.video.poster"
                  class="block w-full aspect-[16/9] object-cover">
-            <source [src]="project.videoUrl" type="video/mp4">
+            <source [src]="project.video.src" type="video/mp4">
           </video>
         } @else if (project.imageUrl) {
           <img [src]="project.imageUrl"

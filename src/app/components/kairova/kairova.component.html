@@ -1,40 +1,53 @@
-<article class="feature" [reveal]="'up'">
+<article
+  class="feature"
+  [reveal]="'up'"
+  (pointerenter)="hover.set(true)"
+  (pointerleave)="hover.set(false)">
   <div class="preview">
-    <img
-      src="/assets/posters/kairova.svg"
-      alt=""
-      width="1280"
-      height="800"
-      loading="lazy"
-      decoding="async" />
+    <app-project-preview
+      [src]="project().video?.src"
+      [poster]="poster()"
+      [label]="project().title"
+      [hovered]="hover()" />
   </div>
 
   <div class="copy">
     <p class="meta">
       <span class="kicker">{{ t().kairova.kicker }}</span>
-      <span>{{ t().kairova.launched }}</span>
+      @if (project().meta) {
+        <span>{{ text(project().meta!) }}</span>
+      }
     </p>
 
     <h3>
-      <a [href]="url" target="_blank" rel="noopener noreferrer">{{ t().kairova.title }}</a>
+      <a [href]="project().demoUrl" target="_blank" rel="noopener noreferrer">{{ project().title }}</a>
     </h3>
 
-    <p class="line">{{ t().kairova.line }}</p>
+    <p class="line">{{ text(project().summary) }}</p>
 
-    <ul class="highlights" [attr.aria-label]="t().projects.builtWith">
-      @for (item of t().kairova.highlights; track item) {
+    <ul class="points">
+      @for (point of project().highlights; track point.en) {
+        <li>{{ text(point) }}</li>
+      }
+    </ul>
+
+    <ul class="tech" [attr.aria-label]="t().projects.builtWith">
+      @for (item of project().techStack; track item) {
         <li>{{ item }}</li>
       }
     </ul>
 
     <p class="links">
-      <a
-        [href]="url"
-        target="_blank"
-        rel="noopener noreferrer"
-        [attr.aria-label]="t().kairova.title + ' — ' + t().projects.live + ', ' + t().projects.newTab">
-        {{ t().projects.live }}
-      </a>
+      @if (project().demoUrl) {
+        <a
+          class="live"
+          [href]="project().demoUrl"
+          target="_blank"
+          rel="noopener noreferrer"
+          [attr.aria-label]="project().title + ' — ' + t().projects.live + ', ' + t().projects.newTab">
+          {{ t().projects.live }}
+        </a>
+      }
       <a routerLink="/" fragment="films">{{ t().kairova.films }}</a>
     </p>
   </div>

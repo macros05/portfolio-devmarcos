@@ -23,9 +23,11 @@ describe('ProjectsGalleryComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('renders a card for every project', () => {
+  it('renders a card for every project, with the featured one set apart', () => {
     fixture.detectChanges();
     const cards = fixture.nativeElement.querySelectorAll('.project-card');
-    expect(cards.length).toBe(PROJECTS.length);
+    const featured = PROJECTS.filter(project => project.featured);
+    expect(cards.length).toBe(PROJECTS.length - featured.length);
+    expect(fixture.nativeElement.querySelector('app-kairova')).toBeTruthy();
   });
 });

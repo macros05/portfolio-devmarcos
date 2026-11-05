@@ -65,10 +65,10 @@
 
       <!-- Content: video / image / procedural mock -->
       <div class="win-body">
-        @if (project.videoUrl) {
+        @if (project.video) {
           <video
             #projectVideo
-            [src]="project.videoUrl"
+            [src]="project.video.src"
             class="win-media"
             (click)="toggleVideo()"
             loop muted playsinline autoplay>

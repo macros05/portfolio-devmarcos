@@ -93,6 +93,8 @@ export const ES = {
     github: 'GitHub',
     privateRepo: 'Repo privado',
     live: 'En vivo',
+    playPreview: 'Ver preview',
+    pausePreview: 'Pausar',
     newTab: 'se abre en una pestaña nueva',
     featuredLabel: 'Proyecto destacado',
     galleryHint: 'índice de trabajo',
@@ -163,13 +165,6 @@ export const ES = {
     line: 'Agencia de IA para inmobiliarias con compradores internacionales: un asistente de leads multilingüe 24/7 y auditorías de cómo se gestionan.',
     launched: 'Lanzada en noviembre de 2026',
     films: 'Los films de lanzamiento, más abajo, son de Kairova.',
-    highlights: [
-      'Landing en Next.js 16',
-      'Docker + nginx en un VPS',
-      'DNS en Cloudflare',
-      'Scroll con Lenis',
-      'Brand kit propio',
-    ],
   },
   films: {
     kicker: 'Películas',
