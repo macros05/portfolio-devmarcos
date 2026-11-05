@@ -69,6 +69,11 @@ figcaption {
   .film.is-portrait { max-width: none; }
 }
 
-@media (max-width: 720px) {
-  .inner { width: min(1120px, calc(100% - 2rem)); }
+@media (max-width: 800px) {
+  .inner {
+    width: 100%;
+    box-sizing: border-box;
+    padding-left: var(--gutter-left);
+    padding-right: var(--gutter-right);
+  }
 }

@@ -34,6 +34,11 @@ a, button {
 
 a:hover, button:hover { color: #fff; }
 
-@media (max-width: 720px) {
-  .inner { width: min(1180px, calc(100% - 2rem)); }
+@media (max-width: 800px) {
+  .inner {
+    width: 100%;
+    box-sizing: border-box;
+    padding-left: var(--gutter-left);
+    padding-right: var(--gutter-right);
+  }
 }

@@ -108,6 +108,12 @@ button:disabled { opacity: 0.55; }
 
 .actions a:hover { color: #fff; }
 
-@media (max-width: 720px) {
-  .inner { width: min(1120px, calc(100% - 2rem)); padding-bottom: 3rem; }
+@media (max-width: 800px) {
+  .inner {
+    width: 100%;
+    box-sizing: border-box;
+    padding-left: var(--gutter-left);
+    padding-right: var(--gutter-right);
+    padding-bottom: 3rem;
+  }
 }

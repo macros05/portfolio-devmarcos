@@ -90,7 +90,12 @@ dialog video {
   font: 500 0.9rem/1 'Instrument Sans', system-ui, sans-serif;
 }
 
-@media (max-width: 720px) {
-  .inner { width: 100%; padding-bottom: 6vh; }
-  .kicker, .note { padding-left: 1rem; padding-right: 1rem; }
+@media (max-width: 800px) {
+  .inner {
+    width: 100%;
+    box-sizing: border-box;
+    padding-left: var(--gutter-left);
+    padding-right: var(--gutter-right);
+    padding-bottom: 6vh;
+  }
 }

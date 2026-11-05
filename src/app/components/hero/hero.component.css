@@ -64,8 +64,14 @@ h1 span:nth-child(2) { animation-delay: 0.14s; }
   font: 400 1rem/1.5 'Instrument Sans', system-ui, sans-serif;
 }
 
-@media (max-width: 720px) {
-  .copy { width: calc(100% - 2rem); padding-bottom: 18vh; }
+@media (max-width: 800px) {
+  .copy {
+    width: 100%;
+    box-sizing: border-box;
+    padding-left: var(--gutter-left);
+    padding-right: var(--gutter-right);
+    padding-bottom: 18vh;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

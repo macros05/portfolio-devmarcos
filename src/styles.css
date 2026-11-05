@@ -39,6 +39,8 @@
   html {
     scroll-behavior: auto;
     color-scheme: dark;
+    --gutter-left: max(24px, env(safe-area-inset-left, 0px));
+    --gutter-right: max(24px, env(safe-area-inset-right, 0px));
   }
 
   body {

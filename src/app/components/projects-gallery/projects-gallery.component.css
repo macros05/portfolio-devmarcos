@@ -157,8 +157,13 @@
 }
 
 @media (max-width: 800px) {
-  .inner { width: 100%; padding-left: 0; padding-right: 0; }
-  .intro { padding: 0 1rem; }
+  .inner {
+    width: 100%;
+    box-sizing: border-box;
+    padding-left: var(--gutter-left);
+    padding-right: var(--gutter-right);
+  }
+  .intro { padding: 0; }
   .swipe { display: block; }
   .intro h2 { margin-bottom: 0; }
   .leads {
@@ -170,12 +175,18 @@
     width: 100%;
   }
   .leads::-webkit-scrollbar { display: none; }
+  .plate--lead,
+  .plate--rest {
+    box-sizing: border-box;
+    padding-left: 0;
+    padding-right: 0;
+  }
   .plate--lead {
     flex: 0 0 100%;
     scroll-snap-align: start;
     scroll-snap-stop: always;
-    box-sizing: border-box;
     min-height: 100dvh;
-    padding: 14vh 1.1rem 5.5rem;
+    padding-top: 14vh;
+    padding-bottom: 5.5rem;
   }
 }
