@@ -3,6 +3,7 @@
     <header class="intro">
       <p class="kicker">{{ t().projects.kicker }}</p>
       <h2>{{ t().projects.sectionTitle }}</h2>
+      <p class="swipe">{{ t().projects.swipe }}</p>
     </header>
 
     <div class="leads">
@@ -25,7 +26,7 @@
           }
         </header>
 
-        <div class="stage dissolve">
+        <div class="stage">
           <app-project-preview
             [src]="project.video?.src"
             [poster]="poster(project)"
@@ -78,7 +79,7 @@
           class="plate plate--rest"
           (pointerenter)="hover.set(project.id)"
           (pointerleave)="hover.set(null)">
-          <div class="stage dissolve">
+          <div class="stage">
             <app-project-preview
               [src]="project.video?.src"
               [poster]="poster(project)"

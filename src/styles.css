@@ -37,7 +37,7 @@
   }
 
   html {
-    scroll-behavior: smooth;
+    scroll-behavior: auto;
     color-scheme: dark;
   }
 
@@ -60,6 +60,13 @@
   :focus-visible {
     outline: 2px solid #f4f1ea;
     outline-offset: 3px;
+  }
+
+  main h1,
+  main h2,
+  main h3,
+  main p {
+    text-shadow: 0 1px 14px rgba(0, 0, 0, 0.55);
   }
 
   .dissolve .frame,

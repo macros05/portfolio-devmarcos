@@ -1,0 +1,25 @@
+<section class="reel" id="intro" data-chapter="0">
+  <div class="inner">
+    <p class="kicker">{{ t().showreel.kicker }}</p>
+    <button
+      type="button"
+      class="open"
+      (click)="play(stage, film)"
+      [attr.aria-label]="t().showreel.play">
+      <img
+        [src]="cover"
+        alt=""
+        width="1920"
+        height="1080"
+        decoding="async"
+        loading="lazy" />
+      <span class="word">{{ t().showreel.play }}</span>
+    </button>
+    <p class="note">{{ t().showreel.note }}</p>
+  </div>
+
+  <dialog #stage (cancel)="onCancel($event)" [attr.aria-label]="t().showreel.play">
+    <video #film playsinline muted controls (click)="$event.stopPropagation()"></video>
+    <button type="button" class="close" (click)="close()">{{ t().showreel.close }}</button>
+  </dialog>
+</section>

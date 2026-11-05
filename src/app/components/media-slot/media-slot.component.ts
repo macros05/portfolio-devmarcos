@@ -39,6 +39,7 @@ export class MediaSlotComponent implements AfterViewInit, OnDestroy {
 
   private readonly platformId = inject(PLATFORM_ID);
   private readonly motion = inject(MotionService);
+  private readonly host = inject(ElementRef<HTMLElement>);
   private readonly videoRef = viewChild<ElementRef<HTMLVideoElement>>('video');
 
   protected readonly paused = signal(true);
@@ -61,30 +62,24 @@ export class MediaSlotComponent implements AfterViewInit, OnDestroy {
     const video = this.videoRef()?.nativeElement;
     if (!video || !this.src()) return;
 
-    const arm = () => {
-      if (this.armed()) return;
-      this.armed.set(true);
-      video.src = this.src();
-      video.load();
-      if (this.autoplay() && !this.motion.reduced()) {
-        video.muted = true;
-        void video.play().then(() => this.paused.set(false)).catch(() => this.paused.set(true));
+    const visible = (on: boolean) => {
+      if (!this.autoplay()) return;
+      if (on && !this.motion.reduced()) this.play();
+      else {
+        video.pause();
+        this.paused.set(true);
       }
     };
 
     if (typeof IntersectionObserver !== 'function') {
-      arm();
+      visible(true);
       return;
     }
 
     this.observer = new IntersectionObserver(entries => {
-      if (entries.some(entry => entry.isIntersecting)) {
-        arm();
-        this.observer?.disconnect();
-        this.observer = null;
-      }
-    }, { rootMargin: '280px 0px' });
-    this.observer.observe(video);
+      visible(entries.some(entry => entry.isIntersecting));
+    }, { threshold: 0.35 });
+    this.observer.observe(this.host.nativeElement);
   }
 
   ngOnDestroy(): void {
@@ -96,18 +91,23 @@ export class MediaSlotComponent implements AfterViewInit, OnDestroy {
     event.stopPropagation();
     const video = this.videoRef()?.nativeElement;
     if (!video) return;
-    if (!this.armed()) {
-      this.armed.set(true);
-      video.src = this.src();
-      video.load();
-    }
-    if (video.paused) {
-      video.muted = true;
-      void video.play().then(() => this.paused.set(false)).catch(() => this.paused.set(true));
-    } else {
+    if (video.paused) this.play();
+    else {
       video.pause();
       this.paused.set(true);
     }
+  }
+
+  private play(): void {
+    const video = this.videoRef()?.nativeElement;
+    if (!video || !this.src()) return;
+    if (video.dataset['clip'] !== this.src()) {
+      video.dataset['clip'] = this.src();
+      video.src = this.src();
+    }
+    video.muted = true;
+    this.armed.set(true);
+    void video.play().then(() => this.paused.set(false)).catch(() => this.paused.set(true));
   }
 
   protected onPlay(): void {

@@ -1,5 +1,9 @@
 main { position: relative; z-index: 1; background: transparent; }
 
+@media (max-width: 759px) {
+  main { padding-bottom: calc(4.25rem + env(safe-area-inset-bottom)); }
+}
+
 .skip-link {
   position: absolute;
   left: 1rem;

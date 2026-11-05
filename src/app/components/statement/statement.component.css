@@ -1,4 +1,4 @@
-:host { display: block; }
+:host { display: block; background: rgba(7, 7, 8, 0.72); }
 
 .inner {
   width: min(1120px, calc(100% - 2.5rem));
@@ -9,11 +9,11 @@
 h2 {
   max-width: 9em;
   margin: 0;
-  font-family: 'Instrument Serif', Georgia, serif;
-  font-weight: 450;
-  font-size: clamp(2.6rem, 6vw, 4.8rem);
-  line-height: 0.98;
-  letter-spacing: -0.03em;
+  font-family: 'Instrument Sans', system-ui, sans-serif;
+  font-weight: 500;
+  font-size: clamp(2.4rem, 5.4vw, 4.2rem);
+  line-height: 0.96;
+  letter-spacing: -0.045em;
 }
 
 p {

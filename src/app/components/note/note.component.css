@@ -1,4 +1,4 @@
-:host { display: block; }
+:host { display: block; background: rgba(7, 7, 8, 0.72); }
 
 .note {
   width: min(1120px, calc(100% - 2.5rem));

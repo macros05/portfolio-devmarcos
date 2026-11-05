@@ -1,4 +1,4 @@
-:host { display: block; color: #f4f1ea; background: transparent; }
+:host { display: block; color: #f4f1ea; background: rgba(7, 7, 8, 0.72); }
 
 .inner {
   width: min(1100px, calc(100% - 2.5rem));
@@ -14,6 +14,15 @@
   text-transform: uppercase;
 }
 
+.swipe {
+  display: none;
+  margin: 0.7rem 0 0;
+  color: rgba(244, 241, 234, 0.5);
+  font: 500 0.72rem/1 'Geist Mono', ui-monospace, monospace;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
 .intro h2 {
   margin: 0 0 6vh;
   font-family: 'Instrument Sans', system-ui, sans-serif;
@@ -24,7 +33,7 @@
 }
 
 .plate--lead {
-  padding: 18vh 0 10vh;
+  padding: 12vh 0 8vh;
 }
 
 .plate-head h3, .plate--rest h3 {
@@ -150,18 +159,23 @@
 @media (max-width: 800px) {
   .inner { width: 100%; padding-left: 0; padding-right: 0; }
   .intro { padding: 0 1rem; }
+  .swipe { display: block; }
+  .intro h2 { margin-bottom: 0; }
   .leads {
     display: flex;
     overflow-x: auto;
     scroll-snap-type: x mandatory;
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
     width: 100%;
-    -webkit-overflow-scrolling: touch;
   }
+  .leads::-webkit-scrollbar { display: none; }
   .plate--lead {
     flex: 0 0 100%;
     scroll-snap-align: start;
+    scroll-snap-stop: always;
     box-sizing: border-box;
     min-height: 100dvh;
-    padding: 18vh 1.1rem 6.5rem;
+    padding: 14vh 1.1rem 5.5rem;
   }
 }

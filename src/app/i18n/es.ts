@@ -38,6 +38,12 @@ export const ES = {
     play: 'Reproducir',
     pause: 'Pausar',
   },
+  showreel: {
+    kicker: 'Showreel',
+    play: 'Ver intro',
+    close: 'Cerrar',
+    note: 'Cuarenta y tres segundos. En silencio. Los seis productos.',
+  },
   statement: {
     kicker: 'La idea',
     line: 'Construyo productos con futuro.',
@@ -99,6 +105,7 @@ export const ES = {
     runs: 'Cómo corre',
     featuredLabel: 'Proyecto destacado',
     galleryHint: 'índice de trabajo',
+    swipe: 'Desliza',
     examples: 'ejemplos',
     openCase: 'abrir caso de estudio →',
     view: 'ver',

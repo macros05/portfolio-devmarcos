@@ -1,26 +1,22 @@
-<div class="frame">
+<div class="frame" [class.is-live]="playing()">
   @if (poster()) {
     <img
       class="still"
-      [class.is-covered]="playing()"
       [src]="poster()"
       alt=""
       width="1280"
       height="720"
-      loading="lazy"
       decoding="async" />
   }
   @if (src()) {
     <video
       #video
-      [poster]="poster()"
       [attr.aria-label]="label()"
       muted
       loop
       playsinline
       preload="none"
-      (timeupdate)="onFrame()"
-      (pause)="playing.set(false)">
+      (timeupdate)="onTime($event)">
     </video>
     @if (reduced()) {
       <button

@@ -19,19 +19,33 @@ export class MotionService {
     window.addEventListener('mousemove', this.onMouseMove, { passive: true });
     window.addEventListener('mouseleave', () => this.visible.set(false));
     window.addEventListener('scroll', this.onScroll, { passive: true });
-    this.onScroll();
+    this.publishScroll();
   }
+
+  private scrollQueued = false;
 
   private onMouseMove = (e: MouseEvent) => {
     this.cursor.set({ x: e.clientX, y: e.clientY });
-    this.visible.set(true);
+    if (!this.visible()) this.visible.set(true);
     const target = e.target as Element | null;
-    this.overInteractive.set(!!target?.closest('a, button, [role="button"], input, textarea, [data-magnetic]'));
+    const over = !!target?.closest('a, button, [role="button"], input, textarea, [data-magnetic]');
+    if (over !== this.overInteractive()) this.overInteractive.set(over);
   };
 
   private onScroll = () => {
+    if (this.scrollQueued) return;
+    this.scrollQueued = true;
+    requestAnimationFrame(() => {
+      this.scrollQueued = false;
+      this.publishScroll();
+    });
+  };
+
+  private publishScroll(): void {
     const h = document.documentElement;
     const max = h.scrollHeight - h.clientHeight;
-    this.scrollProgress.set(max > 0 ? h.scrollTop / max : 0);
-  };
+    const next = max > 0 ? h.scrollTop / max : 0;
+    if (Math.abs(next - this.scrollProgress()) < 0.004) return;
+    this.scrollProgress.set(next);
+  }
 }

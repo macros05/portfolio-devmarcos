@@ -1,25 +1,34 @@
-<div class="slot" [style.aspect-ratio]="width() + ' / ' + height()">
+<div class="slot" [class.is-live]="!paused()" [style.aspect-ratio]="width() + ' / ' + height()">
+  @if (poster()) {
+    <img
+      class="still"
+      [class.is-hidden]="!paused()"
+      [src]="poster()"
+      alt=""
+      [width]="width() * 80"
+      [height]="height() * 80"
+      decoding="async" />
+  }
   <video
     #video
-    [poster]="poster()"
     [attr.aria-label]="label()"
     playsinline
     preload="none"
     [muted]="autoplay() ? true : null"
     [loop]="autoplay() ? true : null"
-    [controls]="autoplay() ? null : true"
-    (play)="onPlay()"
+    [controls]="!autoplay() && !paused() ? true : null"
+    (playing)="onPlay()"
     (pause)="onPause()">
   </video>
 
-  @if (autoplay()) {
+  @if (paused()) {
     <button
       type="button"
       class="toggle"
       (click)="toggle($event)"
-      [attr.aria-pressed]="!paused()"
-      [attr.aria-label]="paused() ? playLabel() : pauseLabel()">
-      {{ paused() ? playLabel() : pauseLabel() }}
+      [attr.aria-pressed]="false"
+      [attr.aria-label]="playLabel()">
+      {{ playLabel() }}
     </button>
   }
 </div>

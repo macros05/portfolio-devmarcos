@@ -38,6 +38,12 @@ export const EN = {
     play: 'Play film',
     pause: 'Pause film',
   },
+  showreel: {
+    kicker: 'Showreel',
+    play: 'Watch intro',
+    close: 'Close',
+    note: 'Forty-three seconds. Silent. The six products.',
+  },
   statement: {
     kicker: 'The idea',
     line: 'I build products with a future.',
@@ -99,6 +105,7 @@ export const EN = {
     runs: 'How it runs',
     featuredLabel: 'Featured project',
     galleryHint: 'index of work',
+    swipe: 'Swipe',
     examples: 'examples',
     openCase: 'open case study →',
     view: 'view',

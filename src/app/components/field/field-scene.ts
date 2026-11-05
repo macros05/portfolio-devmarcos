@@ -4,6 +4,8 @@ export interface FieldHandle {
   destroy: () => void;
   setChapter: (index: number) => void;
   setPointer: (x: number, y: number) => void;
+  /** Freeze the frame while the page is scrolling fast. */
+  setHold: (hold: boolean) => void;
 }
 
 const VERT = /* glsl */ `
@@ -94,8 +96,8 @@ const FRAG = /* glsl */ `
     vec3 base = vec3(0.015, 0.016, 0.02);
     vec3 ink = tone(ch);
     vec3 col = mix(base, ink * 0.95, smoothstep(0.12, 0.62, f));
-    col += vec3(1.0, 0.96, 0.9) * pow(smoothstep(0.5, 0.9, f), 1.15) * (0.7 + wake * 1.4);
-    col += ink * wake * 1.15;
+    col += vec3(1.0, 0.96, 0.9) * pow(smoothstep(0.55, 0.94, f), 1.3) * (0.42 + wake * 0.85);
+    col += ink * wake * 0.85;
 
     float rad = length(p);
     float ring = exp(-pow((rad - intro * 1.15) * 7.0, 2.0));
@@ -104,6 +106,7 @@ const FRAG = /* glsl */ `
     float g = hash(vUv * uRes + fract(uTime) * 40.0);
     col += (g - 0.5) * 0.04;
     col *= mix(0.2, 1.0, intro);
+    col *= mix(1.0, 0.34, smoothstep(0.2, 1.1, ch));
     float vig = smoothstep(1.45, 0.12, length((vUv - 0.5) * vec2(uRes.x / max(uRes.y, 1.0), 1.0)));
     col *= mix(0.4, 1.0, vig);
     gl_FragColor = vec4(col, 1.0);
@@ -142,17 +145,29 @@ export async function mountField(canvas: HTMLCanvasElement): Promise<FieldHandle
   let chapter = 0;
   let chapterNow = 0;
   let running = true;
+  let holding = false;
+  let frozen = 0;
+  let freezeAt = 0;
   let raf = 0;
   const clock = new THREE.Clock();
 
   const resize = () => {
     const w = canvas.clientWidth || 1;
     const h = canvas.clientHeight || 1;
-    let ratio = Math.min(window.devicePixelRatio || 1, w < 800 ? 1 : 1.25);
-    if (w * ratio > 1600) ratio = 1600 / w;
-    renderer.setPixelRatio(ratio);
-    renderer.setSize(w, h, false);
-    uniforms.uRes.value.set(w * ratio, h * ratio);
+    const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+    const scale = w < 800 ? 0.5 : 0.55;
+    let bw = Math.max(2, Math.round(w * dpr * scale));
+    let bh = Math.max(2, Math.round(h * dpr * scale));
+    const cap = w < 800 ? 640 : 880;
+    const edge = Math.max(bw, bh);
+    if (edge > cap) {
+      const fit = cap / edge;
+      bw = Math.max(2, Math.round(bw * fit));
+      bh = Math.max(2, Math.round(bh * fit));
+    }
+    renderer.setPixelRatio(1);
+    renderer.setSize(bw, bh, false);
+    uniforms.uRes.value.set(bw, bh);
   };
   const ro = new ResizeObserver(resize);
   ro.observe(canvas);
@@ -165,8 +180,9 @@ export async function mountField(canvas: HTMLCanvasElement): Promise<FieldHandle
   document.addEventListener('visibilitychange', onHide);
 
   const loop = () => {
-    if (!running || document.hidden) return;
-    const t = clock.getElapsedTime();
+    raf = requestAnimationFrame(loop);
+    if (!running || document.hidden || holding) return;
+    const t = clock.getElapsedTime() - frozen;
     mouse.x += (targetMouse.x - mouse.x) * 0.18;
     mouse.y += (targetMouse.y - mouse.y) * 0.18;
     chapterNow += (chapter - chapterNow) * 0.04;
@@ -174,7 +190,6 @@ export async function mountField(canvas: HTMLCanvasElement): Promise<FieldHandle
     uniforms.uMouse.value.set(mouse.x, mouse.y);
     uniforms.uChapter.value = chapterNow;
     renderer.render(scene, camera);
-    raf = requestAnimationFrame(loop);
   };
   raf = requestAnimationFrame(loop);
 
@@ -185,6 +200,15 @@ export async function mountField(canvas: HTMLCanvasElement): Promise<FieldHandle
     setPointer(x: number, y: number) {
       targetMouse.x = x;
       targetMouse.y = y;
+    },
+    setHold(hold: boolean) {
+      if (hold && !holding) {
+        freezeAt = clock.getElapsedTime() - frozen;
+        holding = true;
+      } else if (!hold && holding) {
+        frozen = clock.getElapsedTime() - freezeAt;
+        holding = false;
+      }
     },
     destroy() {
       running = false;

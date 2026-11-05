@@ -15,9 +15,13 @@ import { isPlatformBrowser } from '@angular/common';
 import { MotionService } from '../../services/motion.service';
 import { LanguageService } from '../../services/language.service';
 
+/** Only one preview decodes at a time. */
+let activeClip: HTMLVideoElement | null = null;
+
 /**
- * 16:9 preview. Poster first. If `src` is set, the file is fetched only
- * when the card is hovered or on screen, then it loops muted.
+ * 16:9 preview. The poster is a real image with a locked frame.
+ * The file is fetched only once the frame is on screen, and the
+ * video stays hidden until its first frame is actually playing.
  * Reduced motion keeps the poster until someone hits play.
  */
 @Component({
@@ -31,7 +35,7 @@ export class ProjectPreviewComponent implements AfterViewInit, OnDestroy {
   readonly src = input<string | undefined>();
   readonly poster = input('');
   readonly label = input('');
-  /** True while the pointer is over the whole card. */
+  /** Kept so the plate can still mark hover. Playback follows the viewport. */
   readonly hovered = input(false);
 
   private readonly host = inject(ElementRef<HTMLElement>);
@@ -51,9 +55,7 @@ export class ProjectPreviewComponent implements AfterViewInit, OnDestroy {
   constructor() {
     effect(() => {
       const clip = this.src();
-      const want =
-        !!clip &&
-        (this.forced() || (!this.reduced() && (this.hovered() || this.inView())));
+      const want = !!clip && (this.forced() || (!this.reduced() && this.inView()));
       if (want) this.start(clip!);
       else this.stop();
     });
@@ -64,19 +66,20 @@ export class ProjectPreviewComponent implements AfterViewInit, OnDestroy {
     if (typeof IntersectionObserver !== 'function') return;
     this.observer = new IntersectionObserver(
       entries => this.inView.set(entries.some(entry => entry.isIntersecting)),
-      { threshold: 0.45 },
+      { threshold: 0.35 },
     );
     this.observer.observe(this.host.nativeElement);
   }
 
   ngOnDestroy(): void {
     this.observer?.disconnect();
-    this.videoRef()?.nativeElement.pause();
+    this.stop();
   }
 
-  protected onFrame(): void {
-    const video = this.videoRef()?.nativeElement;
-    if (video && video.currentTime > 0.08 && !video.paused) this.playing.set(true);
+  protected onTime(event: Event): void {
+    if (this.playing()) return;
+    const video = event.target as HTMLVideoElement;
+    if (video.currentTime > 0.2) this.playing.set(true);
   }
 
   protected toggle(event: Event): void {
@@ -88,17 +91,24 @@ export class ProjectPreviewComponent implements AfterViewInit, OnDestroy {
   private start(clip: string): void {
     const video = this.videoRef()?.nativeElement;
     if (!video) return;
-    if (video.getAttribute('src') !== clip) {
+    if (activeClip && activeClip !== video) activeClip.pause();
+    activeClip = video;
+    if (video.dataset['clip'] !== clip) {
+      video.dataset['clip'] = clip;
       video.src = clip;
-      video.load();
     }
     video.muted = true;
-    void video.play().then(() => this.playing.set(true)).catch(() => this.playing.set(false));
+    if (!video.paused && video.readyState >= 2) {
+      this.playing.set(true);
+      return;
+    }
+    void video.play().catch(() => this.playing.set(false));
   }
 
   private stop(): void {
     const video = this.videoRef()?.nativeElement;
     if (!video) return;
+    if (activeClip === video) activeClip = null;
     video.pause();
     this.playing.set(false);
   }
