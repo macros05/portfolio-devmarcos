@@ -8,7 +8,7 @@
 
 .kicker {
   margin: 0 0 0.8rem;
-  color: #a39e94;
+  color: #6f6a62;
   font: 500 0.72rem/1 'Geist Mono', ui-monospace, monospace;
   letter-spacing: 0.16em;
   text-transform: uppercase;
@@ -16,7 +16,7 @@
 
 h2 {
   margin: 0;
-  font-family: 'Newsreader', Georgia, serif;
+  font-family: 'Instrument Serif', Georgia, serif;
   font-weight: 450;
   font-size: clamp(2.1rem, 4vw, 3.4rem);
   letter-spacing: -0.03em;
@@ -25,8 +25,8 @@ h2 {
 .lede {
   max-width: 32rem;
   margin: 0.85rem 0 0;
-  color: #b7b2a8;
-  font: 400 1.05rem/1.55 'Geist', system-ui, sans-serif;
+  color: #5e5952;
+  font: 400 1.05rem/1.55 'Instrument Sans', system-ui, sans-serif;
 }
 
 form {
@@ -41,8 +41,8 @@ form {
 }
 
 label {
-  color: #a39e94;
-  font: 500 0.78rem/1 'Geist', system-ui, sans-serif;
+  color: #6f6a62;
+  font: 500 0.78rem/1 'Instrument Sans', system-ui, sans-serif;
 }
 
 input,
@@ -51,11 +51,11 @@ textarea {
   margin: 0;
   padding: 0.75rem 0;
   border: 0;
-  border-bottom: 1px solid rgba(244, 241, 234, 0.18);
+  border-bottom: 1px solid rgba(28, 27, 25, 0.2);
   border-radius: 0;
   background: transparent;
-  color: #f4f1ea;
-  font: 400 1rem/1.45 'Geist', system-ui, sans-serif;
+  color: #1c1b19;
+  font: 400 1rem/1.45 'Instrument Sans', system-ui, sans-serif;
 }
 
 textarea { resize: vertical; min-height: 8rem; }
@@ -64,16 +64,16 @@ input::placeholder,
 textarea::placeholder { color: rgba(163, 158, 148, 0.7); }
 
 input:focus,
-textarea:focus { outline: none; border-bottom-color: #c6a36a; }
+textarea:focus { outline: none; border-bottom-color: #1c1b19; }
 
 .status {
   margin: 0.4rem 0 0.8rem;
-  color: #b7b2a8;
-  font: 400 0.95rem/1.4 'Geist', system-ui, sans-serif;
+  color: #5e5952;
+  font: 400 0.95rem/1.4 'Instrument Sans', system-ui, sans-serif;
 }
 
-.status.is-ok { color: #d7c7a4; }
-.status.is-bad { color: #e3b2a4; }
+.status.is-ok { color: #1c1b19; }
+.status.is-bad { color: #8a3a2a; }
 
 .actions {
   display: flex;
@@ -88,23 +88,23 @@ button {
   padding: 0 1.25rem;
   border: 0;
   border-radius: 999px;
-  background: #f4f1ea;
-  color: #0c0c0b;
-  font: 500 0.95rem/1 'Geist', system-ui, sans-serif;
+  background: #1c1b19;
+  color: #f4f1ea;
+  font: 500 0.95rem/1 'Instrument Sans', system-ui, sans-serif;
 }
 
-button:hover { background: #fff; }
+button:hover { background: #000; }
 button:disabled { opacity: 0.55; }
 
 .actions a {
-  color: #f4f1ea;
-  font: 500 0.95rem/1 'Geist', system-ui, sans-serif;
+  color: #1c1b19;
+  font: 500 0.95rem/1 'Instrument Sans', system-ui, sans-serif;
   text-decoration: none;
-  border-bottom: 1px solid rgba(198, 163, 106, 0.7);
+  border-bottom: 1px solid rgba(28, 27, 25, 0.35);
   padding-bottom: 1px;
 }
 
-.actions a:hover { color: #c6a36a; }
+.actions a:hover { color: #5e5952; }
 
 @media (max-width: 720px) {
   .inner { width: min(1120px, calc(100% - 2rem)); }

@@ -8,7 +8,7 @@
 
 .kicker {
   margin: 0 0 0.8rem;
-  color: #a39e94;
+  color: #6f6a62;
   font: 500 0.72rem/1 'Geist Mono', ui-monospace, monospace;
   letter-spacing: 0.16em;
   text-transform: uppercase;
@@ -16,7 +16,7 @@
 
 .intro h2 {
   margin: 0;
-  font-family: 'Newsreader', Georgia, serif;
+  font-family: 'Instrument Serif', Georgia, serif;
   font-weight: 450;
   font-size: clamp(2.1rem, 4vw, 3.4rem);
   letter-spacing: -0.03em;
@@ -26,8 +26,8 @@
 .lede {
   max-width: 36rem;
   margin: 0.9rem 0 0;
-  color: #b7b2a8;
-  font: 400 1.05rem/1.55 'Geist', system-ui, sans-serif;
+  color: #5e5952;
+  font: 400 1.05rem/1.55 'Instrument Sans', system-ui, sans-serif;
 }
 
 .grid {
@@ -52,13 +52,13 @@ figcaption {
 }
 
 .title {
-  color: #f4f1ea;
-  font: 500 0.98rem/1.3 'Geist', system-ui, sans-serif;
+  color: #1c1b19;
+  font: 500 0.98rem/1.3 'Instrument Sans', system-ui, sans-serif;
 }
 
 .caption {
-  color: #a39e94;
-  font: 400 0.9rem/1.45 'Geist', system-ui, sans-serif;
+  color: #6f6a62;
+  font: 400 0.9rem/1.45 'Instrument Sans', system-ui, sans-serif;
 }
 
 @media (min-width: 860px) {

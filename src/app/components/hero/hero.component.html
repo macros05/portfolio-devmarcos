@@ -1,25 +1,25 @@
 <section class="hero" (pointermove)="onPointer($event)">
-  <div class="glow" aria-hidden="true"></div>
-
-  <canvas #field class="field" [class.is-off]="!showField()" aria-hidden="true"></canvas>
-
   <div class="inner">
-    <p class="eyebrow" [reveal]="'fade'">
-      <span class="name">Marcos Morales</span>
-      <span class="dot" aria-hidden="true"></span>
-      <span>{{ t().hero.open }}</span>
-    </p>
+    <div class="mast">
+      <div>
+        <p class="eyebrow" [reveal]="'fade'">{{ t().hero.open }}</p>
+        <h1 class="name" [reveal]="'up'" [revealDelay]="40">Marcos<br>Morales</h1>
+      </div>
+      <div class="plate" aria-hidden="true">
+        <canvas #field class="field" [class.is-off]="!showField()"></canvas>
+      </div>
+    </div>
 
-    <h1 class="line" [reveal]="'up'" [revealDelay]="70">
+    <p class="position" [reveal]="'up'" [revealDelay]="90">
       {{ t().hero.positioning }}
       <em>{{ t().hero.positioningEm }}</em>
-    </h1>
+    </p>
 
-    <p class="support" [reveal]="'up'" [revealDelay]="140">
+    <p class="support" [reveal]="'up'" [revealDelay]="130">
       {{ t().hero.support }}
     </p>
 
-    <div class="reel" [reveal]="'up'" [revealDelay]="200">
+    <div class="reel" [reveal]="'up'" [revealDelay]="170">
       <app-media-slot
         [src]="reel.src"
         [poster]="reel.poster"

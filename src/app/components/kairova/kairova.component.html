@@ -3,14 +3,6 @@
   [reveal]="'up'"
   (pointerenter)="hover.set(true)"
   (pointerleave)="hover.set(false)">
-  <div class="preview">
-    <app-project-preview
-      [src]="project().video?.src"
-      [poster]="poster()"
-      [label]="project().title"
-      [hovered]="hover()" />
-  </div>
-
   <div class="copy">
     <p class="meta">
       <span class="kicker">{{ t().kairova.kicker }}</span>
@@ -50,5 +42,13 @@
       }
       <a routerLink="/" fragment="films">{{ t().kairova.films }}</a>
     </p>
+  </div>
+
+  <div class="preview">
+    <app-project-preview
+      [src]="project().video?.src"
+      [poster]="poster()"
+      [label]="project().title"
+      [hovered]="hover()" />
   </div>
 </article>

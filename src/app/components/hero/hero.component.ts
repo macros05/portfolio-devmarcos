@@ -38,28 +38,19 @@ export class HeroComponent implements OnDestroy {
   protected readonly showField = signal(false);
 
   private readonly viewReady = signal(false);
-  /** The object covers the headline on a phone, so it stays desktop-only. */
-  private readonly narrow = signal(false);
   private field: HeroField | null = null;
   private starting = false;
   private supportChecked = false;
   private supported = false;
 
   constructor() {
-    afterNextRender(() => {
-      const mq = window.matchMedia('(max-width: 760px)');
-      const apply = () => this.narrow.set(mq.matches);
-      apply();
-      mq.addEventListener('change', apply);
-      this.viewReady.set(true);
-    });
+    afterNextRender(() => this.viewReady.set(true));
 
     effect(() => {
       const ready = this.viewReady();
       const reduced = this.motion.reduced();
-      const narrow = this.narrow();
       if (!ready || !isPlatformBrowser(this.platformId)) return;
-      if (reduced || narrow || !this.webglOk()) {
+      if (reduced || !this.webglOk()) {
         this.showField.set(false);
         this.teardown();
         return;

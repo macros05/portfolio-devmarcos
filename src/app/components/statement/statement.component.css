@@ -9,7 +9,7 @@
 h2 {
   max-width: 9em;
   margin: 0;
-  font-family: 'Newsreader', Georgia, serif;
+  font-family: 'Instrument Serif', Georgia, serif;
   font-weight: 450;
   font-size: clamp(2.6rem, 6vw, 4.8rem);
   line-height: 0.98;
@@ -19,8 +19,8 @@ h2 {
 p {
   max-width: 28rem;
   margin: 1.1rem 0 0;
-  color: #b7b2a8;
-  font: 400 1.05rem/1.55 'Geist', system-ui, sans-serif;
+  color: #5e5952;
+  font: 400 1.05rem/1.55 'Instrument Sans', system-ui, sans-serif;
 }
 
 @media (max-width: 720px) {

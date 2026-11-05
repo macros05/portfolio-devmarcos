@@ -25,16 +25,16 @@ export async function mountHeroField(canvas: HTMLCanvasElement): Promise<HeroFie
 
   const geometry = new THREE.IcosahedronGeometry(1.15, 1);
   const material = new THREE.MeshStandardMaterial({
-    color: 0xc6a36a,
-    metalness: 0.72,
-    roughness: 0.28,
+    color: 0x2c2a28,
+    metalness: 0.08,
+    roughness: 0.78,
     flatShading: true,
   });
   const mesh = new THREE.Mesh(geometry, material);
   scene.add(mesh);
 
-  scene.add(new THREE.AmbientLight(0xf4f1ea, 0.55));
-  const key = new THREE.DirectionalLight(0xfff4e0, 2.4);
+  scene.add(new THREE.AmbientLight(0xf4f1ea, 0.85));
+  const key = new THREE.DirectionalLight(0xfffaf3, 1.6);
   key.position.set(2.4, 2.2, 3);
   scene.add(key);
   const rim = new THREE.DirectionalLight(0x8ea0c8, 0.7);

@@ -18,14 +18,6 @@
           [revealDelay]="i * 40"
           (pointerenter)="hoverId.set(project.id)"
           (pointerleave)="hoverId.set(null)">
-          <div class="preview">
-            <app-project-preview
-              [src]="project.video?.src"
-              [poster]="poster(project)"
-              [label]="project.title"
-              [hovered]="hoverId() === project.id" />
-          </div>
-
           <div class="copy">
             <p class="meta">
               <span class="idx">{{ index(i) }}</span>
@@ -82,6 +74,14 @@
                 </a>
               }
             </p>
+          </div>
+
+          <div class="preview">
+            <app-project-preview
+              [src]="project.video?.src"
+              [poster]="poster(project)"
+              [label]="project.title"
+              [hovered]="hoverId() === project.id" />
           </div>
         </li>
       }
