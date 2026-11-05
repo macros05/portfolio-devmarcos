@@ -1,14 +1,12 @@
 <section id="contact" class="contact" data-chapter="6">
   <div class="inner">
-    <header [reveal]="'up'">
+    <header>
       <p class="kicker">{{ t().contact.kicker }}</p>
       <h2>{{ t().contact.finaleTitle }}</h2>
       <p class="lede">{{ t().contact.subtitle }}</p>
     </header>
 
     <form
-      [reveal]="'up'"
-      [revealDelay]="80"
       (submit)="onSubmit($event)"
       novalidate
       [attr.aria-label]="t().contact.title">

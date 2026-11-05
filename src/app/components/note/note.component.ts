@@ -1,12 +1,11 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { LanguageService } from '../../services/language.service';
-import { RevealDirective } from '../../directives/reveal.directive';
 
 @Component({
   selector: 'app-note',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RevealDirective],
+  imports: [],
   templateUrl: './note.component.html',
   styleUrl: './note.component.css',
 })

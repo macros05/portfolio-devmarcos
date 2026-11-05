@@ -24,11 +24,24 @@
 
 h1 {
   margin: 0;
+  overflow: hidden;
   font-family: 'Instrument Sans', system-ui, sans-serif;
   font-weight: 500;
-  font-size: clamp(4.2rem, 13vw, 10.5rem);
-  line-height: 0.82;
-  letter-spacing: -0.065em;
+  font-size: clamp(4.6rem, 14vw, 11rem);
+  line-height: 0.8;
+  letter-spacing: -0.07em;
+}
+
+h1 span {
+  display: block;
+  animation: name-in 1.15s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+h1 span:nth-child(2) { animation-delay: 0.14s; }
+
+@keyframes name-in {
+  from { transform: translate3d(0, 110%, 0); }
+  to { transform: none; }
 }
 
 .position {
@@ -52,5 +65,9 @@ h1 {
 }
 
 @media (max-width: 720px) {
-  .copy { width: calc(100% - 2rem); padding-bottom: 10vh; }
+  .copy { width: calc(100% - 2rem); padding-bottom: 18vh; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  h1 span { animation: none; }
 }

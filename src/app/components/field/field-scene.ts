@@ -66,14 +66,24 @@ const FRAG = /* glsl */ `
   }
 
   void main() {
+    float intro = smoothstep(0.0, 2.4, uTime);
     vec2 p = (vUv - 0.5);
     p.x *= uRes.x / max(uRes.y, 1.0);
+    p *= mix(2.8, 1.0, intro);
+
+    vec2 m = uMouse;
+    vec2 delta = p - vec2(m.x * 0.9, m.y * 0.62);
+    float wake = exp(-dot(delta, delta) * 3.2);
+    float ang = wake * 2.6;
+    float cs = cos(ang);
+    float sn = sin(ang);
+    p = vec2(cs * p.x - sn * p.y, sn * p.x + cs * p.y);
+
     float ch = clamp(uChapter, 0.0, 5.0);
-    float scale = mix(1.15, 2.6, ch / 5.0);
-    float warp = 0.85 + 0.55 * sin(ch * 1.1);
-    float drift = uTime * (0.035 + 0.012 * ch);
-    vec2 q = p * scale + uMouse * 0.22;
-    q += vec2(drift, drift * 0.6);
+    float scale = mix(0.85, 2.1, ch / 5.0);
+    float warp = 1.35 + wake * 1.8;
+    float drift = uTime * 0.055;
+    vec2 q = p * scale + m * 0.65 + vec2(drift, drift * 0.4);
     vec2 d = vec2(fbm(q), fbm(q + vec2(5.2, 1.3)));
     vec2 r = vec2(
       fbm(q + d * warp + vec2(1.7, 9.2)),
@@ -81,16 +91,21 @@ const FRAG = /* glsl */ `
     );
     float f = fbm(q + r * warp);
 
-    vec3 base = vec3(0.025, 0.026, 0.03);
+    vec3 base = vec3(0.015, 0.016, 0.02);
     vec3 ink = tone(ch);
-    vec3 col = mix(base, ink * 0.55, smoothstep(0.25, 0.72, f));
-    col += vec3(0.95, 0.93, 0.9) * smoothstep(0.78, 0.96, f) * 0.45;
-    col += ink * smoothstep(0.55, 0.7, f) * 0.25;
+    vec3 col = mix(base, ink * 0.95, smoothstep(0.12, 0.62, f));
+    col += vec3(1.0, 0.96, 0.9) * pow(smoothstep(0.5, 0.9, f), 1.15) * (0.7 + wake * 1.4);
+    col += ink * wake * 1.15;
+
+    float rad = length(p);
+    float ring = exp(-pow((rad - intro * 1.15) * 7.0, 2.0));
+    col += vec3(1.0, 0.93, 0.84) * ring * (1.0 - smoothstep(1.4, 2.5, uTime));
 
     float g = hash(vUv * uRes + fract(uTime) * 40.0);
-    col += (g - 0.5) * 0.035;
-    float vig = smoothstep(1.35, 0.2, length(p));
-    col *= mix(0.45, 1.0, vig);
+    col += (g - 0.5) * 0.04;
+    col *= mix(0.2, 1.0, intro);
+    float vig = smoothstep(1.45, 0.12, length((vUv - 0.5) * vec2(uRes.x / max(uRes.y, 1.0), 1.0)));
+    col *= mix(0.4, 1.0, vig);
     gl_FragColor = vec4(col, 1.0);
   }
 `;
@@ -152,8 +167,8 @@ export async function mountField(canvas: HTMLCanvasElement): Promise<FieldHandle
   const loop = () => {
     if (!running || document.hidden) return;
     const t = clock.getElapsedTime();
-    mouse.x += (targetMouse.x - mouse.x) * 0.05;
-    mouse.y += (targetMouse.y - mouse.y) * 0.05;
+    mouse.x += (targetMouse.x - mouse.x) * 0.18;
+    mouse.y += (targetMouse.y - mouse.y) * 0.18;
     chapterNow += (chapter - chapterNow) * 0.04;
     uniforms.uTime.value = t;
     uniforms.uMouse.value.set(mouse.x, mouse.y);

@@ -16,23 +16,5 @@
     <button type="button" class="lang" (click)="toggleLang()" [attr.aria-label]="t().nav.lang">
       {{ lang.lang() === 'en' ? 'ES' : 'EN' }}
     </button>
-    <button
-      type="button"
-      class="burger"
-      (click)="toggleMenu()"
-      [attr.aria-expanded]="menuOpen()"
-      [attr.aria-label]="menuOpen() ? t().nav.close : t().nav.menu">
-      <span></span><span></span>
-    </button>
   </div>
 </header>
-
-@if (menuOpen()) {
-  <nav class="sheet" [attr.aria-label]="t().nav.menu">
-    @for (link of links; track link.fragment) {
-      <a routerLink="/" [fragment]="link.fragment" (click)="closeMenu()">
-        {{ t().nav[link.label] }}
-      </a>
-    }
-  </nav>
-}

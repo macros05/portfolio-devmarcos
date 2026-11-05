@@ -1,14 +1,13 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { FILMS } from '../../data/film.data';
 import { LanguageService } from '../../services/language.service';
-import { RevealDirective } from '../../directives/reveal.directive';
 import { MediaSlotComponent } from '../media-slot/media-slot.component';
 
 @Component({
   selector: 'app-films',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RevealDirective, MediaSlotComponent],
+  imports: [MediaSlotComponent],
   templateUrl: './films.component.html',
   styleUrl: './films.component.css',
 })

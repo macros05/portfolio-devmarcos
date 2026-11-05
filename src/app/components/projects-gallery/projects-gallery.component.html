@@ -5,6 +5,7 @@
       <h2>{{ t().projects.sectionTitle }}</h2>
     </header>
 
+    <div class="leads">
     @for (project of leads; track project.id; let i = $index) {
       <article
         class="plate plate--lead"
@@ -69,6 +70,7 @@
         </div>
       </article>
     }
+    </div>
 
     <div class="rest" data-chapter="4">
       @for (project of rest; track project.id; let i = $index) {

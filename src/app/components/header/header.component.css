@@ -66,8 +66,22 @@
   border-top: 1px solid rgba(243, 238, 230, 0.12);
 }
 
+@media (max-width: 759px) {
+  .desk {
+    display: flex;
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 40;
+    justify-content: space-between;
+    gap: 0.5rem;
+    padding: 0.85rem 1.1rem calc(0.85rem + env(safe-area-inset-bottom));
+    background: linear-gradient(transparent, rgba(7, 7, 8, 0.88) 40%);
+  }
+  .desk a { font-size: 1rem; }
+}
+
 @media (min-width: 760px) {
   .desk { display: flex; }
-  .burger { display: none; }
-  .sheet { display: none; }
 }

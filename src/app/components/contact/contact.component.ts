@@ -7,15 +7,13 @@ import {
 } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { LanguageService } from '../../services/language.service';
-import { RevealDirective } from '../../directives/reveal.directive';
-
 export type SubmitStatus = 'idle' | 'sending' | 'success' | 'error';
 
 @Component({
   selector: 'app-contact',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RevealDirective],
+  imports: [],
   templateUrl: './contact.component.html',
   styleUrl: './contact.component.css',
 })

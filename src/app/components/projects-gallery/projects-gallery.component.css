@@ -147,6 +147,21 @@
   .plate--rest { grid-template-columns: minmax(0, 0.85fr) minmax(0, 1fr); align-items: center; gap: 2rem; }
 }
 
-@media (max-width: 720px) {
-  .inner { width: calc(100% - 2rem); }
+@media (max-width: 800px) {
+  .inner { width: 100%; padding-left: 0; padding-right: 0; }
+  .intro { padding: 0 1rem; }
+  .leads {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    width: 100%;
+    -webkit-overflow-scrolling: touch;
+  }
+  .plate--lead {
+    flex: 0 0 100%;
+    scroll-snap-align: start;
+    box-sizing: border-box;
+    min-height: 100dvh;
+    padding: 18vh 1.1rem 6.5rem;
+  }
 }

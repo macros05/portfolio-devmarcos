@@ -61,6 +61,20 @@ export class FieldComponent implements OnDestroy {
     this.pointer.y = -((e.clientY / window.innerHeight) * 2 - 1);
     this.handle?.setPointer(this.pointer.x, this.pointer.y);
   };
+  private onOrient = (e: DeviceOrientationEvent) => {
+    if (e.gamma == null || e.beta == null) return;
+    this.pointer.x = Math.max(-1, Math.min(1, e.gamma / 32));
+    this.pointer.y = Math.max(-1, Math.min(1, (e.beta - 35) / 40));
+    this.handle?.setPointer(this.pointer.x, this.pointer.y);
+  };
+  private onDown = () => {
+    const orientation = DeviceOrientationEvent as unknown as {
+      requestPermission?: () => Promise<string>;
+    };
+    orientation.requestPermission?.().then(state => {
+      if (state === 'granted') window.addEventListener('deviceorientation', this.onOrient);
+    }).catch(() => undefined);
+  };
   private onScroll = () => {
     const nodes = document.querySelectorAll<HTMLElement>('[data-chapter]');
     const mid = window.innerHeight * 0.45;
@@ -123,6 +137,8 @@ export class FieldComponent implements OnDestroy {
       this.handle = handle;
       handle.setChapter(this.chapter);
       window.addEventListener('pointermove', this.onMove, { passive: true });
+      window.addEventListener('pointerdown', this.onDown);
+      window.addEventListener('deviceorientation', this.onOrient);
       window.addEventListener('scroll', this.onScroll, { passive: true });
       this.onScroll();
     } finally {
@@ -132,6 +148,8 @@ export class FieldComponent implements OnDestroy {
 
   private teardown(): void {
     window.removeEventListener('pointermove', this.onMove);
+    window.removeEventListener('pointerdown', this.onDown);
+    window.removeEventListener('deviceorientation', this.onOrient);
     window.removeEventListener('scroll', this.onScroll);
     this.handle?.destroy();
     this.handle = null;
