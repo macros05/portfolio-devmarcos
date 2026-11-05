@@ -1,90 +1,106 @@
 <section class="work" id="work">
   <div class="inner">
-    <header class="intro" [reveal]="'up'">
+    <header class="intro">
       <p class="kicker">{{ t().projects.kicker }}</p>
       <h2>{{ t().projects.sectionTitle }}</h2>
-      <p class="lede">{{ t().projects.lede }}</p>
     </header>
 
-    @if (featured) {
-      <app-kairova [project]="featured"></app-kairova>
-    }
-
-    <ol class="list">
-      @for (project of projects; track project.id; let i = $index) {
-        <li
-          class="project-card"
-          [reveal]="'up'"
-          [revealDelay]="i * 40"
-          (pointerenter)="hoverId.set(project.id)"
-          (pointerleave)="hoverId.set(null)">
-          <div class="copy">
-            <p class="meta">
-              <span class="idx">{{ index(i) }}</span>
-              <span>{{ text(project.category) }}</span>
-            </p>
-
-            @if (primaryHref(project); as href) {
-              <h3>
-                <a [href]="href" target="_blank" rel="noopener noreferrer">{{ project.title }}</a>
-              </h3>
+    @for (project of leads; track project.id; let i = $index) {
+      <article
+        class="plate plate--lead"
+        (pointerenter)="hover.set(project.id)"
+        (pointerleave)="hover.set(null)">
+        <header class="plate-head">
+          <span class="scene">{{ scene(i) }}</span>
+          <h3>
+            @if (project.demoUrl || project.githubUrl) {
+              <a [href]="project.demoUrl || project.githubUrl" target="_blank" rel="noopener noreferrer">{{ project.title }}</a>
             } @else {
-              <h3>{{ project.title }}</h3>
+              {{ project.title }}
             }
+          </h3>
+          @if (project.meta) {
+            <span class="meta">{{ text(project.meta!) }}</span>
+          }
+        </header>
 
-            <p class="summary">{{ text(project.summary) }}</p>
+        <div class="stage">
+          <app-project-preview
+            [src]="project.video?.src"
+            [poster]="poster(project)"
+            [label]="project.title"
+            [hovered]="hover() === project.id" />
+        </div>
 
-            @if (project.highlights.length) {
-              <ul class="highlights">
-                @for (point of project.highlights; track point.en) {
-                  <li>{{ text(point) }}</li>
-                }
-              </ul>
-            }
-
-            @if (project.techStack.length) {
-              <ul class="tech" [attr.aria-label]="t().projects.builtWith">
-                @for (tech of project.techStack; track tech) {
-                  <li>{{ tech }}</li>
-                }
-              </ul>
-            }
-
+        <div class="bench">
+          <div>
+            <p class="pitch">{{ text(project.summary) }}</p>
+            <ul class="points">
+              @for (point of project.highlights; track point.en) {
+                <li>{{ text(point) }}</li>
+              }
+            </ul>
+          </div>
+          <div>
+            <p class="kicker">{{ t().projects.runs }}</p>
+            <ol class="flow" [attr.aria-label]="t().projects.runs">
+              @for (step of project.flow; track step) {
+                <li>{{ step }}</li>
+              }
+            </ol>
+            <p class="system">{{ text(project.system) }}</p>
+            <ul class="tech">
+              @for (item of project.techStack; track item) {
+                <li>{{ item }}</li>
+              }
+            </ul>
             <p class="links">
+              @if (project.demoUrl) {
+                <a class="live" [href]="project.demoUrl" target="_blank" rel="noopener noreferrer">{{ t().projects.live }}</a>
+              }
+              @if (project.githubUrl) {
+                <a [href]="project.githubUrl" target="_blank" rel="noopener noreferrer">{{ t().projects.github }}</a>
+              }
               @if (project.privateRepo && !project.githubUrl) {
                 <span class="private">{{ t().projects.privateRepo }}</span>
               }
-              @if (project.githubUrl) {
-                <a
-                  [href]="project.githubUrl"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  [attr.aria-label]="project.title + ' — ' + t().projects.github + ', ' + t().projects.newTab">
-                  {{ t().projects.github }}
-                </a>
-              }
-              @if (project.demoUrl) {
-                <a
-                  class="live"
-                  [href]="project.demoUrl"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  [attr.aria-label]="project.title + ' — ' + t().projects.live + ', ' + t().projects.newTab">
-                  {{ t().projects.live }}
-                </a>
-              }
             </p>
           </div>
+        </div>
+      </article>
+    }
 
-          <div class="preview">
+    <div class="rest">
+      @for (project of rest; track project.id; let i = $index) {
+        <article
+          class="plate plate--rest"
+          (pointerenter)="hover.set(project.id)"
+          (pointerleave)="hover.set(null)">
+          <div class="stage">
             <app-project-preview
               [src]="project.video?.src"
               [poster]="poster(project)"
               [label]="project.title"
-              [hovered]="hoverId() === project.id" />
+              [hovered]="hover() === project.id" />
           </div>
-        </li>
+          <div>
+            <p class="scene">{{ scene(i + leads.length) }} · {{ text(project.category) }}</p>
+            <h3>{{ project.title }}</h3>
+            <p class="pitch">{{ text(project.summary) }}</p>
+            <ol class="flow flow--tight">
+              @for (step of project.flow; track step) {
+                <li>{{ step }}</li>
+              }
+            </ol>
+            <p class="system">{{ text(project.system) }}</p>
+            <p class="links">
+              @if (project.githubUrl) {
+                <a [href]="project.githubUrl" target="_blank" rel="noopener noreferrer">{{ t().projects.github }}</a>
+              }
+            </p>
+          </div>
+        </article>
       }
-    </ol>
+    </div>
   </div>
 </section>

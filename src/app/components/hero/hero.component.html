@@ -1,36 +1,22 @@
-<section class="hero" (pointermove)="onPointer($event)">
-  <div class="inner">
-    <div class="mast">
-      <div>
-        <p class="eyebrow" [reveal]="'fade'">{{ t().hero.open }}</p>
-        <h1 class="name" [reveal]="'up'" [revealDelay]="40">Marcos<br>Morales</h1>
-      </div>
-      <div class="plate" aria-hidden="true">
-        <canvas #field class="field" [class.is-off]="!showField()"></canvas>
-      </div>
-    </div>
+<section class="hero" #root (pointermove)="onPointer($event)">
+  <div class="gate" aria-hidden="true">
+    <canvas #field class="field" [class.is-off]="!showField()"></canvas>
+    <div class="fallback" [class.is-off]="showField()"></div>
+  </div>
 
-    <p class="position" [reveal]="'up'" [revealDelay]="90">
+  <div class="slate">
+    <span>SC.00</span>
+    <span class="lamp" aria-hidden="true"></span>
+    <span class="tc">{{ clock() }}</span>
+  </div>
+
+  <div class="copy">
+    <p class="eyebrow">{{ t().hero.open }}</p>
+    <h1>Marcos<br>Morales</h1>
+    <p class="position">
       {{ t().hero.positioning }}
       <em>{{ t().hero.positioningEm }}</em>
     </p>
-
-    <p class="support" [reveal]="'up'" [revealDelay]="130">
-      {{ t().hero.support }}
-    </p>
-
-    <div class="reel" [reveal]="'up'" [revealDelay]="170">
-      <app-media-slot
-        [src]="reel.src"
-        [poster]="reel.poster"
-        [label]="caption()"
-        [width]="reel.width"
-        [height]="reel.height"
-        [autoplay]="true"
-        [playLabel]="t().hero.play"
-        [pauseLabel]="t().hero.pause">
-      </app-media-slot>
-      <p class="caption">{{ caption() }}</p>
-    </div>
+    <p class="support">{{ t().hero.support }}</p>
   </div>
 </section>

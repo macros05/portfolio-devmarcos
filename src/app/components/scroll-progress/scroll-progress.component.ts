@@ -26,7 +26,7 @@ import { MotionService } from '../../services/motion.service';
     }
     .progress-bar {
       height: 100%;
-      background: #1c1b19;
+      background: #e23b2b;
       transform-origin: left;
     }
   `],

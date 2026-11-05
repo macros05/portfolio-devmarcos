@@ -28,9 +28,13 @@ export interface Project {
   video?: ProjectClip;
   /** Two or three concrete points. Not the stack. */
   highlights: Copy[];
-  /** Rendered above the other cards. */
-  featured?: boolean;
-  /** Short status, e.g. a launch date. Featured block only. */
+  /** Full-width plate. The first three leads are the prominent set. */
+  lead?: boolean;
+  /** Language-neutral steps for the architecture diagram. */
+  flow: string[];
+  /** How the system is actually put together. No metrics. */
+  system: Copy;
+  /** Short status, e.g. a launch date. */
   meta?: Copy;
 }
 

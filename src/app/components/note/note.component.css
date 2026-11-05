@@ -15,7 +15,7 @@
   font-size: clamp(1.6rem, 2.6vw, 2.1rem);
   line-height: 1.3;
   letter-spacing: -0.02em;
-  color: #1c1b19;
+  color: #f3eee6;
 }
 
 @media (max-width: 720px) {

@@ -15,9 +15,9 @@
     --ink-0: 7 8 10;          /* root background */
     --ink-1: 12 13 16;        /* panel base */
     --ink-2: 18 20 24;        /* elevated panel */
-    --paper: 28 27 25;        /* ink, so older pages stay readable on paper */
-    --paper-soft: 90 86 80;
-    --line: 28 27 25;
+    --paper: 243 238 230;
+    --paper-soft: 154 148 138;
+    --line: 243 238 230;
 
     /* ── Spectral — WebGL + micro-signals ONLY ── */
     --spectral-a: 0 229 255;    /* cyan  #00E5FF */
@@ -38,12 +38,12 @@
 
   html {
     scroll-behavior: smooth;
-    color-scheme: light;
+    color-scheme: dark;
   }
 
   body {
-    background-color: #f4f1ea;
-    color: #1c1b19;
+    background-color: #0b0b0c;
+    color: #f3eee6;
     font-family: 'Instrument Sans', 'Geist', system-ui, sans-serif;
     font-feature-settings: 'ss01';
     -webkit-font-smoothing: antialiased;

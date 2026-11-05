@@ -23,11 +23,12 @@ describe('ProjectsGalleryComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('renders a card for every project, with the featured one set apart', () => {
+  it('features three leads and keeps a plate for every other project', () => {
     fixture.detectChanges();
-    const cards = fixture.nativeElement.querySelectorAll('.project-card');
-    const featured = PROJECTS.filter(project => project.featured);
-    expect(cards.length).toBe(PROJECTS.length - featured.length);
-    expect(fixture.nativeElement.querySelector('app-kairova')).toBeTruthy();
+    const leads = fixture.nativeElement.querySelectorAll('.plate--lead');
+    const rest = fixture.nativeElement.querySelectorAll('.plate--rest');
+    expect(leads.length).toBe(PROJECTS.filter(project => project.lead).length);
+    expect(rest.length).toBe(PROJECTS.filter(project => !project.lead).length);
+    expect(leads.length).toBe(3);
   });
 });

@@ -13,16 +13,12 @@ import {
 import { isPlatformBrowser } from '@angular/common';
 import { LanguageService } from '../../services/language.service';
 import { MotionService } from '../../services/motion.service';
-import { RevealDirective } from '../../directives/reveal.directive';
-import { MediaSlotComponent } from '../media-slot/media-slot.component';
-import { HERO_REEL } from '../../data/film.data';
-import type { HeroField } from './hero-field';
+import type { GateHandle } from './gate-field';
 
 @Component({
   selector: 'app-hero',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RevealDirective, MediaSlotComponent],
   templateUrl: './hero.component.html',
   styleUrl: './hero.component.css',
 })
@@ -31,15 +27,16 @@ export class HeroComponent implements OnDestroy {
   private readonly platformId = inject(PLATFORM_ID);
   private readonly motion = inject(MotionService);
   private readonly canvasRef = viewChild<ElementRef<HTMLCanvasElement>>('field');
+  private readonly rootRef = viewChild<ElementRef<HTMLElement>>('root');
 
   readonly t = this.lang.t;
-  protected readonly reel = HERO_REEL;
-  /** Canvas is in the DOM only when the quiet WebGL object is allowed. */
   protected readonly showField = signal(false);
+  protected readonly clock = signal('00:00:00:00');
 
   private readonly viewReady = signal(false);
-  private field: HeroField | null = null;
+  private gate: GateHandle | null = null;
   private starting = false;
+  private raf = 0;
   private supportChecked = false;
   private supported = false;
 
@@ -57,31 +54,50 @@ export class HeroComponent implements OnDestroy {
       }
       this.showField.set(true);
       void this.start();
+      this.tickClock();
     });
   }
 
   ngOnDestroy(): void {
     this.teardown();
-  }
-
-  protected caption(): string {
-    return this.reel.caption[this.lang.lang()];
+    cancelAnimationFrame(this.raf);
   }
 
   protected onPointer(event: PointerEvent): void {
-    if (!this.field || event.pointerType !== 'mouse') return;
+    if (!this.gate || event.pointerType !== 'mouse') return;
     const rect = (event.currentTarget as HTMLElement).getBoundingClientRect();
     const x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
-    const y = ((event.clientY - rect.top) / rect.height) * 2 - 1;
-    this.field.setPointer(x, y);
+    const y = -(((event.clientY - rect.top) / rect.height) * 2 - 1);
+    this.gate.setPointer(x, y);
+  }
+
+  private tickClock(): void {
+    const start = performance.now();
+    const frame = (now: number) => {
+      if (this.motion.reduced()) return;
+      const ms = now - start;
+      const frames = Math.floor((ms / 1000) * 24) % 24;
+      const total = Math.floor(ms / 1000);
+      const hh = String(Math.floor(total / 3600)).padStart(2, '0');
+      const mm = String(Math.floor(total / 60) % 60).padStart(2, '0');
+      const ss = String(total % 60).padStart(2, '0');
+      const ff = String(frames).padStart(2, '0');
+      this.clock.set(`${hh}:${mm}:${ss}:${ff}`);
+      const root = this.rootRef()?.nativeElement;
+      if (root && this.gate) {
+        const h = root.offsetHeight || 1;
+        this.gate.setScroll(Math.min(1, window.scrollY / h));
+      }
+      this.raf = requestAnimationFrame(frame);
+    };
+    this.raf = requestAnimationFrame(frame);
   }
 
   private webglOk(): boolean {
     if (this.supportChecked) return this.supported;
     this.supportChecked = true;
     try {
-      const canvas = document.createElement('canvas');
-      this.supported = !!canvas.getContext('webgl2');
+      this.supported = !!document.createElement('canvas').getContext('webgl2');
     } catch {
       this.supported = false;
     }
@@ -89,27 +105,27 @@ export class HeroComponent implements OnDestroy {
   }
 
   private async start(): Promise<void> {
-    if (this.field || this.starting) return;
+    if (this.gate || this.starting) return;
     this.starting = true;
     try {
       await Promise.resolve();
       const canvas = this.canvasRef()?.nativeElement;
       if (!canvas || this.motion.reduced()) return;
-      const { mountHeroField } = await import('./hero-field');
+      const { mountGate } = await import('./gate-field');
       if (this.motion.reduced() || !this.showField()) return;
-      const handle = await mountHeroField(canvas);
+      const handle = await mountGate(canvas);
       if (this.motion.reduced() || !this.showField()) {
         handle.destroy();
         return;
       }
-      this.field = handle;
+      this.gate = handle;
     } finally {
       this.starting = false;
     }
   }
 
   private teardown(): void {
-    this.field?.destroy();
-    this.field = null;
+    this.gate?.destroy();
+    this.gate = null;
   }
 }

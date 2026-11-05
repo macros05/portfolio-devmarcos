@@ -96,6 +96,7 @@ export const ES = {
     playPreview: 'Ver preview',
     pausePreview: 'Pausar',
     newTab: 'se abre en una pestaña nueva',
+    runs: 'Cómo corre',
     featuredLabel: 'Proyecto destacado',
     galleryHint: 'índice de trabajo',
     examples: 'ejemplos',
