@@ -1,42 +1,11 @@
-<section id="inicio" scrub="exit" [scrubDistance]="0.85"
-         class="hero">
-
-  <!-- ── Technical corner annotations ── -->
-  <span class="anno anno--tl label" aria-hidden="true">{{ t().hero.caption }}</span>
-  <span class="anno anno--tr label" aria-hidden="true">v2.0 · webgl2</span>
-  <span class="anno anno--br label" aria-hidden="true">lat 36.7° · lon -4.4°</span>
-
-  <!-- ── Title block — lower-left anchored ── -->
-  <div class="title-block">
-
-    <!-- Available chip -->
-    <div class="avail-chip label" [reveal]="'up'" [revealDelay]="0">
-      <span class="live-dot" aria-hidden="true"></span>
-      {{ t().hero.available }}
-    </div>
-
-    <!-- Display name -->
-    <h1 class="display-name" [reveal]="'up'" [revealDelay]="80">
-      Marcos<br>Morales
-    </h1>
-
-    <!-- Role + decode -->
-    <p class="role-line mono" [reveal]="'up'" [revealDelay]="160"
-       decode [decodeDuration]="900" [decodeDelay]="400">
-      {{ t().hero.role }}
+<section class="hero" data-chapter="0">
+  <div class="copy">
+    <p class="eyebrow">{{ t().hero.open }}</p>
+    <h1><span>Marcos</span><span>Morales</span></h1>
+    <p class="position">
+      {{ t().hero.positioning }}
+      <em>{{ t().hero.positioningEm }}</em>
     </p>
-
-    <!-- Tagline -->
-    <p class="tagline label" [reveal]="'up'" [revealDelay]="240">
-      {{ t().hero.tagline }}
-    </p>
-
+    <p class="support">{{ t().hero.support }}</p>
   </div>
-
-  <!-- ── Scroll cue ── -->
-  <div class="scroll-cue" aria-label="Scroll">
-    <span class="scroll-label mono">{{ t().hero.scrollCue }}</span>
-    <span class="scroll-line" aria-hidden="true"></span>
-  </div>
-
 </section>

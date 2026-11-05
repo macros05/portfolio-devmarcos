@@ -1,0 +1,28 @@
+<section class="films" id="films" data-chapter="5">
+  <div class="inner">
+    <header class="intro">
+      <p class="kicker">{{ t().films.kicker }}</p>
+      <h2>{{ t().films.title }}</h2>
+      <p class="lede">{{ t().films.intro }}</p>
+    </header>
+
+    <div class="grid">
+      @for (film of films; track film.id; let i = $index) {
+        <figure class="film" [class.is-portrait]="film.height > film.width">
+          <app-media-slot
+            [src]="film.src"
+            [poster]="film.poster"
+            [label]="text(film.title)"
+            [width]="film.width"
+            [height]="film.height"
+            [playLabel]="t().hero.play">
+          </app-media-slot>
+          <figcaption>
+            <span class="title">{{ text(film.title) }}</span>
+            <span class="caption">{{ text(film.caption) }}</span>
+          </figcaption>
+        </figure>
+      }
+    </div>
+  </div>
+</section>

@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800;900&family=Geist+Mono:wght@400;500;600&display=swap');
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -17,9 +15,9 @@
     --ink-0: 7 8 10;          /* root background */
     --ink-1: 12 13 16;        /* panel base */
     --ink-2: 18 20 24;        /* elevated panel */
-    --paper: 244 245 247;     /* strong text (paper-white ink) */
-    --paper-soft: 150 154 160;/* secondary mono text */
-    --line: 255 255 255;      /* hairlines — always used with alpha 0.06–0.14 */
+    --paper: 243 238 230;
+    --paper-soft: 154 148 138;
+    --line: 243 238 230;
 
     /* ── Spectral — WebGL + micro-signals ONLY ── */
     --spectral-a: 0 229 255;    /* cyan  #00E5FF */
@@ -39,35 +37,45 @@
   }
 
   html {
-    scroll-behavior: smooth;
+    scroll-behavior: auto;
     color-scheme: dark;
   }
 
   body {
-    background-color: rgb(var(--ink-0));
-    color: rgb(var(--paper));
-    font-family: 'Geist', system-ui, sans-serif;
-    font-feature-settings: 'ss01', 'ss02', 'ss05';
+    background-color: #070708;
+    color: #f4f1ea;
+    font-family: 'Instrument Sans', 'Geist', system-ui, sans-serif;
+    font-feature-settings: 'ss01';
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     letter-spacing: -0.011em;
-    cursor: none;
     overflow-x: hidden;
   }
 
-  a, button, [role="button"], input, textarea {
-    cursor: none;
-  }
-
   ::selection {
-    background: rgba(var(--spectral-a), 0.22);
-    color: rgb(var(--paper));
+    background: #1c1b19;
+    color: #f4f1ea;
   }
 
-  /* Technical focus ring — mono, square, spectral */
   :focus-visible {
-    outline: 1px solid rgba(var(--spectral-a), 0.8);
-    outline-offset: 2px;
+    outline: 2px solid #f4f1ea;
+    outline-offset: 3px;
+  }
+
+  main h1,
+  main h2,
+  main h3,
+  main p {
+    text-shadow: 0 1px 14px rgba(0, 0, 0, 0.55);
+  }
+
+  .dissolve .frame,
+  .dissolve .slot {
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    -webkit-mask-image: radial-gradient(ellipse 86% 80% at 50% 50%, #000 58%, transparent 94%);
+    mask-image: radial-gradient(ellipse 86% 80% at 50% 50%, #000 58%, transparent 94%);
   }
 
   /* Scrollbar */
@@ -320,10 +328,6 @@
   .preserve-3d { transform-style: preserve-3d; }
   .backface-hidden { backface-visibility: hidden; }
 
-  /* Hard-stop custom cursor on touch devices */
-  @media (hover: none) {
-    body, a, button, [role="button"], input, textarea { cursor: auto; }
-  }
 }
 
 /* ════════════════════════════════════════════════════════════════════════

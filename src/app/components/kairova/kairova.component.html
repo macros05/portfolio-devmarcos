@@ -1,0 +1,54 @@
+<article
+  class="feature"
+  [reveal]="'up'"
+  (pointerenter)="hover.set(true)"
+  (pointerleave)="hover.set(false)">
+  <div class="copy">
+    <p class="meta">
+      <span class="kicker">{{ t().kairova.kicker }}</span>
+      @if (project().meta) {
+        <span>{{ text(project().meta!) }}</span>
+      }
+    </p>
+
+    <h3>
+      <a [href]="project().demoUrl" target="_blank" rel="noopener noreferrer">{{ project().title }}</a>
+    </h3>
+
+    <p class="line">{{ text(project().summary) }}</p>
+
+    <ul class="points">
+      @for (point of project().highlights; track point.en) {
+        <li>{{ text(point) }}</li>
+      }
+    </ul>
+
+    <ul class="tech" [attr.aria-label]="t().projects.builtWith">
+      @for (item of project().techStack; track item) {
+        <li>{{ item }}</li>
+      }
+    </ul>
+
+    <p class="links">
+      @if (project().demoUrl) {
+        <a
+          class="live"
+          [href]="project().demoUrl"
+          target="_blank"
+          rel="noopener noreferrer"
+          [attr.aria-label]="project().title + ' — ' + t().projects.live + ', ' + t().projects.newTab">
+          {{ t().projects.live }}
+        </a>
+      }
+      <a routerLink="/" fragment="films">{{ t().kairova.films }}</a>
+    </p>
+  </div>
+
+  <div class="preview">
+    <app-project-preview
+      [src]="project().video?.src"
+      [poster]="poster()"
+      [label]="project().title"
+      [hovered]="hover()" />
+  </div>
+</article>

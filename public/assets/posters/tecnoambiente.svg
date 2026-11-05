@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 800">
+  <rect width="1280" height="800" fill="#121411"/>
+  <rect x="860" y="180" width="240" height="300" rx="8" fill="none" stroke="#c6a36a" stroke-opacity="0.55"/>
+  <path d="M900 260 H1060 M900 310 H1020 M900 360 H1080" stroke="#f4f1ea" stroke-opacity="0.35" stroke-width="3"/>
+  <text x="88" y="380" fill="#f4f1ea" font-family="Georgia, serif" font-size="64">The references,</text>
+  <text x="88" y="466" fill="#c6a36a" font-family="Georgia, serif" font-size="64" font-style="italic">together.</text>
+</svg>

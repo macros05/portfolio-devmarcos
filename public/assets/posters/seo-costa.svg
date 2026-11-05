@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 800">
+  <rect width="1280" height="800" fill="#121311"/>
+  <path d="M900 560 C980 420, 1060 400, 1160 240" fill="none" stroke="#c6a36a" stroke-width="3"/>
+  <text x="88" y="370" fill="#f4f1ea" font-family="Georgia, serif" font-size="68">Costa del Sol,</text>
+  <text x="88" y="458" fill="#c6a36a" font-family="Georgia, serif" font-size="68" font-style="italic">page by page.</text>
+</svg>

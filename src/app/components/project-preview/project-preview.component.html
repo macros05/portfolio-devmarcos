@@ -1,0 +1,31 @@
+<div class="frame" [class.is-live]="playing()">
+  @if (poster()) {
+    <img
+      class="still"
+      [src]="poster()"
+      alt=""
+      width="1280"
+      height="720"
+      decoding="async" />
+  }
+  @if (src()) {
+    <video
+      #video
+      [attr.aria-label]="label()"
+      muted
+      loop
+      playsinline
+      preload="none"
+      (timeupdate)="onTime($event)">
+    </video>
+    @if (reduced()) {
+      <button
+        type="button"
+        class="toggle"
+        (click)="toggle($event)"
+        [attr.aria-pressed]="playing()">
+        {{ playing() ? t().projects.pausePreview : t().projects.playPreview }}
+      </button>
+    }
+  }
+</div>

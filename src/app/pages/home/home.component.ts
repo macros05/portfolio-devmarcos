@@ -1,9 +1,10 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { HeroComponent } from '../../components/hero/hero.component';
+import { ShowreelComponent } from '../../components/showreel/showreel.component';
 import { ProjectsGalleryComponent } from '../../components/projects-gallery/projects-gallery.component';
+import { FilmsComponent } from '../../components/films/films.component';
+import { NoteComponent } from '../../components/note/note.component';
 import { StatementComponent } from '../../components/statement/statement.component';
-import { AboutComponent } from '../../components/about/about.component';
-import { LabComponent } from '../../components/lab/lab.component';
 import { FooterComponent } from '../../components/footer/footer.component';
 import { ContactComponent } from '../../components/contact/contact.component';
 
@@ -13,10 +14,11 @@ import { ContactComponent } from '../../components/contact/contact.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     HeroComponent,
+    ShowreelComponent,
     ProjectsGalleryComponent,
+    FilmsComponent,
+    NoteComponent,
     StatementComponent,
-    AboutComponent,
-    LabComponent,
     FooterComponent,
     ContactComponent,
   ],

@@ -1,20 +1,7 @@
-<!-- Left technical index — primary navigation (replaces the old top header) -->
-<app-side-index></app-side-index>
-
-<!-- Fixed blueprint grid + corner crosshairs; present even without WebGL -->
-<div class="blueprint" aria-hidden="true">
-  <span class="crosshair tl"></span>
-  <span class="crosshair tr"></span>
-  <span class="crosshair bl"></span>
-  <span class="crosshair br"></span>
-</div>
-
-<!-- WebGL showpiece (lazy three.js). Exposes live render stats for the HUD. -->
-<app-webgl-scene #scene></app-webgl-scene>
-
-<!-- Render-stats HUD (decorative). Real stats once WebGL is live, else mock. -->
-<app-hud [stats]="scene.stats()" [section]="activeSection()"></app-hud>
-
+<app-field></app-field>
+<a class="skip-link" href="#work">{{ t().nav.skip }}</a>
 <app-scroll-progress></app-scroll-progress>
-<app-cursor></app-cursor>
-<router-outlet></router-outlet>
+<app-header></app-header>
+<main>
+  <router-outlet></router-outlet>
+</main>

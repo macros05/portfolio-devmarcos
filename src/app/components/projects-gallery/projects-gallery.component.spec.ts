@@ -23,13 +23,14 @@ describe('ProjectsGalleryComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('renders all projects: featured title + grid thumb titles equals PROJECTS.length', () => {
+  it('features three leads and keeps a plate for every other project', () => {
     fixture.detectChanges();
-
-    // Featured project title (h2.featured__title) + grid project titles (.thumb__title)
-    const featuredTitles = fixture.nativeElement.querySelectorAll('.featured__title');
-    const thumbTitles = fixture.nativeElement.querySelectorAll('.thumb__title');
-
-    expect(featuredTitles.length + thumbTitles.length).toBe(PROJECTS.length);
+    const leads = fixture.nativeElement.querySelectorAll('.plate--lead');
+    const rest = fixture.nativeElement.querySelectorAll('.plate--rest');
+    expect(leads.length).toBe(PROJECTS.filter(project => project.lead).length);
+    expect(rest.length).toBe(PROJECTS.filter(project => !project.lead).length);
+    expect(leads.length).toBe(3);
+    const titles = [...leads].map((el: Element) => el.querySelector('h3')?.textContent?.trim());
+    expect(titles).toEqual(['Reels Factory', 'Trading desk', 'Kairova']);
   });
 });
