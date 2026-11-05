@@ -22,13 +22,12 @@ import { MotionService } from '../../services/motion.service';
     .progress-track {
       height: 2px;
       width: 100%;
-      background: rgba(255, 255, 255, 0.04);
+      background: transparent;
     }
     .progress-bar {
       height: 100%;
-      background: linear-gradient(90deg, rgb(0, 229, 255), rgb(122, 92, 255), rgb(194, 58, 214));
+      background: #c6a36a;
       transform-origin: left;
-      transition: transform 0.1s ease-out;
     }
   `],
 })

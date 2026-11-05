@@ -1,42 +1,36 @@
-<section id="inicio" scrub="exit" [scrubDistance]="0.85"
-         class="hero">
+<section class="hero" (pointermove)="onPointer($event)">
+  <div class="glow" aria-hidden="true"></div>
 
-  <!-- ── Technical corner annotations ── -->
-  <span class="anno anno--tl label" aria-hidden="true">{{ t().hero.caption }}</span>
-  <span class="anno anno--tr label" aria-hidden="true">v2.0 · webgl2</span>
-  <span class="anno anno--br label" aria-hidden="true">lat 36.7° · lon -4.4°</span>
+  <canvas #field class="field" [class.is-off]="!showField()" aria-hidden="true"></canvas>
 
-  <!-- ── Title block — lower-left anchored ── -->
-  <div class="title-block">
+  <div class="inner">
+    <p class="eyebrow" [reveal]="'fade'">
+      <span class="name">Marcos Morales</span>
+      <span class="dot" aria-hidden="true"></span>
+      <span>{{ t().hero.open }}</span>
+    </p>
 
-    <!-- Available chip -->
-    <div class="avail-chip label" [reveal]="'up'" [revealDelay]="0">
-      <span class="live-dot" aria-hidden="true"></span>
-      {{ t().hero.available }}
-    </div>
-
-    <!-- Display name -->
-    <h1 class="display-name" [reveal]="'up'" [revealDelay]="80">
-      Marcos<br>Morales
+    <h1 class="line" [reveal]="'up'" [revealDelay]="70">
+      {{ t().hero.positioning }}
+      <em>{{ t().hero.positioningEm }}</em>
     </h1>
 
-    <!-- Role + decode -->
-    <p class="role-line mono" [reveal]="'up'" [revealDelay]="160"
-       decode [decodeDuration]="900" [decodeDelay]="400">
-      {{ t().hero.role }}
+    <p class="support" [reveal]="'up'" [revealDelay]="140">
+      {{ t().hero.support }}
     </p>
 
-    <!-- Tagline -->
-    <p class="tagline label" [reveal]="'up'" [revealDelay]="240">
-      {{ t().hero.tagline }}
-    </p>
-
+    <div class="reel" [reveal]="'up'" [revealDelay]="200">
+      <app-media-slot
+        [src]="reel.src"
+        [poster]="reel.poster"
+        [label]="caption()"
+        [width]="reel.width"
+        [height]="reel.height"
+        [autoplay]="true"
+        [playLabel]="t().hero.play"
+        [pauseLabel]="t().hero.pause">
+      </app-media-slot>
+      <p class="caption">{{ caption() }}</p>
+    </div>
   </div>
-
-  <!-- ── Scroll cue ── -->
-  <div class="scroll-cue" aria-label="Scroll">
-    <span class="scroll-label mono">{{ t().hero.scrollCue }}</span>
-    <span class="scroll-line" aria-hidden="true"></span>
-  </div>
-
 </section>

@@ -23,13 +23,9 @@ describe('ProjectsGalleryComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('renders all projects: featured title + grid thumb titles equals PROJECTS.length', () => {
+  it('renders a card for every project', () => {
     fixture.detectChanges();
-
-    // Featured project title (h2.featured__title) + grid project titles (.thumb__title)
-    const featuredTitles = fixture.nativeElement.querySelectorAll('.featured__title');
-    const thumbTitles = fixture.nativeElement.querySelectorAll('.thumb__title');
-
-    expect(featuredTitles.length + thumbTitles.length).toBe(PROJECTS.length);
+    const cards = fixture.nativeElement.querySelectorAll('.project-card');
+    expect(cards.length).toBe(PROJECTS.length);
   });
 });

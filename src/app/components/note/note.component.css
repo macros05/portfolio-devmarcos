@@ -1,0 +1,23 @@
+:host { display: block; }
+
+.note {
+  width: min(1120px, calc(100% - 2.5rem));
+  margin: 0 auto;
+  padding: 3.5rem 0;
+}
+
+.note p {
+  margin: 0;
+  max-width: 22em;
+  font-family: 'Newsreader', Georgia, serif;
+  font-style: italic;
+  font-weight: 450;
+  font-size: clamp(1.45rem, 2.4vw, 1.85rem);
+  line-height: 1.35;
+  letter-spacing: -0.02em;
+  color: #d9d4cb;
+}
+
+@media (max-width: 720px) {
+  .note { width: min(1120px, calc(100% - 2rem)); }
+}

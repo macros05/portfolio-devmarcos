@@ -1,186 +1,105 @@
-/* ── Hero: transparent overlay over global WebGL canvas ── */
+:host { display: block; }
+
 .hero {
   position: relative;
-  min-height: 100svh;
-  width: 100%;
-  /* NO background — canvas shows through */
-  display: flex;
-  align-items: flex-end;
-  justify-content: flex-start;
   overflow: hidden;
-  isolation: isolate;
 }
 
-/* ── Scrub: recede on scroll — GPU-only ── */
-:host {
-  display: block;
-}
-
-/* The ScrubDirective sets --progress on this element's host.
-   We read it for the stage fade. */
-.hero {
-  --progress: 0;
-}
-
-.title-block {
+.inner {
   position: relative;
   z-index: 1;
-  padding-left: clamp(1.5rem, 14vw, 16rem);
-  padding-right: clamp(1.5rem, 5vw, 4rem);
-  padding-bottom: clamp(5rem, 12vh, 9rem);
-  max-width: 56rem;
-  transform:
-    translateY(calc(var(--progress, 0) * -5vh))
-    scale(calc(1 - var(--progress, 0) * 0.06));
-  opacity: calc(1 - var(--progress, 0) * 1.3);
-  transform-origin: 0% 80%;
-  will-change: transform, opacity;
+  width: min(1120px, calc(100% - 2.5rem));
+  margin: 0 auto;
+  padding: 4.5rem 0 4rem;
 }
 
-/* ── Display name ── */
-.display-name {
-  font-family: 'Geist', sans-serif;
-  font-weight: 800;
-  font-size: clamp(2.6rem, 9vw, 7rem);
-  line-height: 0.95;
-  letter-spacing: -0.03em;
-  color: rgb(var(--paper));
-  margin: 0 0 1.1rem;
-}
-
-/* ── Role line ── */
-.role-line {
-  font-size: 0.75rem;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: rgb(var(--paper-soft));
-  margin: 0 0 0.85rem;
-}
-
-/* ── Tagline ── */
-.tagline {
-  color: rgb(var(--paper-soft));
-  max-width: 46ch;
-  line-height: 1.55;
-  margin: 0 0 1.6rem;
-}
-
-/* ── Available chip ── */
-.avail-chip {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  border: 1px solid rgba(var(--line, 255 255 255), 0.12);
-  padding: 0.35rem 0.75rem;
-  border-radius: 2px;
-  color: rgb(var(--paper-soft));
-  margin-bottom: 2rem;
-}
-
-/* ── Corner annotations (absolutely positioned) ── */
-.anno {
+.glow {
   position: absolute;
-  color: rgba(var(--paper-soft, 150 154 160), 0.5);
-  font-size: 10px;
+  top: -8%;
+  right: -8%;
+  width: min(52vw, 640px);
+  height: min(52vw, 640px);
+  background: radial-gradient(circle, rgba(198, 163, 106, 0.18), transparent 68%);
   pointer-events: none;
-  z-index: 2;
-  opacity: 0;
-  animation: anno-in 0.6s ease both;
-}
-.anno--tl {
-  top: clamp(1rem, 2.5vh, 2rem);
-  left: clamp(1rem, 2.5vw, 2rem);
-  animation-delay: 0.9s;
-}
-.anno--tr {
-  top: clamp(1rem, 2.5vh, 2rem);
-  right: clamp(1rem, 2.5vw, 2rem);
-  animation-delay: 1.1s;
-}
-.anno--br {
-  bottom: clamp(1rem, 2.5vh, 2rem);
-  right: clamp(1rem, 2.5vw, 2rem);
-  animation-delay: 1.3s;
-}
-@keyframes anno-in {
-  from { opacity: 0; }
-  to   { opacity: 1; }
 }
 
-/* ── Scroll cue ── */
-.scroll-cue {
+.field {
   position: absolute;
-  bottom: clamp(1.5rem, 3.5vh, 2.5rem);
-  left: 50%;
-  transform: translateX(-50%);
+  top: -2rem;
+  right: -4vw;
+  width: min(46vw, 540px);
+  height: min(46vw, 540px);
+  z-index: 0;
+  pointer-events: none;
+}
+
+.eyebrow {
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
   align-items: center;
-  gap: 0.5rem;
-  z-index: 2;
-  opacity: 0;
-  animation: scroll-in 0.8s cubic-bezier(0.16, 1, 0.3, 1) 1.8s both;
+  gap: 0.65rem;
+  margin: 0 0 1.5rem;
+  color: #a39e94;
+  font: 500 0.92rem/1.2 'Geist', system-ui, sans-serif;
 }
 
-.scroll-label {
-  font-size: 9px;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: rgba(var(--paper-soft, 150 154 160), 0.5);
+.name { color: #f4f1ea; }
+
+.dot {
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: #c6a36a;
 }
 
-.scroll-line {
-  display: block;
-  width: 1px;
-  height: 36px;
-  background: linear-gradient(
-    to bottom,
-    rgba(var(--paper-soft, 150 154 160), 0.5),
-    transparent
-  );
-  animation: scroll-pulse 2s ease-in-out infinite 2.4s;
-  transform-origin: top center;
+.line {
+  max-width: 11em;
+  margin: 0;
+  font-family: 'Newsreader', Georgia, serif;
+  font-weight: 450;
+  font-size: clamp(2.7rem, 6.4vw, 5.35rem);
+  line-height: 0.98;
+  letter-spacing: -0.03em;
+  color: #f4f1ea;
 }
 
-@keyframes scroll-in {
-  from { opacity: 0; transform: translate(-50%, 12px); }
-  to   { opacity: 1; transform: translate(-50%, 0); }
+.line em {
+  font-style: italic;
+  font-weight: 450;
+  color: #c6a36a;
 }
 
-@keyframes scroll-pulse {
-  0%, 100% { opacity: 0.5; transform: scaleY(1); }
-  50%       { opacity: 1;   transform: scaleY(0.6); }
+.support {
+  max-width: 34rem;
+  margin: 1.35rem 0 0;
+  color: #b7b2a8;
+  font: 400 1.05rem/1.55 'Geist', system-ui, sans-serif;
 }
 
-/* ── Reduced motion overrides ── */
+.reel {
+  margin-top: 2.75rem;
+}
+
+.caption {
+  margin: 0.85rem 0 0;
+  color: #a39e94;
+  font: 400 0.92rem/1.45 'Geist', system-ui, sans-serif;
+}
+
+@media (max-width: 760px) {
+  .inner { width: min(1120px, calc(100% - 2rem)); padding-top: 2.75rem; }
+  .field { display: none; }
+  .glow {
+    width: 160px;
+    height: 160px;
+    top: -48px;
+    right: -48px;
+  }
+  .line { max-width: 12em; }
+}
+
+.field.is-off { visibility: hidden; }
+
 @media (prefers-reduced-motion: reduce) {
-  .anno,
-  .scroll-cue {
-    animation: none !important;
-    opacity: 1 !important;
-    transform: none !important;
-  }
-  .scroll-cue {
-    transform: translateX(-50%) !important;
-  }
-  .scroll-line {
-    animation: none !important;
-    opacity: 0.5 !important;
-  }
-  .title-block {
-    transform: none !important;
-    opacity: 1 !important;
-  }
-}
-
-/* ── Mobile: tighten left padding ── */
-@media (max-width: 640px) {
-  .title-block {
-    padding-left: 1.5rem;
-    padding-right: 1.5rem;
-    padding-bottom: 5rem;
-  }
-  .display-name {
-    font-size: clamp(2.8rem, 14vw, 4.5rem);
-  }
+  .field { display: none; }
 }

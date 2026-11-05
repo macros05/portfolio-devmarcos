@@ -1,0 +1,44 @@
+:host {
+  display: block;
+}
+
+.slot {
+  position: relative;
+  margin: 0;
+  overflow: hidden;
+  background: #090909;
+  border-radius: 16px;
+  border: 1px solid rgba(244, 241, 234, 0.12);
+}
+
+video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  background: #090909;
+}
+
+.toggle {
+  position: absolute;
+  right: 12px;
+  bottom: 12px;
+  min-height: 40px;
+  padding: 0 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(244, 241, 234, 0.2);
+  background: rgba(12, 12, 11, 0.72);
+  color: #f4f1ea;
+  font: 500 13px/1 'Geist', system-ui, sans-serif;
+  letter-spacing: 0.01em;
+}
+
+.toggle:hover {
+  background: rgba(12, 12, 11, 0.9);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .toggle {
+    transition: none;
+  }
+}

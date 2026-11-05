@@ -1,83 +1,12 @@
-<footer class="hud-footer relative mt-20">
-
-  <!-- Top hairline rule with registration ticks -->
-  <div class="hud-rule" aria-hidden="true">
-    <span class="tick tick-l"></span>
-    <span class="tick tick-r"></span>
-  </div>
-
-  <!-- Marquee strip (reskinned mono/.text-outline) -->
-  <div class="marquee-wrap relative overflow-hidden border-b border-white/[0.06] py-6">
-    <div class="marquee-track flex items-center gap-10 whitespace-nowrap"
-         [class.paused]="reduced()">
-      @for (item of marqueeItems; track item) {
-        <span class="marquee-item mono text-outline text-2xl md:text-4xl font-semibold tracking-tight select-none">
-          {{ item }}
-        </span>
-        <span class="marquee-sep" aria-hidden="true">+</span>
-      }
-      <!-- Duplicate for seamless loop -->
-      @for (item of marqueeItems; track 'dup-' + item) {
-        <span class="marquee-item mono text-outline text-2xl md:text-4xl font-semibold tracking-tight select-none">
-          {{ item }}
-        </span>
-        <span class="marquee-sep" aria-hidden="true">+</span>
-      }
-    </div>
-    <div class="marquee-fade marquee-fade-l" aria-hidden="true"></div>
-    <div class="marquee-fade marquee-fade-r" aria-hidden="true"></div>
-  </div>
-
-  <!-- Giant watermark with scroll-driven mono fill -->
-  <div class="watermark-wrap relative overflow-hidden pt-14 pb-2 px-4"
-       [style.--fillp]="fillProgress()"
-       aria-hidden="true">
-    <span class="watermark text-outline font-display font-semibold block text-center select-none">
-      MARCOS&nbsp;MORALES
-    </span>
-    <span class="watermark watermark-fill font-display font-semibold block text-center select-none">
-      MARCOS&nbsp;MORALES
-    </span>
-  </div>
-
-  <!-- HUD bottom bar -->
-  <div class="hud-bar max-w-[1400px] mx-auto px-6 md:px-16 lg:px-24 py-6
-              flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-
-    <!-- Left: copyright -->
-    <p class="mono label text-xs">
-      {{ t().footer.rights }}
-    </p>
-
-    <!-- Right: built-with + back-to-top + view-source -->
-    <div class="flex flex-wrap items-center gap-x-6 gap-y-2">
-
-      <!-- Spectral dot accent -->
-      <span class="spectral-dot" aria-hidden="true"></span>
-
-      <span class="mono text-xs" style="color: rgba(var(--paper-soft), 0.7);">
-        {{ t().footer.builtWith }}
-      </span>
-
-      <button
-        (click)="scrollToTop()"
-        class="mono label text-xs link-uline cursor-pointer bg-transparent border-0 p-0"
-        style="color: rgb(var(--paper-soft));"
-        aria-label="back to top">
-        {{ t().footer.backToTop }} ↑
-      </button>
-
-      <a
-        href="https://github.com/macros05"
-        target="_blank"
-        rel="noopener noreferrer"
-        class="mono label text-xs link-uline"
-        style="color: rgb(var(--paper));"
-        [attr.aria-label]="t().footer.viewSource">
-        [&thinsp;{{ t().footer.viewSource }}&thinsp;↗]
+<footer class="foot">
+  <div class="inner">
+    <p>{{ t().footer.rights }}</p>
+    <p class="meta">
+      <span>{{ t().footer.builtWith }}</span>
+      <a href="https://github.com/macros05" target="_blank" rel="noopener noreferrer">
+        {{ t().footer.viewSource }}
       </a>
-
-    </div>
+      <button type="button" (click)="scrollToTop()">{{ t().footer.backToTop }}</button>
+    </p>
   </div>
-
 </footer>

@@ -1,0 +1,25 @@
+<div class="slot" [style.aspect-ratio]="width() + ' / ' + height()">
+  <video
+    #video
+    [poster]="poster()"
+    [attr.aria-label]="label()"
+    playsinline
+    preload="none"
+    [muted]="autoplay() ? true : null"
+    [loop]="autoplay() ? true : null"
+    [controls]="autoplay() ? null : true"
+    (play)="onPlay()"
+    (pause)="onPause()">
+  </video>
+
+  @if (autoplay()) {
+    <button
+      type="button"
+      class="toggle"
+      (click)="toggle($event)"
+      [attr.aria-pressed]="!paused()"
+      [attr.aria-label]="paused() ? playLabel() : pauseLabel()">
+      {{ paused() ? playLabel() : pauseLabel() }}
+    </button>
+  }
+</div>

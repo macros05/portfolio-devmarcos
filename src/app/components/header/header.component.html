@@ -1,77 +1,38 @@
-<header class="header-bar fixed top-4 md:top-6 inset-x-0 z-50 flex justify-center pointer-events-none"
-        [class.nav-hidden]="isHidden()">
-  <nav liquidGlass [liquidGlassMaxScale]="6" [liquidGlassRadius]="220"
-       class="pointer-events-auto pill glass-strong rounded-full px-3 py-2 md:px-4 md:py-2.5 flex items-center gap-2 md:gap-1.5"
-       [class.scrolled]="isScrolled()">
+<header class="bar">
+  <a routerLink="/" class="mark" (click)="closeMenu()">Marcos Morales</a>
 
-    <!-- Logo / monogram -->
-    <a href="#inicio"
-       class="hidden sm:flex items-center justify-center w-9 h-9 rounded-full font-display font-bold text-base text-white/90 hover:text-white transition-colors"
-       aria-label="Home">
-      <span class="text-gradient-aurora font-extrabold tracking-tight">M</span>
-    </a>
+  <nav class="desk" [attr.aria-label]="t().nav.menu">
+    @for (link of links; track link.fragment) {
+      <a
+        routerLink="/"
+        [fragment]="link.fragment"
+        [attr.aria-current]="active() === link.fragment ? 'true' : null">
+        {{ t().nav[link.label] }}
+      </a>
+    }
+  </nav>
 
-    <!-- Desktop links -->
-    <ul class="hidden md:flex items-center gap-0.5">
-      @for (link of links; track link.id) {
-        <li>
-          <a [href]="'#' + link.id"
-             class="nav-link relative px-4 py-2 rounded-full text-sm font-mono tracking-wide text-white/70 hover:text-white transition-colors duration-300"
-             [class.is-active]="activeSection() === link.id">
-            <span class="relative z-10">{{ t().nav[link.key] }}</span>
-            @if (activeSection() === link.id) {
-              <span class="active-indicator"></span>
-            }
-          </a>
-        </li>
-      }
-    </ul>
-
-    <!-- Language toggle -->
-    <button
-      magnetic
-      [magneticStrength]="0.2"
-      (click)="langService.toggle()"
-      class="lang-toggle font-mono text-xs tracking-widest uppercase px-3.5 py-2 rounded-full
-             text-white/80 hover:text-white transition-all duration-300
-             border border-white/10 hover:border-white/30 hover:bg-white/5
-             flex items-center gap-1.5 ml-1">
-      <span class="opacity-80">{{ langService.lang() === 'es' ? '🇪🇸' : '🇬🇧' }}</span>
-      <span>{{ langService.lang() === 'es' ? 'ES' : 'EN' }}</span>
+  <div class="tools">
+    <button type="button" class="lang" (click)="toggleLang()" [attr.aria-label]="t().nav.lang">
+      {{ lang.lang() === 'en' ? 'ES' : 'EN' }}
     </button>
-
-    <!-- Mobile menu button -->
     <button
-      class="md:hidden ml-1 w-10 h-10 rounded-full flex items-center justify-center text-white/80 hover:text-white border border-white/10 hover:border-white/30 transition-all"
+      type="button"
+      class="burger"
       (click)="toggleMenu()"
       [attr.aria-expanded]="menuOpen()"
-      aria-label="Toggle menu">
-      <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-        @if (menuOpen()) {
-          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
-        } @else {
-          <path stroke-linecap="round" stroke-linejoin="round" d="M4 8h16M4 16h16"/>
-        }
-      </svg>
+      [attr.aria-label]="menuOpen() ? t().nav.close : t().nav.menu">
+      <span></span><span></span>
     </button>
-  </nav>
+  </div>
 </header>
 
-<!-- Mobile menu overlay -->
 @if (menuOpen()) {
-  <div class="mobile-menu fixed inset-0 z-40 flex flex-col items-center justify-center pointer-events-auto md:hidden"
-       (click)="closeMenu()">
-    <div class="absolute inset-0 bg-black/60 backdrop-blur-xl"></div>
-    <ul class="relative flex flex-col items-center gap-8">
-      @for (link of links; track link.id; let i = $index) {
-        <li class="mobile-item" [style.animation-delay.ms]="80 * i">
-          <a [href]="'#' + link.id"
-             (click)="closeMenu()"
-             class="text-3xl font-display font-bold text-white/90 hover:text-white">
-            {{ t().nav[link.key] }}
-          </a>
-        </li>
-      }
-    </ul>
-  </div>
+  <nav class="sheet" [attr.aria-label]="t().nav.menu">
+    @for (link of links; track link.fragment) {
+      <a routerLink="/" [fragment]="link.fragment" (click)="closeMenu()">
+        {{ t().nav[link.label] }}
+      </a>
+    }
+  </nav>
 }

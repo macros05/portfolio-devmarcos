@@ -1,132 +1,71 @@
-<section id="contacto" class="contact-section relative px-6 md:px-16 lg:px-24 w-full py-32 overflow-hidden">
+<section id="contact" class="contact">
+  <div class="inner">
+    <header [reveal]="'up'">
+      <p class="kicker">{{ t().contact.kicker }}</p>
+      <h2>{{ t().contact.finaleTitle }}</h2>
+      <p class="lede">{{ t().contact.subtitle }}</p>
+    </header>
 
-  <!-- Section header -->
-  <div class="relative max-w-3xl mx-auto">
+    <form
+      [reveal]="'up'"
+      [revealDelay]="80"
+      (submit)="onSubmit($event)"
+      novalidate
+      [attr.aria-label]="t().contact.title">
 
-    <div [reveal]="'up'" class="flex items-center gap-3 mb-8">
-      <span class="label">{{ t().contact.kicker }}</span>
-    </div>
-
-    <h2 [reveal]="'up'" [revealDelay]="60"
-        class="contact-title mono mb-3"
-        decode>{{ t().contact.finaleTitle }}</h2>
-
-    <p [reveal]="'up'" [revealDelay]="100"
-       class="mono contact-subtitle mb-12">
-      {{ t().contact.subtitle }}
-    </p>
-
-    <!-- Terminal window -->
-    <div [reveal]="'up'" [revealDelay]="160"
-         class="terminal panel panel--solid ticks">
-
-      <!-- Title bar -->
-      <div class="term-titlebar">
-        <div class="term-dots" aria-hidden="true">
-          <span class="term-dot term-dot--a"></span>
-          <span class="term-dot term-dot--b"></span>
-          <span class="term-dot term-dot--c"></span>
-        </div>
-        <span class="mono term-path">~/contact</span>
-        <span class="term-live-wrap" aria-hidden="true">
-          <span class="live-dot"></span>
-          <span class="mono term-live-label">live</span>
-        </span>
+      <div class="field">
+        <label for="name">{{ t().contact.name }}</label>
+        <input
+          type="text"
+          id="name"
+          name="name"
+          required
+          autocomplete="name"
+          [placeholder]="t().contact.placeholderName" />
       </div>
 
-      <!-- Console body -->
-      <div class="term-body">
+      <div class="field">
+        <label for="email">{{ t().contact.email }}</label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          required
+          autocomplete="email"
+          [placeholder]="t().contact.placeholderEmail" />
+      </div>
 
-        <!-- Prompt line -->
-        <div class="term-prompt-line" aria-hidden="true">
-          <span class="term-prompt mono">{{ t().contact.prompt }}</span>
-          <span class="term-command mono">{{ t().contact.command }}</span>
-        </div>
+      <div class="field">
+        <label for="message">{{ t().contact.message }}</label>
+        <textarea
+          id="message"
+          name="message"
+          rows="5"
+          required
+          [placeholder]="t().contact.placeholderMessage"></textarea>
+      </div>
 
-        <!-- Form -->
-        <form
-          (submit)="onSubmit($event)"
-          novalidate
-          class="term-form"
-          aria-label="{{ t().contact.title }}">
+      @if (status() === 'sending') {
+        <p class="status" role="status">{{ t().contact.sending }}</p>
+      }
+      @if (status() === 'success') {
+        <p class="status is-ok" role="status">{{ t().contact.success }}</p>
+      }
+      @if (status() === 'error') {
+        <p class="status is-bad" role="alert">{{ t().contact.error }}</p>
+      }
 
-          <!-- Name field -->
-          <div class="term-field">
-            <label for="name" class="mono term-field-label">{{ t().contact.name }}:</label>
-            <input
-              type="text"
-              id="name"
-              name="name"
-              required
-              autocomplete="name"
-              [placeholder]="t().contact.placeholderName"
-              [attr.aria-label]="t().contact.name"
-              class="mono term-input" />
-          </div>
-
-          <!-- Email field -->
-          <div class="term-field">
-            <label for="email" class="mono term-field-label">{{ t().contact.email }}:</label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              required
-              autocomplete="email"
-              [placeholder]="t().contact.placeholderEmail"
-              [attr.aria-label]="t().contact.email"
-              class="mono term-input" />
-          </div>
-
-          <!-- Message field -->
-          <div class="term-field term-field--message">
-            <label for="message" class="mono term-field-label">{{ t().contact.message }}:</label>
-            <textarea
-              id="message"
-              name="message"
-              rows="5"
-              required
-              [placeholder]="t().contact.placeholderMessage"
-              [attr.aria-label]="t().contact.message"
-              class="mono term-input term-textarea resize-none"></textarea>
-          </div>
-
-          <!-- Status output lines -->
-          @if (status() === 'sending') {
-            <div class="term-status term-status--sending" role="status" aria-live="polite">
-              <span class="term-chevron mono" aria-hidden="true">›</span>
-              <span class="mono term-status-text blink-text">{{ t().contact.sending }}</span>
-            </div>
-          }
-
-          @if (status() === 'success') {
-            <div class="term-status term-status--success" role="status" aria-live="polite">
-              <span class="term-chevron mono" aria-hidden="true">›</span>
-              <span class="mono term-status-text">{{ t().contact.success }}</span>
-            </div>
-          }
-
-          @if (status() === 'error') {
-            <div class="term-status term-status--error" role="alert" aria-live="assertive">
-              <span class="term-chevron mono" aria-hidden="true">›</span>
-              <span class="mono term-status-text">{{ t().contact.error }}</span>
-            </div>
-          }
-
-          <!-- Submit -->
-          <div class="term-submit-row">
-            <button
-              type="submit"
-              [disabled]="status() === 'sending' || status() === 'success'"
-              class="mono term-submit">
-              <span class="term-submit-prompt" aria-hidden="true">›</span>
-              <span>{{ t().contact.send }}</span>
-            </button>
-          </div>
-
-        </form>
-      </div><!-- /term-body -->
-    </div><!-- /terminal -->
-
+      <div class="actions">
+        <button type="submit" [disabled]="status() === 'sending' || status() === 'success'">
+          {{ t().contact.send }}
+        </button>
+        <a
+          href="https://github.com/macros05"
+          target="_blank"
+          rel="noopener noreferrer">
+          {{ t().footer.viewSource }}
+        </a>
+      </div>
+    </form>
   </div>
 </section>

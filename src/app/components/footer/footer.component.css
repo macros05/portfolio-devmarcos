@@ -1,101 +1,41 @@
-/* ── HUD top hairline with registration ticks ── */
-.hud-rule {
-  position: relative;
-  height: 1px;
-  background: rgba(var(--line), 0.10);
+:host { display: block; }
+
+.foot {
+  border-top: 1px solid rgba(244, 241, 234, 0.1);
 }
 
-.tick {
-  position: absolute;
-  top: -3px;
-  width: 1px;
-  height: 7px;
-  background: rgba(var(--line), 0.22);
-}
-.tick-l { left: 0; }
-.tick-r { right: 0; }
-
-/* ── Marquee ── */
-.marquee-wrap {
-  --marquee-duration: 40s;
+.inner {
+  width: min(1120px, calc(100% - 2.5rem));
+  margin: 0 auto;
+  padding: 1.4rem 0 2.2rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1.5rem;
+  justify-content: space-between;
+  color: #a39e94;
+  font: 400 0.85rem/1.4 'Geist', system-ui, sans-serif;
 }
 
-.marquee-track {
-  animation: marquee var(--marquee-duration) linear infinite;
-  width: max-content;
-  padding-inline: 2rem;
+p { margin: 0; }
+
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.9rem 1.2rem;
+  align-items: center;
 }
 
-.marquee-track.paused {
-  animation-play-state: paused;
+a, button {
+  color: #f4f1ea;
+  background: none;
+  border: 0;
+  padding: 0;
+  font: inherit;
+  text-decoration: none;
 }
 
-@keyframes marquee {
-  from { transform: translateX(0); }
-  to   { transform: translateX(-50%); }
-}
+a:hover, button:hover { color: #c6a36a; }
 
-/* Hairline separator cross between items */
-.marquee-sep {
-  font-family: 'Geist Mono', ui-monospace, monospace;
-  font-size: 0.55rem;
-  color: rgba(var(--line), 0.18);
-  line-height: 1;
-  user-select: none;
-}
-
-.marquee-fade {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  width: 100px;
-  pointer-events: none;
-  z-index: 2;
-}
-
-.marquee-fade-l {
-  left: 0;
-  background: linear-gradient(90deg, rgb(var(--ink-0)) 0%, transparent 100%);
-}
-
-.marquee-fade-r {
-  right: 0;
-  background: linear-gradient(270deg, rgb(var(--ink-0)) 0%, transparent 100%);
-}
-
-/* ── Giant watermark — monochrome scroll-driven fill ──
-   Base layer: .text-outline (from global, white/12 hairline stroke)
-   Fill layer: clips in from left as --fillp goes 0→1, paper-white only (no aurora). */
-.watermark {
-  font-size: clamp(2.4rem, 9.5vw, 9rem);
-  line-height: 1;
-  letter-spacing: -0.02em;
-  white-space: nowrap;
-}
-
-.watermark-fill {
-  position: absolute;
-  inset: 0;
-  padding-top: 3.5rem; /* mirror .watermark-wrap pt-14 */
-  background: linear-gradient(
-    100deg,
-    rgb(var(--paper)) 0%,
-    rgba(var(--paper), 0.85) 60%,
-    rgba(var(--paper-soft), 0.6) 100%
-  );
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  clip-path: inset(0 calc((1 - var(--fillp, 0)) * 100%) 0 0);
-}
-
-/* ── HUD bottom bar divider ── */
-.hud-bar {
-  border-top: 1px solid rgba(var(--line), 0.06);
-}
-
-/* ── Reduced-motion: freeze marquee, skip fill animation ── */
-@media (prefers-reduced-motion: reduce) {
-  .marquee-track { animation: none; }
-  .watermark-fill { clip-path: none; }
+@media (max-width: 720px) {
+  .inner { width: min(1120px, calc(100% - 2rem)); }
 }

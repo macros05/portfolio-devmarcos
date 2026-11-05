@@ -1,1 +1,16 @@
-/* App root — backgrounds live in their own components now */
+.skip-link {
+  position: absolute;
+  left: 1rem;
+  top: -4rem;
+  z-index: 80;
+  padding: 0.6rem 0.9rem;
+  border-radius: 999px;
+  background: #f4f1ea;
+  color: #0c0c0b;
+  font: 500 0.9rem/1 'Geist', system-ui, sans-serif;
+  text-decoration: none;
+}
+
+.skip-link:focus {
+  top: 0.7rem;
+}

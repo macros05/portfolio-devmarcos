@@ -1,0 +1,41 @@
+<article class="feature" [reveal]="'up'">
+  <div class="preview">
+    <img
+      src="/assets/posters/kairova.svg"
+      alt=""
+      width="1280"
+      height="800"
+      loading="lazy"
+      decoding="async" />
+  </div>
+
+  <div class="copy">
+    <p class="meta">
+      <span class="kicker">{{ t().kairova.kicker }}</span>
+      <span>{{ t().kairova.launched }}</span>
+    </p>
+
+    <h3>
+      <a [href]="url" target="_blank" rel="noopener noreferrer">{{ t().kairova.title }}</a>
+    </h3>
+
+    <p class="line">{{ t().kairova.line }}</p>
+
+    <ul class="highlights" [attr.aria-label]="t().projects.builtWith">
+      @for (item of t().kairova.highlights; track item) {
+        <li>{{ item }}</li>
+      }
+    </ul>
+
+    <p class="links">
+      <a
+        [href]="url"
+        target="_blank"
+        rel="noopener noreferrer"
+        [attr.aria-label]="t().kairova.title + ' — ' + t().projects.live + ', ' + t().projects.newTab">
+        {{ t().projects.live }}
+      </a>
+      <a routerLink="/" fragment="films">{{ t().kairova.films }}</a>
+    </p>
+  </div>
+</article>

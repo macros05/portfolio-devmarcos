@@ -6,8 +6,6 @@ import { TiltDirective } from '../../directives/tilt.directive';
 import { RevealDirective } from '../../directives/reveal.directive';
 import { MagneticDirective } from '../../directives/magnetic.directive';
 
-type ProjectId = 'ai-reels-factory' | 'trading-bot' | 'pr-party' | 'seo-costa-del-sol' | 'tecnoambiente';
-
 @Component({
   selector: 'app-project-card',
   standalone: true,
@@ -26,7 +24,18 @@ export class ProjectCardComponent {
   readonly t = inject(LanguageService).t;
 
   get projectTexts() {
-    return this.t().projects.items[this.project.id as ProjectId];
+    const items = this.t().projects.items as Record<string, {
+      shortDescription: string;
+      fullDescription: string;
+      aiIntegration: string;
+      challenges: string;
+    }>;
+    return items[this.project.id] ?? {
+      shortDescription: this.project.shortDescription,
+      fullDescription: this.project.fullDescription,
+      aiIntegration: this.project.aiIntegration,
+      challenges: this.project.challenges,
+    };
   }
 
   get indexLabel(): string {

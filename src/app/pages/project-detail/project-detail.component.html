@@ -21,7 +21,7 @@
         <span class="mono label chip-plain">{{ t().projects.detailSections.caseStudy }}</span>
         @if (project.category) {
           <span class="hero-meta-sep mono" aria-hidden="true">/</span>
-          <span class="chip-category mono">{{ project.category }}</span>
+          <span class="chip-category mono">{{ categoryLabel }}</span>
         }
         <span class="hero-meta-sep mono" aria-hidden="true">/</span>
         <span class="mono label chip-plain">{{ t().projects.category }}</span>
@@ -42,7 +42,7 @@
         <span>{{ projectIndex }}/{{ projectTotal }}</span>
         @if (project.category) {
           <span class="annot-sep" aria-hidden="true">·</span>
-          <span>{{ project.category }}</span>
+          <span>{{ categoryLabel }}</span>
         }
       </div>
 
@@ -167,10 +167,13 @@
           </div>
 
           <!-- Links -->
-          @if (project.githubUrl || project.demoUrl) {
+          @if (project.githubUrl || project.demoUrl || project.privateRepo) {
             <div class="sidebar-section">
               <h3 class="label sidebar-label">{{ t().projects.detailSections.links }}</h3>
               <div class="links-col">
+                @if (project.privateRepo && !project.githubUrl) {
+                  <span class="mono label">{{ t().projects.privateRepo }}</span>
+                }
                 @if (project.githubUrl) {
                   <a [href]="project.githubUrl" target="_blank" rel="noopener"
                      class="mono-link link-uline">

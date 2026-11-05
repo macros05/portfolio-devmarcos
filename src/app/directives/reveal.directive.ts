@@ -1,20 +1,28 @@
-import { Directive, ElementRef, Inject, Input, OnInit, PLATFORM_ID, inject } from '@angular/core';
+import { Directive, ElementRef, Inject, Input, OnDestroy, OnInit, PLATFORM_ID, inject } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { MotionService } from '../services/motion.service';
 
 export type RevealVariant = 'up' | 'down' | 'left' | 'right' | 'scale' | 'blur' | 'fade';
 
+/**
+ * Scroll reveal driven by a real spring (stiffness / damping), the same
+ * idea as Motion's default spring — a little overshoot, then it settles.
+ * Reduced motion leaves the element where it is.
+ */
 @Directive({
   selector: '[reveal]',
   standalone: true,
 })
-export class RevealDirective implements OnInit {
+export class RevealDirective implements OnInit, OnDestroy {
   @Input('reveal') variant: RevealVariant | '' = 'up';
   @Input() revealDelay = 0;
+  /** Kept so older templates can still bind it. The spring settles on its own. */
   @Input() revealDuration = 900;
   @Input() revealThreshold = 0.12;
 
-  private motion = inject(MotionService);
+  private readonly motion = inject(MotionService);
+  private observer: IntersectionObserver | null = null;
+  private frame = 0;
 
   constructor(
     private el: ElementRef<HTMLElement>,
@@ -23,48 +31,89 @@ export class RevealDirective implements OnInit {
 
   ngOnInit(): void {
     if (!isPlatformBrowser(this.platformId)) return;
-    const el = this.el.nativeElement;
-    const v: RevealVariant = (this.variant || 'up') as RevealVariant;
+    if (this.motion.reduced()) return;
 
-    const reduced = this.motion.reduced();
-    if (reduced) return;
+    const node = this.el.nativeElement;
+    const from = this.offset((this.variant || 'up') as RevealVariant);
+    node.style.opacity = '0';
+    node.style.transform = this.transform(from.x, from.y);
+    node.style.willChange = 'transform, opacity';
 
-    const initialTransform = this.getInitialTransform(v);
-    const initialFilter = v === 'blur' ? 'blur(14px)' : '';
-
-    el.style.opacity = '0';
-    el.style.transform = initialTransform;
-    if (initialFilter) el.style.filter = initialFilter;
-    el.style.transition = `opacity ${this.revealDuration}ms cubic-bezier(0.16, 1, 0.3, 1) ${this.revealDelay}ms, transform ${this.revealDuration}ms cubic-bezier(0.16, 1, 0.3, 1) ${this.revealDelay}ms, filter ${this.revealDuration}ms cubic-bezier(0.16, 1, 0.3, 1) ${this.revealDelay}ms`;
-    el.style.willChange = 'opacity, transform, filter';
-
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          el.style.opacity = '1';
-          el.style.transform = 'translate3d(0,0,0) scale(1)';
-          if (initialFilter) el.style.filter = 'blur(0)';
-          observer.unobserve(el);
-          setTimeout(() => {
-            el.style.willChange = '';
-          }, this.revealDuration + this.revealDelay + 100);
-        }
-      });
+    this.observer = new IntersectionObserver(entries => {
+      if (entries.some(entry => entry.isIntersecting)) {
+        this.observer?.disconnect();
+        this.observer = null;
+        this.springTo(node, from.x, from.y, this.revealDelay);
+      }
     }, { threshold: this.revealThreshold });
 
-    observer.observe(el);
+    this.observer.observe(node);
   }
 
-  private getInitialTransform(v: RevealVariant): string {
-    switch (v) {
-      case 'up':    return 'translate3d(0, 40px, 0)';
-      case 'down':  return 'translate3d(0, -40px, 0)';
-      case 'left':  return 'translate3d(-40px, 0, 0)';
-      case 'right': return 'translate3d(40px, 0, 0)';
-      case 'scale': return 'scale(0.92)';
-      case 'blur':  return 'translate3d(0, 20px, 0)';
-      case 'fade':  return 'none';
-      default:      return 'translate3d(0, 40px, 0)';
+  ngOnDestroy(): void {
+    this.observer?.disconnect();
+    if (this.frame) cancelAnimationFrame(this.frame);
+  }
+
+  private offset(variant: RevealVariant): { x: number; y: number } {
+    switch (variant) {
+      case 'down': return { x: 0, y: -28 };
+      case 'left': return { x: -32, y: 0 };
+      case 'right': return { x: 32, y: 0 };
+      case 'scale': return { x: 0, y: 16 };
+      case 'blur': return { x: 0, y: 18 };
+      case 'fade': return { x: 0, y: 0 };
+      default: return { x: 0, y: 28 };
     }
+  }
+
+  private transform(x: number, y: number): string {
+    return `translate3d(${x.toFixed(2)}px, ${y.toFixed(2)}px, 0)`;
+  }
+
+  /** Under-damped spring. stiffness 170, damping 18, mass 1. */
+  private springTo(node: HTMLElement, fromX: number, fromY: number, delay: number): void {
+    const stiffness = 170;
+    const damping = 18;
+    let x = fromX;
+    let y = fromY;
+    let vx = 0;
+    let vy = 0;
+    let opacity = 0;
+    let vo = 0;
+    let start = 0;
+
+    const tick = (now: number) => {
+      if (!start) start = now;
+      if (now - start < delay) {
+        this.frame = requestAnimationFrame(tick);
+        return;
+      }
+      const dt = 1 / 60;
+      vx += (-stiffness * x - damping * vx) * dt;
+      x += vx * dt;
+      vy += (-stiffness * y - damping * vy) * dt;
+      y += vy * dt;
+      vo += (-stiffness * (opacity - 1) - damping * vo) * dt;
+      opacity += vo * dt;
+
+      node.style.transform = this.transform(x, y);
+      node.style.opacity = String(Math.max(0, Math.min(1, opacity)));
+
+      const settled =
+        Math.abs(x) < 0.3 && Math.abs(y) < 0.3 &&
+        Math.abs(vx) < 0.3 && Math.abs(vy) < 0.3 &&
+        Math.abs(opacity - 1) < 0.01;
+      if (settled) {
+        node.style.transform = '';
+        node.style.opacity = '';
+        node.style.willChange = '';
+        this.frame = 0;
+        return;
+      }
+      this.frame = requestAnimationFrame(tick);
+    };
+
+    this.frame = requestAnimationFrame(tick);
   }
 }

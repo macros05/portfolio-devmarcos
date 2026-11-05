@@ -1,0 +1,27 @@
+<section class="films" id="films">
+  <div class="inner">
+    <header class="intro" [reveal]="'up'">
+      <p class="kicker">{{ t().films.kicker }}</p>
+      <h2>{{ t().films.title }}</h2>
+      <p class="lede">{{ t().films.intro }}</p>
+    </header>
+
+    <div class="grid">
+      @for (film of films; track film.id; let i = $index) {
+        <figure class="film" [class.is-portrait]="film.height > film.width" [reveal]="'up'" [revealDelay]="i * 80">
+          <app-media-slot
+            [src]="film.src"
+            [poster]="film.poster"
+            [label]="text(film.title)"
+            [width]="film.width"
+            [height]="film.height">
+          </app-media-slot>
+          <figcaption>
+            <span class="title">{{ text(film.title) }}</span>
+            <span class="caption">{{ text(film.caption) }}</span>
+          </figcaption>
+        </figure>
+      }
+    </div>
+  </div>
+</section>

@@ -1,45 +1,24 @@
-import { Component, signal, afterNextRender } from '@angular/core';
+import { Component, effect, inject } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
-import { CursorComponent } from './components/cursor/cursor.component';
+import { HeaderComponent } from './components/header/header.component';
 import { ScrollProgressComponent } from './components/scroll-progress/scroll-progress.component';
-import { WebglSceneComponent } from './components/webgl-scene/webgl-scene.component';
-import { SideIndexComponent } from './components/side-index/side-index.component';
-import { HudComponent } from './components/hud/hud.component';
+import { LanguageService } from './services/language.service';
 
 @Component({
   selector: 'app-root',
-  imports: [
-    RouterOutlet,
-    SideIndexComponent,
-    HudComponent,
-    ScrollProgressComponent,
-    WebglSceneComponent,
-    CursorComponent,
-  ],
+  imports: [RouterOutlet, HeaderComponent, ScrollProgressComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 })
 export class AppComponent {
-  /** Active section id, mirrored to the HUD. side-index tracks its own copy. */
-  protected readonly activeSection = signal('index');
-  private readonly sectionIds = ['index', 'about', 'work', 'lab', 'contact'];
+  private readonly doc = inject(DOCUMENT);
+  private readonly lang = inject(LanguageService);
+  protected readonly t = this.lang.t;
 
   constructor() {
-    // afterNextRender only fires in the browser, after the first paint, so the
-    // routed home sections exist by the time we look them up.
-    afterNextRender(() => {
-      const observer = new IntersectionObserver(
-        entries => {
-          for (const e of entries) {
-            if (e.isIntersecting) this.activeSection.set(e.target.id);
-          }
-        },
-        { rootMargin: '-40% 0px -55% 0px', threshold: 0 },
-      );
-      for (const id of this.sectionIds) {
-        const el = document.getElementById(id);
-        if (el) observer.observe(el);
-      }
+    effect(() => {
+      this.doc.documentElement.lang = this.lang.lang();
     });
   }
 }

@@ -1,255 +1,111 @@
-/* ═══════════════════════════════════════════════════════════════════════
-   CONTACT — Terminal / CLI console reskin
-   Monochrome: paper-white on near-black.
-   Spectral cyan/magenta ONLY as micro-signals.
-   ═══════════════════════════════════════════════════════════════════════ */
+:host { display: block; }
 
-/* ── Section chrome ───────────────────────────────────────────────────── */
-.contact-section {
-  /* ensure the section doesn't inherit legacy glass fog */
+.inner {
+  width: min(1120px, calc(100% - 2.5rem));
+  margin: 0 auto;
+  padding: 2rem 0 5rem;
 }
 
-.contact-title {
-  font-size: clamp(2.5rem, 7vw, 5.5rem);
-  line-height: 1.05;
-  letter-spacing: -0.02em;
-  color: rgb(var(--paper));
-  font-weight: 600;
-}
-
-.contact-subtitle {
-  font-size: 0.8125rem;
-  color: rgb(var(--paper-soft));
-  max-width: 52ch;
-  line-height: 1.6;
-}
-
-/* ── Terminal window ──────────────────────────────────────────────────── */
-.terminal {
-  /* .panel--solid from global → background: rgb(var(--ink-1)); no blur */
-  border: 1px solid rgba(var(--line), 0.14);
-  border-radius: 0;          /* brutally square — no softness in a terminal */
-  overflow: hidden;
-}
-
-/* Title bar */
-.term-titlebar {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 9px 14px;
-  background: rgba(var(--ink-2), 0.6);
-  border-bottom: 1px solid rgba(var(--line), 0.12);
-}
-
-.term-dots {
-  display: flex;
-  gap: 6px;
-  align-items: center;
-}
-
-.term-dot {
-  display: inline-block;
-  width: 9px;
-  height: 9px;
-  border: 1px solid rgba(var(--line), 0.28);
-  flex-shrink: 0;
-}
-/* keep monochrome — no macOS traffic lights */
-.term-dot--a { border-color: rgba(var(--paper-soft), 0.22); }
-.term-dot--b { border-color: rgba(var(--paper-soft), 0.22); }
-.term-dot--c { border-color: rgba(var(--paper-soft), 0.22); }
-
-.term-path {
-  font-size: 11px;
-  color: rgb(var(--paper-soft));
-  letter-spacing: 0.06em;
-  flex: 1;
-}
-
-.term-live-wrap {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-}
-
-.term-live-label {
-  font-size: 10px;
-  color: rgba(var(--paper-soft), 0.6);
-  letter-spacing: 0.1em;
+.kicker {
+  margin: 0 0 0.8rem;
+  color: #a39e94;
+  font: 500 0.72rem/1 'Geist Mono', ui-monospace, monospace;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
 }
 
-/* Console body */
-.term-body {
-  padding: 18px 20px 24px;
+h2 {
+  margin: 0;
+  font-family: 'Newsreader', Georgia, serif;
+  font-weight: 450;
+  font-size: clamp(2.1rem, 4vw, 3.4rem);
+  letter-spacing: -0.03em;
 }
 
-/* ── Prompt line (decorative) ─────────────────────────────────────────── */
-.term-prompt-line {
-  display: flex;
-  align-items: baseline;
-  gap: 8px;
-  margin-bottom: 20px;
-  padding-bottom: 14px;
-  border-bottom: 1px solid rgba(var(--line), 0.10);
+.lede {
+  max-width: 32rem;
+  margin: 0.85rem 0 0;
+  color: #b7b2a8;
+  font: 400 1.05rem/1.55 'Geist', system-ui, sans-serif;
 }
 
-.term-prompt {
-  font-size: 12px;
-  color: rgb(var(--spectral-a));
-  opacity: 0.9;
-  white-space: nowrap;
+form {
+  max-width: 36rem;
+  margin-top: 2rem;
 }
 
-.term-command {
-  font-size: 12px;
-  color: rgb(var(--paper));
-  opacity: 0.65;
-}
-
-/* ── Form fields ──────────────────────────────────────────────────────── */
-.term-form {
-  display: flex;
-  flex-direction: column;
-  gap: 0;
-}
-
-.term-field {
+.field {
   display: grid;
-  grid-template-columns: 100px 1fr;
-  align-items: baseline;
-  border-bottom: 1px solid rgba(var(--line), 0.08);
-  transition: border-color 0.2s ease;
+  gap: 0.35rem;
+  margin-bottom: 1.15rem;
 }
 
-.term-field:focus-within {
-  border-bottom-color: rgba(var(--spectral-a), 0.35);
+label {
+  color: #a39e94;
+  font: 500 0.78rem/1 'Geist', system-ui, sans-serif;
 }
 
-.term-field--message {
-  align-items: flex-start;
-}
-
-.term-field-label {
-  font-size: 12px;
-  color: rgb(var(--paper-soft));
-  padding: 12px 10px 12px 0;
-  letter-spacing: 0.04em;
-  white-space: nowrap;
-  user-select: none;
-}
-
-.term-input {
+input,
+textarea {
   width: 100%;
+  margin: 0;
+  padding: 0.75rem 0;
+  border: 0;
+  border-bottom: 1px solid rgba(244, 241, 234, 0.18);
+  border-radius: 0;
   background: transparent;
-  border: none;
-  outline: none;
-  color: rgb(var(--paper));
-  font-size: 13px;
-  letter-spacing: 0.02em;
-  padding: 12px 8px;
-  caret-color: rgb(var(--spectral-a));
-  /* Let global :focus-visible handle the visible focus ring per convention */
+  color: #f4f1ea;
+  font: 400 1rem/1.45 'Geist', system-ui, sans-serif;
 }
 
-.term-input::placeholder {
-  color: rgba(var(--paper-soft), 0.35);
-  font-style: normal;
+textarea { resize: vertical; min-height: 8rem; }
+
+input::placeholder,
+textarea::placeholder { color: rgba(163, 158, 148, 0.7); }
+
+input:focus,
+textarea:focus { outline: none; border-bottom-color: #c6a36a; }
+
+.status {
+  margin: 0.4rem 0 0.8rem;
+  color: #b7b2a8;
+  font: 400 0.95rem/1.4 'Geist', system-ui, sans-serif;
 }
 
-.term-textarea {
-  min-height: 96px;
-  line-height: 1.55;
-  padding-top: 12px;
-  field-sizing: content;
-}
+.status.is-ok { color: #d7c7a4; }
+.status.is-bad { color: #e3b2a4; }
 
-/* ── Status output ────────────────────────────────────────────────────── */
-.term-status {
+.actions {
   display: flex;
-  align-items: baseline;
-  gap: 8px;
-  padding: 10px 0 6px;
-  border-top: 1px solid rgba(var(--line), 0.08);
-  margin-top: 2px;
-}
-
-.term-chevron {
-  font-size: 12px;
-  flex-shrink: 0;
-}
-
-.term-status-text {
-  font-size: 12px;
-  letter-spacing: 0.03em;
-}
-
-.term-status--sending .term-chevron,
-.term-status--sending .term-status-text {
-  color: rgb(var(--paper-soft));
-}
-
-.term-status--success .term-chevron,
-.term-status--success .term-status-text {
-  color: rgb(var(--spectral-a));   /* cyan — the ONLY success color in palette */
-}
-
-.term-status--error .term-chevron,
-.term-status--error .term-status-text {
-  color: rgb(var(--spectral-b));   /* magenta for error signal */
-}
-
-/* Gentle blink for sending state */
-.blink-text {
-  animation: blink-soft 1.4s ease-in-out infinite;
-}
-@keyframes blink-soft {
-  0%, 100% { opacity: 1; }
-  50%       { opacity: 0.4; }
-}
-
-/* ── Submit row ───────────────────────────────────────────────────────── */
-.term-submit-row {
-  padding-top: 18px;
-}
-
-.term-submit {
-  display: inline-flex;
+  flex-wrap: wrap;
   align-items: center;
-  gap: 7px;
-  background: transparent;
-  border: 1px solid rgba(var(--line), 0.18);
-  color: rgb(var(--paper));
-  font-size: 12px;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  padding: 9px 18px;
-  cursor: pointer;
-  transition:
-    border-color 0.2s ease,
-    color 0.2s ease,
-    background 0.2s ease;
+  gap: 1.25rem;
+  margin-top: 0.6rem;
 }
 
-.term-submit:hover:not(:disabled) {
-  border-color: rgba(var(--spectral-a), 0.55);
-  color: rgb(var(--spectral-a));
-  background: rgba(var(--spectral-a), 0.05);
+button {
+  min-height: 44px;
+  padding: 0 1.25rem;
+  border: 0;
+  border-radius: 999px;
+  background: #f4f1ea;
+  color: #0c0c0b;
+  font: 500 0.95rem/1 'Geist', system-ui, sans-serif;
 }
 
-.term-submit:disabled {
-  opacity: 0.4;
-  cursor: not-allowed;
+button:hover { background: #fff; }
+button:disabled { opacity: 0.55; }
+
+.actions a {
+  color: #f4f1ea;
+  font: 500 0.95rem/1 'Geist', system-ui, sans-serif;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(198, 163, 106, 0.7);
+  padding-bottom: 1px;
 }
 
-.term-submit-prompt {
-  color: rgb(var(--spectral-a));
-  opacity: 0.8;
-}
+.actions a:hover { color: #c6a36a; }
 
-/* ── Reduced motion ───────────────────────────────────────────────────── */
-@media (prefers-reduced-motion: reduce) {
-  .blink-text { animation: none; opacity: 0.85; }
-  .live-dot   { animation: none; }
+@media (max-width: 720px) {
+  .inner { width: min(1120px, calc(100% - 2rem)); }
 }

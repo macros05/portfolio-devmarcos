@@ -15,8 +15,6 @@ import { LanguageService } from '../../services/language.service';
 import { MotionService } from '../../services/motion.service';
 import { RevealDirective } from '../../directives/reveal.directive';
 
-type ProjectId = 'ai-reels-factory' | 'trading-bot' | 'pr-party' | 'seo-costa-del-sol' | 'tecnoambiente';
-
 @Component({
   selector: 'app-project-detail',
   standalone: true,
@@ -28,7 +26,8 @@ type ProjectId = 'ai-reels-factory' | 'trading-bot' | 'pr-party' | 'seo-costa-de
 export class ProjectDetailComponent implements OnInit {
   private route = inject(ActivatedRoute);
   private platformId = inject(PLATFORM_ID);
-  readonly t = inject(LanguageService).t;
+  private readonly lang = inject(LanguageService);
+  readonly t = this.lang.t;
   readonly reduced = inject(MotionService).reduced;
 
   project: Project | undefined;
@@ -44,9 +43,26 @@ export class ProjectDetailComponent implements OnInit {
     }
   }
 
+  get categoryLabel(): string {
+    return this.project?.category[this.lang.lang()] ?? '';
+  }
+
   get projectTexts() {
     if (!this.project) return null;
-    return this.t().projects.items[this.project.id as ProjectId];
+    const items = this.t().projects.items as Record<string, {
+      shortDescription: string;
+      fullDescription: string;
+      aiIntegration: string;
+      challenges: string;
+    }>;
+    const localized = items[this.project.id];
+    if (localized) return localized;
+    return {
+      shortDescription: this.project.summary[this.lang.lang()],
+      fullDescription: this.project.fullDescription,
+      aiIntegration: this.project.aiIntegration,
+      challenges: this.project.challenges,
+    };
   }
 
   /** Ordered body sections, numbered in the template; AI is optional. */
@@ -56,7 +72,7 @@ export class ProjectDetailComponent implements OnInit {
     const d = this.t().projects.detailSections;
     const out = [{ label: d.overview, body: tx.fullDescription }];
     if (tx.aiIntegration) out.push({ label: d.ai, body: tx.aiIntegration });
-    out.push({ label: d.challenges, body: tx.challenges });
+    if (tx.challenges) out.push({ label: d.challenges, body: tx.challenges });
     return out;
   }
 

@@ -1,66 +1,105 @@
 import { Project } from '../models/project.model';
 
+/**
+ * Featured work. One-line summaries come from the public repos
+ * (github.com/macros05), the live sites, and what Marcos described.
+ * Private source is labeled, never linked. The trading dashboard and
+ * polymarket-copytrade sit beside the public trading bot.
+ */
 export const PROJECTS: Project[] = [
   {
-    id: 'ai-reels-factory',
-    title: 'AI REELS FACTORY',
-    category: 'AI Video Pipeline',
-    shortDescription: 'Estudio end-to-end que produce reels hiperrealistas dirigidos por IA: Claude escribe el guion y dirige plano a plano, Higgsfield genera el vídeo y ElevenLabs pone la voz.',
-    fullDescription: 'AI Reels Factory es un pipeline completo de producción de vídeo vertical: a partir de un brief (tema, audiencia, tono, referencias visuales), Claude genera el guion, extrae el estilo visual de las referencias y elabora un shot plan cinematográfico plano a plano. Higgsfield renderiza los clips, ElevenLabs sintetiza la voz, Whisper genera subtítulos y ffmpeg ensambla el MP4 final. Se controla desde una interfaz web o desde cualquier cliente MCP mediante un servidor de tools propio.',
-    techStack: ['Python', 'FastAPI', 'React 19', 'TypeScript', 'Claude AI', 'ElevenLabs', 'MCP', 'FFmpeg'],
-    aiIntegration: 'Tres roles de Claude encadenados (guionista, extractor de estilo y director de fotografía), voz de ElevenLabs y subtítulos con Whisper, controlables vía MCP.',
-    challenges: 'Orquestar un pipeline multimodal de siete etapas con artefactos intermedios reutilizables y paridad total entre la interfaz web y el servidor MCP.',
-    githubUrl: 'https://github.com/macros05/ai-reels-factory',
-    imageUrl: '/assets/posters/ai-reels-factory.svg',
-  },
-  {
-    id: 'trading-bot',
-    title: 'TRADING BOT',
-    category: 'Algorithmic Trading',
-    shortDescription: 'Bot de trading algorítmico para BTC/USDT con estrategia de momentum, filtro macro con IA y validación sobre 129.000 velas históricas. 227 tests automatizados.',
-    fullDescription: 'Bot de trading escrito en Python 3.13 sobre asyncio que opera BTC/USDT en Binance Testnet. Implementa una estrategia de momentum (RSI + SMA) con un filtro macro de noticias, recibe precios por WebSocket con fallback automático a REST y notifica operaciones por Telegram. Validado con un backtest de 90 días sobre 129.602 velas antes de desplegarse en Docker Compose junto a su API y dashboard.',
-    techStack: ['Python 3.13', 'asyncio', 'ccxt', 'FastAPI', 'Next.js', 'Gemini AI', 'Docker', 'Telegram API'],
-    aiIntegration: 'Capa de señales macro que analiza noticias de mercado con Gemini para ajustar la agresividad de la estrategia según el contexto.',
-    challenges: 'Streaming WebSocket con reconexión y fallback a REST sin perder velas, circuit-breakers y 227 tests de unidad e integración asíncronos.',
-    githubUrl: 'https://github.com/macros05/trading-bot',
-    imageUrl: '/assets/posters/trading-bot.svg',
-  },
-  {
-    id: 'pr-party',
-    title: 'PR PARTY',
-    category: 'Multi-Agent Review',
-    shortDescription: 'Hackathon de IBM 2026: seis agentes de IA especializados revisan tu Pull Request en paralelo y presentan los hallazgos como un combate RPG con daño, veredictos y diálogo entre personajes.',
-    fullDescription: 'PR Party reinventa la code review: seis personajes especialistas (seguridad, base de datos, UX, arquitectura, tests y documentación) analizan el PR en paralelo y reportan cada hallazgo como un golpe en un encuentro por turnos. Construido end-to-end durante el hackathon de IBM con IBM Bob como núcleo cognitivo y watsonx.ai para la voz de cada personaje.',
-    techStack: ['Python', 'FastAPI', 'Next.js 16', 'React 19', 'watsonx.ai', 'IBM Bob', 'Tailwind'],
-    aiIntegration: 'Orquestación multi-agente: seis revisores con dominios y personalidades propias sobre watsonx.ai, con doble pasada de filtrado de ruido.',
-    challenges: 'Mapear severidad técnica a un sistema de daño coherente y resolver contradicciones entre agentes como diálogo cruzado, dentro del tiempo del hackathon.',
-    githubUrl: 'https://github.com/macros05/pr_party_ibm_hackthon',
-    imageUrl: '/assets/posters/pr-party.svg',
-  },
-  {
     id: 'seo-costa-del-sol',
-    title: 'SEO COSTA DEL SOL',
-    category: 'Technical SEO',
-    shortDescription: 'Landing y blog de servicios de SEO local para negocios de la Costa del Sol, con SEO técnico prerenderizado por ruta y datos estructurados. En producción en seocostadelsol.com.',
-    fullDescription: 'Web de captación para servicios de SEO local en Málaga y la Costa del Sol: landing de conversión con formulario de auditoría gratuita, páginas por ciudad y sector, FAQ y un blog con decenas de guías locales. Al ser una SPA de Vite, el SEO se resuelve con un generador post-build propio que crea un HTML estático por ruta con título, descripción, canonical, Open Graph y JSON-LD, además de sitemap y robots.txt. Desplegada en Cloudflare Pages.',
-    techStack: ['React 18', 'Vite', 'Framer Motion', 'React Router 7', 'JSON-LD', 'Cloudflare Pages'],
-    aiIntegration: '',
-    challenges: 'SEO técnico de primera en una SPA sin SSR: un script post-build genera un index.html por ruta con metadatos y JSON-LD, con fallback de rutas vía _redirects en Cloudflare Pages.',
+    title: 'SEO Costa del Sol',
+    category: { en: 'Local SEO', es: 'SEO local' },
+    summary: {
+      en: 'Local SEO landing and blog for Costa del Sol businesses, with keyword-driven posts and an ops backend.',
+      es: 'Landing y blog de SEO local para negocios de la Costa del Sol, con posts por keyword y un backend de operaciones.',
+    },
+    techStack: ['React', 'Vite', 'Prerender', 'JSON-LD', 'Cloudflare Pages'],
+    privateRepo: true,
     demoUrl: 'https://seocostadelsol.com',
-    githubUrl: 'https://github.com/macros05/seo-costa-del-sol',
-    imageUrl: '/assets/posters/seo-costa-del-sol.jpg',
+    imageUrl: '/assets/posters/seo-costa.svg',
+    shortDescription:
+      'Local SEO landing and blog for Costa del Sol businesses, with keyword-driven posts and an ops backend.',
+    fullDescription:
+      'A local SEO landing and blog for businesses on the Costa del Sol. Posts are generated from keywords, and an ops backend sits behind the site. React and Vite, with a custom static prerender per route (title, canonical, H1, JSON-LD), city and service pages, a blog, a sitemap, and a BreadcrumbList check that fails the build if the trail is broken. Hosted on Cloudflare Pages.',
+    aiIntegration: '',
+    challenges:
+      'The BreadcrumbList is validated at build time, so a broken trail fails the build instead of shipping.',
+  },
+  {
+    id: 'ai-reels-factory',
+    title: 'AI Reels Factory',
+    category: { en: 'AI video', es: 'Vídeo con IA' },
+    summary: {
+      en: 'End-to-end pipeline for short AI reels — a brief goes in, script, voice, and the cut come out.',
+      es: 'Pipeline de punta a punta para reels cortos con IA: entra un brief y salen guion, voz y el corte.',
+    },
+    techStack: ['Python', 'FastAPI', 'React', 'Claude', 'ElevenLabs', 'Remotion'],
+    githubUrl: 'https://github.com/macros05/ai-reels-factory',
+    imageUrl: '/assets/posters/ai-reels.svg',
+    shortDescription:
+      'End-to-end pipeline for short AI reels — a brief goes in, script, voice, and the cut come out.',
+    fullDescription:
+      'End-to-end pipeline for AI-generated short reels. Claude writes the script and the shot plan, Higgsfield renders, ElevenLabs voices it, and Remotion sits in the branded path. Same tools from the web UI or an MCP server.',
+    aiIntegration:
+      'Claude for script, style, and shot plan. ElevenLabs for voice. Whisper for subtitles.',
+    challenges:
+      'Keeping a multi-step video pipeline editable, so one shot can be redone without rerunning the rest.',
+  },
+  {
+    id: 'leads-scout',
+    title: 'Leads Scout',
+    category: { en: 'Lead tooling', es: 'Leads' },
+    summary: {
+      en: 'Finds local businesses, scores their sites with AI, and runs the sales pipeline.',
+      es: 'Encuentra negocios locales, puntúa sus webs con IA y mueve el pipeline de ventas.',
+    },
+    techStack: ['Java', 'Spring Boot', 'Angular', 'Gemini'],
+    githubUrl: 'https://github.com/macros05/Leads-scout',
+    imageUrl: '/assets/posters/leads-scout.svg',
+    shortDescription:
+      'Finds local businesses, scores their sites with AI, and runs the sales pipeline.',
+    fullDescription:
+      'Fullstack platform for local lead prospecting. It finds businesses by sector, reads their sites with AI, detects the tech stack, and tracks them through a sales pipeline.',
+    aiIntegration: 'Gemini reads each business site and helps score it.',
+    challenges: '',
+  },
+  {
+    id: 'trading-systems',
+    title: 'Trading systems',
+    category: { en: 'Real-time trading', es: 'Trading en tiempo real' },
+    summary: {
+      en: 'BTC momentum bot checked on 129,602 candles, plus a dashboard and a Polymarket copy-trader.',
+      es: 'Bot de momentum para BTC, probado con 129.602 velas, más un dashboard y un copy-trader de Polymarket.',
+    },
+    techStack: ['Python', 'asyncio', 'FastAPI', 'Next.js'],
+    githubUrl: 'https://github.com/macros05/trading-bot',
+    imageUrl: '/assets/posters/trading.svg',
+    shortDescription:
+      'BTC momentum bot checked on 129,602 candles, plus a dashboard and a Polymarket copy-trader.',
+    fullDescription:
+      'Real-time trading systems. The public bot trades BTC/USDT with a momentum strategy (RSI + SMA), a macro filter, and WebSocket prices with a REST fallback. It was checked on a 90-day backtest of 129,602 one-minute candles. A dashboard and a Polymarket copy-trader sit beside it.',
+    aiIntegration: 'A macro filter reads market news with Gemini before the strategy gets aggressive.',
+    challenges:
+      'Keeping the candle stream alive across WebSocket drops without missing a minute.',
   },
   {
     id: 'tecnoambiente',
-    title: 'TECNOAMBIENTE',
-    category: 'Document AI',
-    shortDescription: 'Plataforma de gestión documental con extracción inteligente de metadatos mediante IA para una empresa medioambiental.',
-    fullDescription: 'Tecnoambiente es una aplicación web desarrollada para Tradebe que centraliza la gestión de documentación técnica medioambiental. Permite subir PDFs, extraer automáticamente metadatos como título, autores, año y palabras clave usando la API de Gemini, y clasificarlos por familia y especie. Incluye un sistema de búsqueda avanzada con filtros múltiples y un panel de administración para gestión de usuarios.',
-    techStack: ['Angular', 'FastAPI', 'Python', 'MySQL', 'Gemini AI'],
-    aiIntegration: 'Integración con Google Gemini para extracción automática de metadatos desde PDFs: título, autores, año de publicación, palabras clave, familia y especie.',
-    challenges: 'Procesamiento asíncrono de PDFs de gran tamaño y extracción precisa de metadatos con IA, garantizando coherencia en documentos con formatos heterogéneos.',
-    demoUrl: 'https://tecno.marcosmorales.dev/',
+    title: 'TecnoAmbiente',
+    category: { en: 'Client work', es: 'Para un cliente' },
+    summary: {
+      en: 'Bibliography app delivered to Tecnoambiente — catalogue, search, and filters for their references.',
+      es: 'App de bibliografía entregada a Tecnoambiente: catálogo, búsqueda y filtros para sus referencias.',
+    },
+    techStack: ['Angular', 'FastAPI', 'MySQL'],
     githubUrl: 'https://github.com/macros05/TecnoAmbiente-bibliography',
-    videoUrl: '/assets/videos/tecnoambiente.mp4',
+    imageUrl: '/assets/posters/tecnoambiente.svg',
+    shortDescription:
+      'Bibliography app delivered to Tecnoambiente — catalogue, search, and filters for their references.',
+    fullDescription:
+      'Web app delivered to Tecnoambiente for their biological bibliography. People can browse the catalogue, search, filter, and manage references. Angular on the front, FastAPI and MySQL behind it.',
+    aiIntegration: '',
+    challenges: '',
   },
 ];

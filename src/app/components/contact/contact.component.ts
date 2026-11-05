@@ -7,9 +7,7 @@ import {
 } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { LanguageService } from '../../services/language.service';
-import { MotionService } from '../../services/motion.service';
 import { RevealDirective } from '../../directives/reveal.directive';
-import { DecodeDirective } from '../../directives/decode.directive';
 
 export type SubmitStatus = 'idle' | 'sending' | 'success' | 'error';
 
@@ -17,13 +15,12 @@ export type SubmitStatus = 'idle' | 'sending' | 'success' | 'error';
   selector: 'app-contact',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RevealDirective, DecodeDirective],
+  imports: [RevealDirective],
   templateUrl: './contact.component.html',
   styleUrl: './contact.component.css',
 })
 export class ContactComponent {
   readonly t = inject(LanguageService).t;
-  readonly motion = inject(MotionService);
   private readonly platformId = inject(PLATFORM_ID);
 
   readonly status = signal<SubmitStatus>('idle');

@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 800">
+  <rect width="1280" height="800" fill="#121211"/>
+  <path d="M760 560 L860 470 L960 500 L1080 340 L1180 280" fill="none" stroke="#c6a36a" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="88" y="370" fill="#f4f1ea" font-family="Georgia, serif" font-size="64">129,602</text>
+  <text x="88" y="450" fill="#c6a36a" font-family="Georgia, serif" font-size="64" font-style="italic">candles.</text>
+</svg>
