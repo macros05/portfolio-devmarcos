@@ -30,5 +30,7 @@ describe('ProjectsGalleryComponent', () => {
     expect(leads.length).toBe(PROJECTS.filter(project => project.lead).length);
     expect(rest.length).toBe(PROJECTS.filter(project => !project.lead).length);
     expect(leads.length).toBe(3);
+    const titles = [...leads].map((el: Element) => el.querySelector('h3')?.textContent?.trim());
+    expect(titles).toEqual(['Reels Factory', 'Trading desk', 'Kairova']);
   });
 });

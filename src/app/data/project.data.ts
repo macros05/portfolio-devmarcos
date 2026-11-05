@@ -8,35 +8,33 @@ import { Project } from '../models/project.model';
  */
 export const PROJECTS: Project[] = [
   {
-    id: 'kairova',
-    title: 'Kairova',
+    id: 'ai-reels-factory',
+    title: 'Reels Factory',
     lead: true,
-    category: { en: 'Agency', es: 'Agencia' },
-    meta: { en: 'Launched November 2026', es: 'Lanzada en noviembre de 2026' },
+    category: { en: 'AI video', es: 'Vídeo con IA' },
     summary: {
-      en: 'AI agency for real-estate agencies with international buyers — a 24/7 multilingual lead assistant, plus lead-handling audits.',
-      es: 'Agencia de IA para inmobiliarias con compradores internacionales: un asistente de leads multilingüe 24/7 y auditorías de cómo se gestionan.',
+      en: 'A brief in. A short AI reel out.',
+      es: 'Entra un brief. Sale un reel corto con IA.',
     },
     highlights: [
-      { en: 'Answers in the buyer’s language, day and night', es: 'Contesta en el idioma del comprador, de día y de noche' },
-      { en: 'Audits how the agency handles those leads', es: 'Audita cómo la agencia trata esos leads' },
-      { en: 'A brand kit of its own', es: 'Brand kit propio' },
+      { en: 'Claude writes the script and the shot plan', es: 'Claude escribe el guion y el plan de planos' },
+      { en: 'Same controls on the web and over MCP', es: 'Los mismos controles en la web y por MCP' },
+      { en: 'One shot can be redone alone', es: 'Un plano se puede rehacer solo' },
     ],
-    flow: ['Browser', 'Cloudflare DNS', 'nginx', 'Next.js 16'],
+    flow: ['Brief', 'Claude', 'Higgsfield', 'ElevenLabs', 'Remotion'],
     system: {
-      en: 'The public site is a Next.js 16 landing. Nginx on a VPS terminates traffic, the app runs in Docker, and Cloudflare holds the DNS so the machine is not the public name. Lenis does the scroll on that landing.',
-      es: 'La web pública es una landing en Next.js 16. Nginx en un VPS corta el tráfico, la app va en Docker, y Cloudflare tiene el DNS para que la máquina no sea el nombre público. Lenis hace el scroll de esa landing.',
+      en: 'A brief goes to Claude for the script, the look, and a shot plan. Higgsfield renders the clips, ElevenLabs speaks, and Remotion with ffmpeg assembles the cut. The web UI and an MCP server call the same steps, so one shot can be regenerated without rerunning the film.',
+      es: 'Un brief pasa por Claude para el guion, el look y el plan de planos. Higgsfield renderiza los clips, ElevenLabs pone la voz, y Remotion con ffmpeg monta el corte. La web y un servidor MCP llaman a los mismos pasos, así que un plano se regenera sin repetir el reel.',
     },
-    techStack: ['Next.js 16', 'Docker', 'nginx', 'Cloudflare', 'Lenis'],
-    demoUrl: 'https://kairovahq.com',
-    imageUrl: '/assets/projects/kairova.webp',
-    video: { src: '/assets/projects/kairova.mp4', poster: '/assets/projects/kairova.webp' },
-    shortDescription:
-      'AI agency for real-estate agencies with international buyers — a 24/7 multilingual lead assistant, plus lead-handling audits.',
+    techStack: ['Python', 'FastAPI', 'React', 'Claude', 'Remotion'],
+    githubUrl: 'https://github.com/macros05/ai-reels-factory',
+    imageUrl: '/assets/projects/reels.webp',
+    video: { src: '/assets/projects/reels.mp4', poster: '/assets/projects/reels.webp' },
+    shortDescription: 'A brief in. A short AI reel out.',
     fullDescription:
-      'Kairova is an AI agency for real-estate agencies with international buyers. The landing is Next.js 16, behind nginx and Docker on a VPS, with DNS at Cloudflare and Lenis for scroll. Launched November 2026.',
-    aiIntegration: '',
-    challenges: '',
+      'Pipeline for short AI reels. Claude plans the shots, Higgsfield renders, ElevenLabs voices, Remotion assembles. One shot can be redone on its own.',
+    aiIntegration: 'Claude for script and shot plan. ElevenLabs for voice.',
+    challenges: 'Redo one shot without rerunning the rest.',
   },
   {
     id: 'trading-systems',
@@ -68,9 +66,39 @@ export const PROJECTS: Project[] = [
     challenges: 'Keep every candle when the WebSocket drops.',
   },
   {
+    id: 'kairova',
+    title: 'Kairova',
+    lead: true,
+    category: { en: 'Agency', es: 'Agencia' },
+    meta: { en: 'Launched November 2026', es: 'Lanzada en noviembre de 2026' },
+    summary: {
+      en: 'AI agency for real-estate agencies with international buyers — a 24/7 multilingual lead assistant, plus lead-handling audits.',
+      es: 'Agencia de IA para inmobiliarias con compradores internacionales: un asistente de leads multilingüe 24/7 y auditorías de cómo se gestionan.',
+    },
+    highlights: [
+      { en: 'Answers in the buyer’s language, day and night', es: 'Contesta en el idioma del comprador, de día y de noche' },
+      { en: 'Audits how the agency handles those leads', es: 'Audita cómo la agencia trata esos leads' },
+      { en: 'A brand kit of its own', es: 'Brand kit propio' },
+    ],
+    flow: ['Browser', 'Cloudflare DNS', 'nginx', 'Next.js 16'],
+    system: {
+      en: 'The public site is a Next.js 16 landing. Nginx on a VPS terminates traffic, the app runs in Docker, and Cloudflare holds the DNS so the machine is not the public name. Lenis does the scroll on that landing.',
+      es: 'La web pública es una landing en Next.js 16. Nginx en un VPS corta el tráfico, la app va en Docker, y Cloudflare tiene el DNS para que la máquina no sea el nombre público. Lenis hace el scroll de esa landing.',
+    },
+    techStack: ['Next.js 16', 'Docker', 'nginx', 'Cloudflare', 'Lenis'],
+    demoUrl: 'https://kairovahq.com',
+    imageUrl: '/assets/projects/kairova.webp',
+    video: { src: '/assets/projects/kairova.mp4', poster: '/assets/projects/kairova.webp' },
+    shortDescription:
+      'AI agency for real-estate agencies with international buyers — a 24/7 multilingual lead assistant, plus lead-handling audits.',
+    fullDescription:
+      'Kairova is an AI agency for real-estate agencies with international buyers. The landing is Next.js 16, behind nginx and Docker on a VPS, with DNS at Cloudflare and Lenis for scroll. Launched November 2026.',
+    aiIntegration: '',
+    challenges: '',
+  },
+  {
     id: 'seo-costa-del-sol',
     title: 'SEO Costa',
-    lead: true,
     category: { en: 'Local SEO', es: 'SEO local' },
     summary: {
       en: 'Local SEO for Costa del Sol businesses — keyword posts, and an ops backend.',
@@ -97,34 +125,6 @@ export const PROJECTS: Project[] = [
       'Local SEO landing and blog. A post-build prerender writes title, canonical, H1, and JSON-LD per route, and a BreadcrumbList check fails the build if the trail breaks. Cloudflare Pages hosts it.',
     aiIntegration: '',
     challenges: 'The breadcrumb check fails the build instead of shipping a broken trail.',
-  },
-  {
-    id: 'ai-reels-factory',
-    title: 'Reels Factory',
-    category: { en: 'AI video', es: 'Vídeo con IA' },
-    summary: {
-      en: 'A brief in. A short AI reel out.',
-      es: 'Entra un brief. Sale un reel corto con IA.',
-    },
-    highlights: [
-      { en: 'Claude writes the script and the shot plan', es: 'Claude escribe el guion y el plan de planos' },
-      { en: 'Same controls on the web and over MCP', es: 'Los mismos controles en la web y por MCP' },
-      { en: 'One shot can be redone alone', es: 'Un plano se puede rehacer solo' },
-    ],
-    flow: ['Brief', 'Claude', 'Higgsfield', 'ElevenLabs', 'Remotion'],
-    system: {
-      en: 'A brief goes to Claude for the script, the look, and a shot plan. Higgsfield renders the clips, ElevenLabs speaks, and Remotion with ffmpeg assembles the cut. The web UI and an MCP server call the same steps, so one shot can be regenerated without rerunning the film.',
-      es: 'Un brief pasa por Claude para el guion, el look y el plan de planos. Higgsfield renderiza los clips, ElevenLabs pone la voz, y Remotion con ffmpeg monta el corte. La web y un servidor MCP llaman a los mismos pasos, así que un plano se regenera sin repetir el reel.',
-    },
-    techStack: ['Python', 'FastAPI', 'React', 'Claude', 'Remotion'],
-    githubUrl: 'https://github.com/macros05/ai-reels-factory',
-    imageUrl: '/assets/projects/reels.webp',
-    video: { src: '/assets/projects/reels.mp4', poster: '/assets/projects/reels.webp' },
-    shortDescription: 'A brief in. A short AI reel out.',
-    fullDescription:
-      'Pipeline for short AI reels. Claude plans the shots, Higgsfield renders, ElevenLabs voices, Remotion assembles. One shot can be redone on its own.',
-    aiIntegration: 'Claude for script and shot plan. ElevenLabs for voice.',
-    challenges: 'Redo one shot without rerunning the rest.',
   },
   {
     id: 'leads-scout',
