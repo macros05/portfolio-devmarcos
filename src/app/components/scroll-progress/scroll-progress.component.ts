@@ -20,13 +20,13 @@ import { MotionService } from '../../services/motion.service';
       pointer-events: none;
     }
     .progress-track {
-      height: 2px;
+      height: 1px;
       width: 100%;
       background: transparent;
     }
     .progress-bar {
       height: 100%;
-      background: #e23b2b;
+      background: rgba(244, 241, 234, 0.45);
       transform-origin: left;
     }
   `],

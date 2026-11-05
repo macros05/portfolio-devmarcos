@@ -19,7 +19,7 @@
       loop
       playsinline
       preload="none"
-      (play)="playing.set(true)"
+      (timeupdate)="onFrame()"
       (pause)="playing.set(false)">
     </video>
     @if (reduced()) {

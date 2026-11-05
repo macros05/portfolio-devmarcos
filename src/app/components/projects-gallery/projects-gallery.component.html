@@ -8,10 +8,10 @@
     @for (project of leads; track project.id; let i = $index) {
       <article
         class="plate plate--lead"
+        [attr.data-chapter]="i + 1"
         (pointerenter)="hover.set(project.id)"
         (pointerleave)="hover.set(null)">
         <header class="plate-head">
-          <span class="scene">{{ scene(i) }}</span>
           <h3>
             @if (project.demoUrl || project.githubUrl) {
               <a [href]="project.demoUrl || project.githubUrl" target="_blank" rel="noopener noreferrer">{{ project.title }}</a>
@@ -24,7 +24,7 @@
           }
         </header>
 
-        <div class="stage">
+        <div class="stage dissolve">
           <app-project-preview
             [src]="project.video?.src"
             [poster]="poster(project)"
@@ -70,13 +70,13 @@
       </article>
     }
 
-    <div class="rest">
+    <div class="rest" data-chapter="4">
       @for (project of rest; track project.id; let i = $index) {
         <article
           class="plate plate--rest"
           (pointerenter)="hover.set(project.id)"
           (pointerleave)="hover.set(null)">
-          <div class="stage">
+          <div class="stage dissolve">
             <app-project-preview
               [src]="project.video?.src"
               [poster]="poster(project)"

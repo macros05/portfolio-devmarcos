@@ -74,6 +74,11 @@ export class ProjectPreviewComponent implements AfterViewInit, OnDestroy {
     this.videoRef()?.nativeElement.pause();
   }
 
+  protected onFrame(): void {
+    const video = this.videoRef()?.nativeElement;
+    if (video && video.currentTime > 0.08 && !video.paused) this.playing.set(true);
+  }
+
   protected toggle(event: Event): void {
     event.preventDefault();
     event.stopPropagation();

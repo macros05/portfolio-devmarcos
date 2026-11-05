@@ -1,15 +1,4 @@
-<section class="hero" #root (pointermove)="onPointer($event)">
-  <div class="gate" aria-hidden="true">
-    <canvas #field class="field" [class.is-off]="!showField()"></canvas>
-    <div class="fallback" [class.is-off]="showField()"></div>
-  </div>
-
-  <div class="slate">
-    <span>SC.00</span>
-    <span class="lamp" aria-hidden="true"></span>
-    <span class="tc">{{ clock() }}</span>
-  </div>
-
+<section class="hero" data-chapter="0">
   <div class="copy">
     <p class="eyebrow">{{ t().hero.open }}</p>
     <h1>Marcos<br>Morales</h1>

@@ -4,18 +4,17 @@ import { RouterOutlet } from '@angular/router';
 import { HeaderComponent } from './components/header/header.component';
 import { ScrollProgressComponent } from './components/scroll-progress/scroll-progress.component';
 import { LanguageService } from './services/language.service';
-import { SmoothScrollService } from './services/smooth-scroll.service';
+import { FieldComponent } from './components/field/field.component';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, HeaderComponent, ScrollProgressComponent],
+  imports: [RouterOutlet, HeaderComponent, ScrollProgressComponent, FieldComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 })
 export class AppComponent {
   private readonly doc = inject(DOCUMENT);
   private readonly lang = inject(LanguageService);
-  private readonly smooth = inject(SmoothScrollService);
   protected readonly t = this.lang.t;
 
   constructor() {

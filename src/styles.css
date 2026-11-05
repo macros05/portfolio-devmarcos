@@ -42,8 +42,8 @@
   }
 
   body {
-    background-color: #0b0b0c;
-    color: #f3eee6;
+    background-color: #070708;
+    color: #f4f1ea;
     font-family: 'Instrument Sans', 'Geist', system-ui, sans-serif;
     font-feature-settings: 'ss01';
     -webkit-font-smoothing: antialiased;
@@ -58,8 +58,17 @@
   }
 
   :focus-visible {
-    outline: 2px solid #1c1b19;
+    outline: 2px solid #f4f1ea;
     outline-offset: 3px;
+  }
+
+  .dissolve .frame,
+  .dissolve .slot {
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    -webkit-mask-image: radial-gradient(ellipse 86% 80% at 50% 50%, #000 58%, transparent 94%);
+    mask-image: radial-gradient(ellipse 86% 80% at 50% 50%, #000 58%, transparent 94%);
   }
 
   /* Scrollbar */

@@ -1,10 +1,10 @@
-:host { display: block; height: 100%; }
+:host { display: block; }
 
 .frame {
   position: relative;
-  height: 100%;
+  width: 100%;
   aspect-ratio: 16 / 9;
-  background: #111110;
+  background: transparent;
   overflow: hidden;
 }
 
