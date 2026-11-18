@@ -357,6 +357,7 @@ body.proposal-doc { page: proposal; }
   body.proposal-doc app-field,
   body.proposal-doc app-header,
   body.proposal-doc app-scroll-progress,
+  body.proposal-doc app-footer,
   body.proposal-doc .skip-link {
     display: none !important;
   }

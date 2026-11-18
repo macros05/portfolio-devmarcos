@@ -17,13 +17,14 @@ import { getProposal } from '../../proposals/registry';
 import { listProposalSections } from '../../proposals/proposal-sections';
 import { ProposalText } from '../../proposals/proposal.model';
 import { readProposalText } from '../../proposals/proposal-text';
+import { FooterComponent } from '../../components/footer/footer.component';
 import { LanguageService } from '../../services/language.service';
 
 @Component({
   selector: 'app-proposal',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink],
+  imports: [RouterLink, FooterComponent],
   templateUrl: './proposal.component.html',
   styleUrl: './proposal.component.css',
 })
@@ -89,6 +90,13 @@ export class ProposalComponent {
 
   protected isExternal(href: string): boolean {
     return /^https?:\/\//i.test(href);
+  }
+
+  protected clientLines(name: string): string[] {
+    const parts = name.trim().split(/\s+/).filter(Boolean);
+    if (parts.length < 2) return [name.trim()];
+    const last = parts[parts.length - 1] ?? '';
+    return [parts.slice(0, -1).join(' '), last];
   }
 
   protected indexLabel(index: number): string {
