@@ -87,8 +87,13 @@
     justify-content: space-between;
     gap: 0;
     padding: 0.2rem 0.4rem calc(0.2rem + env(safe-area-inset-bottom));
-    background: rgba(7, 7, 8, 0.94);
+    background-color: rgba(7, 7, 8, 0.94);
     border-top: 1px solid rgba(244, 241, 234, 0.12);
+    transition: background-color 0.35s ease, border-color 0.35s ease;
+  }
+  .bar.is-solid .desk {
+    background-color: #0b0b0c;
+    border-top-color: rgba(243, 238, 230, 0.12);
   }
   .desk a {
     flex: 1;
