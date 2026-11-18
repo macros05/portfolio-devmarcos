@@ -20,13 +20,14 @@ import { ProposalText } from '../../proposals/proposal.model';
 import { readProposalText } from '../../proposals/proposal-text';
 import { FooterComponent } from '../../components/footer/footer.component';
 import { ProposalBackdropComponent } from '../../components/proposal-backdrop/proposal-backdrop.component';
+import { RevealDirective } from '../../directives/reveal.directive';
 import { LanguageService } from '../../services/language.service';
 
 @Component({
   selector: 'app-proposal',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink, FooterComponent, ProposalBackdropComponent],
+  imports: [RouterLink, FooterComponent, ProposalBackdropComponent, RevealDirective],
   templateUrl: './proposal.component.html',
   styleUrl: './proposal.component.css',
 })

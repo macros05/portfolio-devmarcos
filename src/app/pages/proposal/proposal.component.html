@@ -3,14 +3,14 @@
   <article id="propuesta">
     <header class="cover">
       <div class="copy">
-        <p class="eyebrow">{{ p.example ? t().proposal.example : t().proposal.kicker }}</p>
+        <p class="eyebrow" [reveal]="'fade'">{{ p.example ? t().proposal.example : t().proposal.kicker }}</p>
         <h1 id="proposal-title">
           @for (line of clientLines(text(p.client)); track $index) {
             <span>{{ line }}</span>
           }
         </h1>
-        <p class="position">{{ text(p.title) }}</p>
-        <p class="support">
+        <p class="position" [reveal]="'up'" [revealDelay]="140">{{ text(p.title) }}</p>
+        <p class="support" [reveal]="'up'" [revealDelay]="220">
           @if (text(p.subtitle)) {
             {{ text(p.subtitle) }}
           }
@@ -21,7 +21,7 @@
             }
           </span>
         </p>
-        <p class="actions print-hide">
+        <p class="actions print-hide" [reveal]="'up'" [revealDelay]="300">
           <button type="button" class="pill" (click)="print()">{{ t().proposal.print }}</button>
         </p>
       </div>
@@ -30,7 +30,7 @@
     @if (sections().length) {
       <div class="body">
         @for (section of sections(); track section.id) {
-          <section class="band" [id]="section.id" [attr.aria-labelledby]="section.id + '-title'">
+          <section class="band" [id]="section.id" [attr.aria-labelledby]="section.id + '-title'" [reveal]="'up'">
             <div class="inner">
               <h2 [id]="section.id + '-title'">{{ section.heading }}</h2>
 
@@ -48,16 +48,17 @@
                       <p class="lede">{{ text(paragraph) }}</p>
                     }
                     @if (solution.points?.length) {
-                      <ul class="points">
+                      <ol class="nodes">
                         @for (point of solution.points; track $index) {
                           <li>
-                            <strong>{{ text(point.title) }}</strong>
+                            <span class="num">{{ indexLabel($index) }}</span>
+                            <h3>{{ text(point.title) }}</h3>
                             @if (text(point.detail)) {
-                              <span>{{ text(point.detail) }}</span>
+                              <p>{{ text(point.detail) }}</p>
                             }
                           </li>
                         }
-                      </ul>
+                      </ol>
                     }
                   }
                 }
@@ -91,15 +92,11 @@
                 }
                 @case ('phases') {
                   @if (p.phases; as phases) {
-                    <ol class="phases">
+                    <ol class="steps">
                       @for (phase of phases.items; track $index) {
                         <li>
-                          <div class="phase-top">
-                            <h3>{{ text(phase.name) }}</h3>
-                            @if (text(phase.duration)) {
-                              <span class="duration">{{ text(phase.duration) }}</span>
-                            }
-                          </div>
+                          <span class="num">{{ indexLabel($index) }}@if (text(phase.duration)) { <span aria-hidden="true"> / </span>{{ text(phase.duration) }} }</span>
+                          <h3>{{ text(phase.name) }}</h3>
                           @if (text(phase.detail)) {
                             <p>{{ text(phase.detail) }}</p>
                           }
@@ -113,39 +110,23 @@
                     @if (text(investment.note)) {
                       <p class="lede">{{ text(investment.note) }}</p>
                     }
-                    <table class="prices">
-                      <thead>
-                        <tr>
-                          <th scope="col">{{ t().proposal.concept }}</th>
-                          @if (hasPriceDetail(investment.rows)) {
-                            <th scope="col">{{ t().proposal.detail }}</th>
+                    <ul class="figures">
+                      @for (row of investment.rows; track $index) {
+                        <li>
+                          <span class="num">{{ text(row.concept) }}</span>
+                          <p class="fig">{{ text(row.amount) }}</p>
+                          @if (text(row.detail)) {
+                            <p>{{ text(row.detail) }}</p>
                           }
-                          <th scope="col" class="amount">{{ t().proposal.amount }}</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        @for (row of investment.rows; track $index) {
-                          <tr>
-                            <th scope="row">{{ text(row.concept) }}</th>
-                            @if (hasPriceDetail(investment.rows)) {
-                              <td>{{ text(row.detail) }}</td>
-                            }
-                            <td class="amount">{{ text(row.amount) }}</td>
-                          </tr>
-                        }
-                      </tbody>
-                      @if (investment.total; as total) {
-                        <tfoot>
-                          <tr>
-                            <th scope="row">{{ text(total.label) || t().proposal.total }}</th>
-                            @if (hasPriceDetail(investment.rows)) {
-                              <td></td>
-                            }
-                            <td class="amount">{{ text(total.amount) }}</td>
-                          </tr>
-                        </tfoot>
+                        </li>
                       }
-                    </table>
+                    </ul>
+                    @if (investment.total; as total) {
+                      <p class="total">
+                        <span class="num">{{ text(total.label) || t().proposal.total }}</span>
+                        <span class="fig">{{ text(total.amount) }}</span>
+                      </p>
+                    }
                   }
                 }
                 @case ('why') {
@@ -179,9 +160,12 @@
                 }
                 @case ('next') {
                   @if (p.nextSteps; as nextSteps) {
-                    <ol class="steps">
+                    <ol class="next">
                       @for (step of nextSteps.steps; track $index) {
-                        <li>{{ text(step) }}</li>
+                        <li>
+                          <span class="num">{{ indexLabel($index) }}</span>
+                          <p>{{ text(step) }}</p>
+                        </li>
                       }
                     </ol>
                   }
