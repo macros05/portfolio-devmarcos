@@ -9,8 +9,17 @@
   padding-left: max(var(--gutter-left), calc((100% - 1180px) / 2));
   padding-right: max(var(--gutter-right), calc((100% - 1180px) / 2));
   color: #f3eee6;
-  background: transparent;
+  background-color: transparent;
+  box-shadow: inset 0 -1px 0 transparent;
+  transition: background-color 0.35s ease, box-shadow 0.35s ease;
 }
+
+/* Opaque, not a filter: a backdrop-filter here would trap the fixed mobile nav. */
+.bar.is-solid {
+  background-color: #0b0b0c;
+  box-shadow: inset 0 -1px 0 rgba(243, 238, 230, 0.12);
+}
+
 
 .mark {
   color: inherit;
