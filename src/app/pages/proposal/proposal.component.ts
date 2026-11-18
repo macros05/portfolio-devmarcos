@@ -13,18 +13,20 @@ import { Meta, Title } from '@angular/platform-browser';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { map } from 'rxjs';
+import { resolveProposalBackground } from '../../proposals/background';
 import { getProposal } from '../../proposals/registry';
 import { listProposalSections } from '../../proposals/proposal-sections';
 import { ProposalText } from '../../proposals/proposal.model';
 import { readProposalText } from '../../proposals/proposal-text';
 import { FooterComponent } from '../../components/footer/footer.component';
+import { ProposalBackdropComponent } from '../../components/proposal-backdrop/proposal-backdrop.component';
 import { LanguageService } from '../../services/language.service';
 
 @Component({
   selector: 'app-proposal',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink, FooterComponent],
+  imports: [RouterLink, FooterComponent, ProposalBackdropComponent],
   templateUrl: './proposal.component.html',
   styleUrl: './proposal.component.css',
 })
@@ -45,6 +47,8 @@ export class ProposalComponent {
     this.route.paramMap.pipe(map((params) => getProposal(params.get('slug')))),
     { initialValue: getProposal(this.route.snapshot.paramMap.get('slug')) },
   );
+
+  protected readonly backdrop = computed(() => resolveProposalBackground(this.proposal()));
 
   protected readonly sections = computed(() => {
     const current = this.proposal();

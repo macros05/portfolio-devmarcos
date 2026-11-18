@@ -8,6 +8,25 @@ export interface ProposalCopy {
 
 export type ProposalText = string | ProposalCopy;
 
+/** Looping street plate. Paths are public URLs, e.g. `/assets/proposals/street.mp4`. */
+export interface ProposalVideoBackground {
+  kind: 'video';
+  /** H.264, 1080p, 6–10s, meant to loop. */
+  mp4: string;
+  /** VP9, same picture. Played when the browser supports it. */
+  webm?: string;
+  /** Still shown before the first frame, and when motion is off. */
+  poster: string;
+  /** Narrow-screen loop. Omitted means the desktop file is used. */
+  mobileMp4?: string;
+  mobileWebm?: string;
+}
+
+export type ProposalBackground =
+  | { kind: 'none' }
+  | { kind: 'gradient' }
+  | ProposalVideoBackground;
+
 export interface ProposalPoint {
   title: ProposalText;
   detail?: ProposalText;
@@ -56,6 +75,12 @@ export interface Proposal {
   title: ProposalText;
   subtitle?: ProposalText;
   preparedBy?: ProposalText;
+  /**
+   * Page background. Omit it to use the shared street loop
+   * (`DEFAULT_PROPOSAL_BACKGROUND`). `none` is a flat dark field.
+   * `gradient` is the still stand-in. `video` points at files in `public/`.
+   */
+  background?: ProposalBackground;
   context?: ProposalSectionCopy & { paragraphs: ProposalText[] };
   solution?: ProposalSectionCopy & { points?: ProposalPoint[] };
   scope?: ProposalSectionCopy & {

@@ -1,4 +1,6 @@
-<app-field></app-field>
+@if (showField()) {
+  <app-field></app-field>
+}
 <a class="skip-link" [href]="skipHref()">{{ t().nav.skip }}</a>
 <app-scroll-progress></app-scroll-progress>
 <app-header></app-header>

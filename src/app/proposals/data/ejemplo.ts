@@ -22,6 +22,14 @@ export const ejemplo: Proposal = {
     en: 'Sample proposal. Names, timing, and figures are fictional.',
   },
   preparedBy: 'Marcos Morales',
+  // Shared street loop. Replace the files in public/assets/proposals/ — see README.
+  // Other proposals can set `{ kind: 'none' }`, `{ kind: 'gradient' }`, or their own paths.
+  background: {
+    kind: 'video',
+    mp4: '/assets/proposals/street.mp4',
+    webm: '/assets/proposals/street.webm',
+    poster: '/assets/proposals/street-poster.jpg',
+  },
   context: {
     paragraphs: [
       {

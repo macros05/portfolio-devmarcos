@@ -1,0 +1,16 @@
+<div class="backdrop" [class.is-still]="mode() !== 'video'" aria-hidden="true">
+  @if (poster() && !posterFailed()) {
+    <img [src]="poster()" alt="" (error)="onPosterError()" />
+  }
+  @if (mode() === 'video' && sources(); as sources) {
+    <video muted autoplay loop playsinline [attr.poster]="poster() || null" (error)="onVideoError()">
+      @if (sources.webm) {
+        <source [src]="sources.webm" type="video/webm" />
+      }
+      @if (sources.mp4) {
+        <source [src]="sources.mp4" type="video/mp4" />
+      }
+    </video>
+  }
+  <div class="wash"></div>
+</div>

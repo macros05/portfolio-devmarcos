@@ -1,4 +1,4 @@
-import { Component, effect, inject } from '@angular/core';
+import { Component, computed, effect, inject } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
@@ -8,9 +8,13 @@ import { ScrollProgressComponent } from './components/scroll-progress/scroll-pro
 import { LanguageService } from './services/language.service';
 import { FieldComponent } from './components/field/field.component';
 
-function skipTarget(url: string): string {
+function proposalPath(url: string): boolean {
   const path = url.split(/[?#]/)[0] ?? '';
-  return path === '/propuestas' || path.startsWith('/propuestas/') ? '#propuesta' : '#work';
+  return path === '/propuestas' || path.startsWith('/propuestas/');
+}
+
+function skipTarget(url: string): string {
+  return proposalPath(url) ? '#propuesta' : '#work';
 }
 
 @Component({
@@ -24,14 +28,17 @@ export class AppComponent {
   private readonly lang = inject(LanguageService);
   private readonly router = inject(Router);
   protected readonly t = this.lang.t;
-  protected readonly skipHref = toSignal(
+  private readonly navigation = toSignal(
     this.router.events.pipe(
       filter((event): event is NavigationEnd => event instanceof NavigationEnd),
-      map((event) => skipTarget(event.urlAfterRedirects)),
-      startWith(skipTarget(this.router.url)),
+      map((event) => event.urlAfterRedirects),
+      startWith(this.router.url),
     ),
-    { initialValue: '#work' },
+    { initialValue: this.router.url },
   );
+  protected readonly skipHref = computed(() => skipTarget(this.navigation()));
+  /** The home shader stays off proposal pages. They carry their own plate. */
+  protected readonly showField = computed(() => !proposalPath(this.navigation()));
 
   constructor() {
     effect(() => {
