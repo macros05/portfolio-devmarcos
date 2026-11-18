@@ -90,6 +90,19 @@ describe('LanguageService', () => {
     expect(service.lang()).not.toBe(initial);
   });
 
+  it('lock() pins the language and ignores toggle', () => {
+    service.lock('es');
+    expect(service.lang()).toBe('es');
+    expect(service.locked()).toBe(true);
+    service.toggle();
+    expect(service.lang()).toBe('es');
+    expect(localStorage.getItem('lang')).not.toBe('es');
+
+    service.unlock();
+    expect(service.locked()).toBe(false);
+    expect(service.lang()).not.toBe('es');
+  });
+
   it('t() returns EN dictionary after toggling from ES', () => {
     // Ensure we start from ES
     if (service.lang() !== 'es') service.toggle();

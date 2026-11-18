@@ -21,4 +21,11 @@ describe('HeaderComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('keeps commercial proposals out of the menu', () => {
+    expect(component.links.map((link) => link.fragment)).toEqual(['work', 'films', 'contact']);
+    expect((fixture.nativeElement as HTMLElement).textContent?.toLowerCase()).not.toContain(
+      'propuesta',
+    );
+  });
 });

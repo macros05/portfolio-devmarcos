@@ -13,8 +13,10 @@
   </nav>
 
   <div class="tools">
-    <button type="button" class="lang" (click)="toggleLang()" [attr.aria-label]="t().nav.lang">
-      {{ lang.lang() === 'en' ? 'ES' : 'EN' }}
-    </button>
+    @if (!lang.locked()) {
+      <button type="button" class="lang" (click)="toggleLang()" [attr.aria-label]="t().nav.lang">
+        {{ lang.lang() === 'en' ? 'ES' : 'EN' }}
+      </button>
+    }
   </div>
 </header>

@@ -98,6 +98,10 @@ El portfolio incluye un sistema de traducción propio (sin librerías externas) 
 - `src/app/i18n/en.ts` — Textos en inglés
 - `src/app/services/language.service.ts` — Servicio reactivo de idioma
 
+### 📄 Propuestas comerciales
+
+Documentos privados en `/propuestas/:slug` (ejemplo: `/propuestas/ejemplo`). No están en el menú, llevan `noindex, nofollow` y no deben entrar en un sitemap. Cómo crear una: [`src/app/proposals/README.md`](src/app/proposals/README.md).
+
 ### 🧪 Tests
 
 ```bash
@@ -199,6 +203,10 @@ The portfolio includes a custom translation system (no external libraries) that 
 - `src/app/i18n/es.ts` — Spanish strings
 - `src/app/i18n/en.ts` — English strings
 - `src/app/services/language.service.ts` — Reactive language service
+
+### 📄 Commercial proposals
+
+Private documents at `/propuestas/:slug` (sample: `/propuestas/ejemplo`). They are not in the menu, send `noindex, nofollow`, and must stay out of any sitemap. How to add one: [`src/app/proposals/README.md`](src/app/proposals/README.md).
 
 ### 🧪 Tests
 

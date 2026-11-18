@@ -341,6 +341,34 @@
 body.webgl-on app-aurora-background { opacity: 0; }
 app-aurora-background { transition: opacity 0.9s ease 0.4s; }
 
+/* Commercial proposals: paper for print. Chrome stays off the PDF. */
+body.proposal-doc { page: proposal; }
+
+@page proposal {
+  size: A4;
+  margin: 16mm 14mm;
+}
+
+@media print {
+  body.proposal-doc {
+    background: #fff !important;
+    color: #1c1915 !important;
+  }
+  body.proposal-doc app-field,
+  body.proposal-doc app-header,
+  body.proposal-doc app-scroll-progress,
+  body.proposal-doc .skip-link {
+    display: none !important;
+  }
+  body.proposal-doc main {
+    padding: 0 !important;
+    background: #fff !important;
+  }
+  body.proposal-doc main :is(h1, h2, h3, p) {
+    text-shadow: none !important;
+  }
+}
+
 /* Honor reduced motion globally */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
