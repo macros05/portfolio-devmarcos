@@ -58,6 +58,15 @@ img {
   filter: grayscale(0.75) brightness(0.34) contrast(1.08);
 }
 
+video {
+  opacity: 1;
+  transition: opacity 0.45s linear;
+}
+
+video.is-seam {
+  opacity: 0;
+}
+
 /* Two veils: a side scrim under the type, and a vertical one for bright sky or stone. */
 .wash {
   position: absolute;
@@ -69,6 +78,7 @@ img {
 
 @media (prefers-reduced-motion: reduce) {
   .backdrop.is-still::before { animation: none; }
+  video { transition: none; }
 }
 
 @media print {

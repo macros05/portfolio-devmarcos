@@ -33,6 +33,8 @@ export class ProposalBackdropComponent {
   private readonly saveData = signal(false);
   private readonly failed = signal(false);
   protected readonly posterFailed = signal(false);
+  /** Hides the hard cut when the 8s loop restarts. */
+  protected readonly seam = signal(false);
   private readonly narrow = signal(false);
   /** True only after the file answers. A missing loop must not cover the plate. */
   private readonly available = signal(false);
@@ -106,6 +108,15 @@ export class ProposalBackdropComponent {
 
   protected onVideoError(): void {
     this.failed.set(true);
+  }
+
+  protected onTime(event: Event): void {
+    const video = event.target as HTMLVideoElement;
+    const duration = video.duration;
+    if (!Number.isFinite(duration) || duration <= 0) return;
+    const left = duration - video.currentTime;
+    const nearEnd = video.currentTime > 0.2 && left < 0.5;
+    if (nearEnd !== this.seam()) this.seam.set(nearEnd);
   }
 
   protected onPosterError(): void {
