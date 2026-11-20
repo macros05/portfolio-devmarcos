@@ -55,7 +55,7 @@ img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  filter: grayscale(0.75) brightness(0.34) contrast(1.08);
+  filter: grayscale(0.1) brightness(1) contrast(1.04);
 }
 
 video {
@@ -67,13 +67,33 @@ video.is-seam {
   opacity: 0;
 }
 
-/* Two veils: a side scrim under the type, and a vertical one for bright sky or stone. */
+/* Scrim only where type sits: a band under the header, and a pool behind the hero copy. */
 .wash {
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(90deg, rgba(7, 7, 8, 0.78) 0%, rgba(7, 7, 8, 0.42) 46%, rgba(7, 7, 8, 0.28) 100%),
-    linear-gradient(180deg, rgba(7, 7, 8, 0.62) 0%, rgba(7, 7, 8, 0.4) 38%, rgba(7, 7, 8, 0.86) 100%);
+    radial-gradient(
+      ellipse 72% 74% at 22% 62%,
+      rgba(7, 7, 8, 0.84) 0%,
+      rgba(7, 7, 8, 0.66) 42%,
+      rgba(7, 7, 8, 0.28) 64%,
+      rgba(7, 7, 8, 0) 80%
+    ),
+    linear-gradient(180deg, rgba(7, 7, 8, 0.78) 0, rgba(7, 7, 8, 0.66) 64px, rgba(7, 7, 8, 0) 132px);
+}
+
+@media (max-width: 800px) {
+  .wash {
+    background:
+      linear-gradient(180deg, rgba(7, 7, 8, 0.8) 0, rgba(7, 7, 8, 0.62) 56px, rgba(7, 7, 8, 0) 112px),
+      linear-gradient(
+        180deg,
+        rgba(7, 7, 8, 0) 28%,
+        rgba(7, 7, 8, 0.5) 46%,
+        rgba(7, 7, 8, 0.68) 68%,
+        rgba(7, 7, 8, 0.5) 100%
+      );
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
