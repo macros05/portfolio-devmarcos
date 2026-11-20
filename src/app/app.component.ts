@@ -7,15 +7,7 @@ import { HeaderComponent } from './components/header/header.component';
 import { ScrollProgressComponent } from './components/scroll-progress/scroll-progress.component';
 import { LanguageService } from './services/language.service';
 import { FieldComponent } from './components/field/field.component';
-
-function proposalPath(url: string): boolean {
-  const path = url.split(/[?#]/)[0] ?? '';
-  return path === '/propuestas' || path.startsWith('/propuestas/');
-}
-
-function skipTarget(url: string): string {
-  return proposalPath(url) ? '#propuesta' : '#work';
-}
+import { isProposalPath, skipTarget } from './proposal-path';
 
 @Component({
   selector: 'app-root',
@@ -38,7 +30,7 @@ export class AppComponent {
   );
   protected readonly skipHref = computed(() => skipTarget(this.navigation()));
   /** The home shader stays off proposal pages. They carry their own plate. */
-  protected readonly showField = computed(() => !proposalPath(this.navigation()));
+  protected readonly showField = computed(() => !isProposalPath(this.navigation()));
 
   constructor() {
     effect(() => {

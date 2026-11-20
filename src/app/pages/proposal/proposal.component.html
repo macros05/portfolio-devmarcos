@@ -1,9 +1,16 @@
 <app-proposal-backdrop [background]="backdrop()" />
 @if (proposal(); as p) {
-  <article id="propuesta">
+  <article id="propuesta" tabindex="-1">
     <header class="cover">
       <div class="copy">
-        <p class="eyebrow" [reveal]="'fade'">{{ p.example ? t().proposal.example : t().proposal.kicker }}</p>
+        <p class="eyebrow" [reveal]="'fade'">
+          @if (p.example) {
+            <span>{{ t().proposal.example }}</span>
+            <span class="note">{{ t().proposal.exampleNote }}</span>
+          } @else {
+            {{ t().proposal.kicker }}
+          }
+        </p>
         <h1 id="proposal-title">
           @for (line of clientLines(text(p.client)); track $index) {
             <span>{{ line }}</span>
@@ -103,6 +110,9 @@
                         </li>
                       }
                     </ol>
+                    @if (text(phases.total)) {
+                      <p class="sum">{{ text(phases.total) }}</p>
+                    }
                   }
                 }
                 @case ('investment') {
@@ -212,9 +222,9 @@
       </div>
     }
   </article>
-  <app-footer class="print-hide"></app-footer>
+  <app-footer class="print-hide proposal-foot" [showCredit]="false"></app-footer>
 } @else {
-  <article id="propuesta">
+  <article id="propuesta" tabindex="-1">
     <header class="cover">
       <div class="copy">
         <p class="eyebrow">{{ t().proposal.kicker }}</p>
@@ -228,5 +238,5 @@
       </div>
     </header>
   </article>
-  <app-footer class="print-hide"></app-footer>
+  <app-footer class="print-hide proposal-foot" [showCredit]="false"></app-footer>
 }

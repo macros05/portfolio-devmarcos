@@ -11,6 +11,7 @@ import {
 import { isPlatformBrowser } from '@angular/common';
 import { NavigationEnd, Router, RouterLink } from '@angular/router';
 import { Subscription, filter } from 'rxjs';
+import { isProposalPath } from '../../proposal-path';
 import { LanguageService } from '../../services/language.service';
 
 interface NavLink { fragment: string; label: 'projects' | 'films' | 'contact'; }
@@ -31,6 +32,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   readonly active = signal('');
   /** Dark plate once a proposal has scrolled past its cover. Home stays clear. */
   readonly solid = signal(false);
+  /** Proposals are a private document: the portfolio links stay off. */
+  readonly portfolioNav = signal(!isProposalPath(this.router.url));
 
   readonly links: NavLink[] = [
     { fragment: 'work', label: 'projects' },
@@ -52,12 +55,16 @@ export class HeaderComponent implements OnInit, OnDestroy {
   constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
 
   ngOnInit(): void {
+    this.portfolioNav.set(!isProposalPath(this.router.url));
     if (!isPlatformBrowser(this.platformId)) return;
     this.syncBar();
     window.addEventListener('scroll', this.onScroll, { passive: true });
     this.navSub = this.router.events
       .pipe(filter((event) => event instanceof NavigationEnd))
-      .subscribe(() => queueMicrotask(() => this.syncBar()));
+      .subscribe(() => {
+        this.portfolioNav.set(!isProposalPath(this.router.url));
+        queueMicrotask(() => this.syncBar());
+      });
     const observer = new IntersectionObserver(
       entries => {
         for (const entry of entries) {

@@ -6,7 +6,7 @@ import { Proposal } from '../proposal.model';
  *
  * Bilingual copy uses `{ es, en }`. For a single language, set `lang` and use
  * plain strings. Omit a block to hide that section.
- * Fictional on purpose: no real client, no real price.
+ * Fictional on purpose: no real client. The figures are a sample, not an offer.
  */
 export const ejemplo: Proposal = {
   slug: 'ejemplo',
@@ -15,7 +15,7 @@ export const ejemplo: Proposal = {
   date: { es: 'marzo 2026', en: 'March 2026' },
   title: {
     es: 'Una web clara para presentar el trabajo y recibir encargos',
-    en: 'A clear site to present the work and take it on',
+    en: 'A clear site to present the work and start the next job',
   },
   subtitle: {
     es: 'Propuesta de ejemplo. Nombres, plazos y cifras son ficticios.',
@@ -34,7 +34,7 @@ export const ejemplo: Proposal = {
     paragraphs: [
       {
         es: 'Cliente Ejemplo es un estudio pequeño. Hoy explica lo que hace en un PDF y cierra los encargos por correo. Quien llega a la web no entiende el servicio ni cómo empezar.',
-        en: 'Example Client is a small studio. It explains the work in a PDF and closes jobs by email. Someone landing on the site cannot tell what the service is or how to start.',
+        en: 'Example Client is a small studio. It explains the work in a PDF and agrees each job by email. A visitor cannot tell what is offered or how to begin.',
       },
       {
         es: 'El encargo no es un rediseño amplio. Es una página que cuente el trabajo, muestre tres casos y deje un mensaje en un solo sitio.',
@@ -96,7 +96,7 @@ export const ejemplo: Proposal = {
         },
       },
       {
-        title: { es: 'Sitio publicado', en: 'Site in production' },
+        title: { es: 'Sitio publicado', en: 'Published site' },
         detail: {
           es: 'Implementación, dominio y una ronda de revisión.',
           en: 'Implementation, domain, and one review pass.',
@@ -151,6 +151,7 @@ export const ejemplo: Proposal = {
         },
       },
     ],
+    total: { es: '7 semanas en total', en: '7 weeks in total' },
   },
   investment: {
     note: {
@@ -160,36 +161,39 @@ export const ejemplo: Proposal = {
     rows: [
       {
         concept: { es: 'Descubrimiento y textos', en: 'Discovery and copy' },
-        amount: '€ ----',
+        amount: { es: '1.800 €', en: '€1,800' },
       },
-      { concept: { es: 'Diseño', en: 'Design' }, amount: '€ ----' },
+      {
+        concept: { es: 'Diseño', en: 'Design' },
+        amount: { es: '2.400 €', en: '€2,400' },
+      },
       {
         concept: { es: 'Construcción y publicación', en: 'Build and launch' },
-        amount: '€ ----',
+        amount: { es: '4.800 €', en: '€4,800' },
       },
     ],
-    total: { label: { es: 'Total de ejemplo', en: 'Sample total' }, amount: '€ ----' },
+    total: { label: { es: 'Total de ejemplo', en: 'Sample total' }, amount: { es: '9.000 €', en: '€9,000' } },
   },
   why: {
     paragraphs: [
       {
-        es: 'El diseño y el código los hago yo, de la primera conversación a la publicación. El documento se parece a esta página: claro, y no una baraja de diapositivas.',
-        en: 'I do the design and the code, from the first conversation to launch. The document looks like this page: clear, and not a slide deck.',
+        es: 'El diseño y el código los hago yo, de la primera conversación a la publicación. El documento se parece a esta página: claro, y no una presentación de diapositivas.',
+        en: 'I do the design and the code, from the first conversation to launch. The document reads like this page: clear, and not a slide deck.',
       },
     ],
     cases: [
       {
-        title: { es: 'Herramienta interna', en: 'Internal tool' },
+        title: { es: 'Un tablero para el trabajo en curso', en: 'A board for work in progress' },
         summary: {
-          es: 'Un equipo dejó de perseguir el trabajo en hojas sueltas. Caso genérico, sin cliente real.',
-          en: 'A team stopped chasing work across loose spreadsheets. A generic case, not a real client.',
+          es: 'Un estudio imaginario llevaba cada encargo en una hoja distinta. Pasó a un tablero donde se ve en qué punto está cada trabajo. Es un caso inventado: no hay un cliente detrás.',
+          en: 'An imaginary studio kept every job on a different spreadsheet. It moved to one board that shows where each job stands. Invented case: there is no client behind it.',
         },
       },
       {
-        title: { es: 'Página de captación', en: 'Landing page' },
+        title: { es: 'Del PDF a una página', en: 'From a PDF to a page' },
         summary: {
-          es: 'Un servicio pasó de un PDF a una página que explica la oferta y recoge el contacto. Caso genérico, sin cliente real.',
-          en: 'A service moved from a PDF to a page that explains the offer and collects contact. A generic case, not a real client.',
+          es: 'Otro estudio, también inventado, respondía con un PDF. Una página corta cuenta el servicio y recoge el mensaje. Tampoco es un cliente real.',
+          en: 'Another invented studio used to answer with a PDF. A short page explains the service and takes the message. This one is fictional too.',
         },
       },
     ],

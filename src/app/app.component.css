@@ -2,9 +2,8 @@ main { position: relative; z-index: 1; background: transparent; }
 
 @media (max-width: 759px) {
   main { padding-bottom: calc(4.25rem + env(safe-area-inset-bottom)); }
-  body.proposal-doc main {
-    padding-bottom: calc(5.5rem + env(safe-area-inset-bottom));
-  }
+  /* The proposal has no bottom nav, so the portfolio pad would only add a gap. */
+  main.is-proposal { padding-bottom: 0; }
 }
 
 .skip-link {

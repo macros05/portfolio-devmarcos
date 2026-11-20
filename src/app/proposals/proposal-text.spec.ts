@@ -24,14 +24,12 @@ describe('proposal copy', () => {
     expect(ejemplo.client).toEqual({ es: 'Cliente Ejemplo', en: 'Example Client' });
   });
 
-  it('keeps sample prices as placeholders', () => {
-    const amounts = [
-      ...ejemplo.investment!.rows.map((row) => row.amount),
-      ejemplo.investment!.total!.amount,
-    ];
-    for (const amount of amounts) {
-      expect(amount).toBe('€ ----');
-    }
+  it('uses fictional but realistic sample amounts', () => {
+    const amounts = ejemplo.investment!.rows.map((row) => readProposalText(row.amount, 'es'));
+    expect(amounts).toEqual(['1.800 €', '2.400 €', '4.800 €']);
+    expect(readProposalText(ejemplo.investment!.total!.amount, 'es')).toBe('9.000 €');
+    expect(readProposalText(ejemplo.investment!.total!.amount, 'en')).toBe('€9,000');
+    expect(readProposalText(ejemplo.phases!.total, 'es')).toBe('7 semanas en total');
   });
 
   it('lists every block the example fills, in order', () => {

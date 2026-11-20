@@ -208,7 +208,8 @@ export const EN = {
   },
   proposal: {
     kicker: 'Proposal',
-    example: 'Example · fictional data, not an offer',
+    example: 'Example · fictional data',
+    exampleNote: 'Not an offer',
     preparedFor: 'For',
     preparedBy: 'From',
     date: 'Date',

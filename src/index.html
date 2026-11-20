@@ -4,6 +4,42 @@
   <meta charset="utf-8">
   <title>Marcos Morales — Product, design, and code</title>
   <base href="/">
+  <script>
+    (function () {
+      var path = location.pathname;
+      var proposal = path === '/propuestas' || path.indexOf('/propuestas/') === 0;
+      if (proposal && !document.querySelector('meta[name="robots"]')) {
+        document.write('<meta name="robots" content="noindex, nofollow">');
+      }
+      if (!proposal) {
+        document.write('<link rel="preload" as="image" href="/assets/films/kairova-launch.webp" type="image/webp" fetchpriority="high">');
+      }
+      function fix(node) {
+        if (!node || node.nodeType !== 1 || node.tagName !== 'LINK' || node.rel !== 'modulepreload') return;
+        var raw = node.getAttribute('href') || '';
+        var url;
+        try { url = new URL(raw, document.baseURI); } catch (e) { return; }
+        var file = url.pathname.split('/').pop() || '';
+        if (/^chunk-.*\.js$/.test(file) && url.pathname.indexOf('/propuestas/') !== -1) {
+          node.setAttribute('href', '/' + file);
+          return;
+        }
+        if (raw && raw.charAt(0) !== '/' && raw.indexOf('://') === -1) {
+          node.setAttribute('href', url.pathname + url.search);
+        }
+      }
+      var append = Node.prototype.appendChild;
+      var insert = Node.prototype.insertBefore;
+      Node.prototype.appendChild = function (node) {
+        fix(node);
+        return append.call(this, node);
+      };
+      Node.prototype.insertBefore = function (node, ref) {
+        fix(node);
+        return insert.call(this, node, ref);
+      };
+    })();
+  </script>
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <meta name="description" content="Marcos Morales, 21. All in — product, design, and code, with AI. Work for startups, including Kairova.">
@@ -23,7 +59,6 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="preload" as="image" href="/assets/films/kairova-launch.webp" type="image/webp" fetchpriority="high">
   <link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500&amp;family=Instrument+Sans:wght@400;500;600&amp;family=Instrument+Serif:ital@0;1&amp;display=swap" rel="stylesheet">
 
   <!-- Favicon -->

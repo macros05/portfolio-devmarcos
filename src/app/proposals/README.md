@@ -2,7 +2,7 @@
 
 Documentos privados en `/propuestas/:slug`. No aparecen en el menú. La página envía `noindex, nofollow`. Si más adelante hay un sitemap, estas URLs no se añaden.
 
-La de muestra es [`/propuestas/ejemplo`](/propuestas/ejemplo): datos ficticios, sin cliente real y sin precios reales.
+La de muestra es [`/propuestas/ejemplo`](/propuestas/ejemplo): datos ficticios, sin cliente real. Los importes son una muestra, no una oferta. Abre en español; el botón EN cambia solo esa visita.
 
 ## Crear una propuesta
 
@@ -15,7 +15,7 @@ No hace falta un componente nuevo. Un bloque que no esté en los datos no se pin
 
 ## Idioma
 
-- Texto en los dos idiomas: `{ es: '...', en: '...' }`. El botón ES/EN del sitio cambia la propuesta.
+- Texto en los dos idiomas: `{ es: '...', en: '...' }`. La página abre en español. El botón EN la pasa a inglés sin cambiar el idioma guardado de la portada.
 - Un solo idioma: `lang: 'es'` o `lang: 'en'` y strings normales. La página se queda en ese idioma y el botón de idioma se oculta.
 
 ## Fondo
@@ -49,7 +49,7 @@ El botón «Imprimir / PDF» abre el diálogo del navegador. En papel el documen
 
 Private documents at `/propuestas/:slug`. They are not in the menu. The page sends `noindex, nofollow`. If a sitemap is added later, leave these URLs out.
 
-The sample is [`/propuestas/ejemplo`](/propuestas/ejemplo): fictional data, no real client, no real prices.
+The sample is [`/propuestas/ejemplo`](/propuestas/ejemplo): fictional data, no real client. The figures are a sample, not an offer. It opens in Spanish; EN switches only that visit.
 
 ## Add a proposal
 
@@ -62,7 +62,7 @@ No new component. A block missing from the data is not rendered.
 
 ## Language
 
-- Both languages: `{ es: '...', en: '...' }`. The site ES/EN toggle switches the proposal.
+- Both languages: `{ es: '...', en: '...' }`. The page opens in Spanish. EN switches it to English without changing the language stored for the home.
 - One language: `lang: 'es'` or `lang: 'en'` and plain strings. The page stays in that language and the language button is hidden.
 
 ## Background

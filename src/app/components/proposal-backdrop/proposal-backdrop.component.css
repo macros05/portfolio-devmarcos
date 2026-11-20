@@ -83,6 +83,12 @@ video.is-seam {
 }
 
 @media (max-width: 800px) {
+  /* Keep the left façade behind the title and crop the briefcase off to the right. */
+  video,
+  img {
+    object-position: 100% center;
+  }
+
   .wash {
     background:
       linear-gradient(180deg, rgba(7, 7, 8, 0.8) 0, rgba(7, 7, 8, 0.62) 56px, rgba(7, 7, 8, 0) 112px),

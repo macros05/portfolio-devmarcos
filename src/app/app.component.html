@@ -4,6 +4,6 @@
 <a class="skip-link" [href]="skipHref()">{{ t().nav.skip }}</a>
 <app-scroll-progress></app-scroll-progress>
 <app-header></app-header>
-<main>
+<main [class.is-proposal]="!showField()">
   <router-outlet></router-outlet>
 </main>

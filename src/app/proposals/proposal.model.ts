@@ -89,6 +89,8 @@ export interface Proposal {
   };
   phases?: {
     heading?: ProposalText;
+    /** Already formatted, e.g. "7 weeks in total". */
+    total?: ProposalText;
     items: ProposalPhase[];
   };
   investment?: {
