@@ -2,12 +2,14 @@ import { isPlatformBrowser } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
+  ElementRef,
   PLATFORM_ID,
   computed,
   effect,
   inject,
   input,
   signal,
+  viewChild,
 } from '@angular/core';
 import { ProposalBackground } from '../../proposals/proposal.model';
 import { DEFAULT_PROPOSAL_BACKGROUND, proposalVideoMode } from '../../proposals/background';
@@ -36,18 +38,18 @@ export class ProposalBackdropComponent {
   /** Hides the hard cut when the 8s loop restarts. */
   protected readonly seam = signal(false);
   private readonly narrow = signal(false);
-  /** True only after the file answers. A missing loop must not cover the plate. */
-  private readonly available = signal(false);
+  private readonly reel = viewChild<ElementRef<HTMLVideoElement>>('reel');
+  /** Shown only when the browser refuses muted autoplay. */
+  readonly needsPlay = signal(false);
 
-  protected readonly mode = computed(() => {
-    const allowed = proposalVideoMode({
+  protected readonly mode = computed(() =>
+    proposalVideoMode({
       background: this.background(),
       reduced: this.reduced(),
       saveData: this.saveData(),
       failed: this.failed(),
-    });
-    return allowed === 'video' && this.available() ? 'video' : 'still';
-  });
+    }),
+  );
 
   protected readonly poster = computed(() => {
     const background = this.background();
@@ -67,28 +69,15 @@ export class ProposalBackdropComponent {
   });
 
   constructor() {
-    effect((onCleanup) => {
-      const sources = this.sources();
-      const allowed =
-        proposalVideoMode({
-          background: this.background(),
-          reduced: this.reduced(),
-          saveData: this.saveData(),
-          failed: this.failed(),
-        }) === 'video';
-      this.available.set(false);
-      if (!allowed || !sources || !isPlatformBrowser(this.platformId)) return;
-      const url = sources.webm || sources.mp4;
-      if (!url) return;
-      const controller = new AbortController();
-      onCleanup(() => controller.abort());
-      void fetch(url, { method: 'HEAD', signal: controller.signal })
-        .then((response) => {
-          const type = response.headers.get('content-type') ?? '';
-          const isVideo = type.startsWith('video/') || type === 'application/octet-stream';
-          if ((response.ok && isVideo) || response.status === 405) this.available.set(true);
-        })
-        .catch(() => undefined);
+    effect(() => {
+      const video = this.reel()?.nativeElement;
+      if (!video || !isPlatformBrowser(this.platformId)) return;
+      if (this.reduced()) {
+        video.pause();
+        this.needsPlay.set(false);
+        return;
+      }
+      this.play();
     });
 
     if (!isPlatformBrowser(this.platformId)) return;
@@ -106,8 +95,24 @@ export class ProposalBackdropComponent {
     connection?.addEventListener('change', read);
   }
 
+  /** Muted loop. A rejection is the only case that needs a tap. */
+  play(): void {
+    const video = this.reel()?.nativeElement;
+    if (!video || this.reduced()) return;
+    video.muted = true;
+    video.defaultMuted = true;
+    video.playsInline = true;
+    const pending = video.play();
+    if (!pending) {
+      this.needsPlay.set(false);
+      return;
+    }
+    void pending.then(() => this.needsPlay.set(false)).catch(() => this.needsPlay.set(true));
+  }
+
   protected onVideoError(): void {
     this.failed.set(true);
+    this.needsPlay.set(false);
   }
 
   protected onTime(event: Event): void {

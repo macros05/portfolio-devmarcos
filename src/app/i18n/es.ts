@@ -215,6 +215,7 @@ export const ES = {
     date: 'Fecha',
     contents: 'Contenido',
     print: 'Imprimir / PDF',
+    play: 'Reproducir',
     notFoundTitle: 'Propuesta no encontrada',
     notFound: 'No hay ninguna propuesta en esta dirección.',
     back: 'Volver al inicio',

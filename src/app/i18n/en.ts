@@ -215,6 +215,7 @@ export const EN = {
     date: 'Date',
     contents: 'Contents',
     print: 'Print / PDF',
+    play: 'Play',
     notFoundTitle: 'Proposal not found',
     notFound: 'There is no proposal at this address.',
     back: 'Back home',

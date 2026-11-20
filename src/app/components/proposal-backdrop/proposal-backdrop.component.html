@@ -4,12 +4,14 @@
   }
   @if (mode() === 'video' && sources(); as sources) {
     <video
+      #reel
       aria-hidden="true"
-      [muted]="true"
+      muted
       autoplay
       loop
       playsinline
-      preload="metadata"
+      webkit-playsinline
+      preload="auto"
       [attr.poster]="poster() || null"
       [class.is-seam]="seam()"
       (timeupdate)="onTime($event)"

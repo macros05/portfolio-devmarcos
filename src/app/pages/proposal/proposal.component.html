@@ -1,4 +1,4 @@
-<app-proposal-backdrop [background]="backdrop()" />
+<app-proposal-backdrop #plate [background]="backdrop()" />
 @if (proposal(); as p) {
   <article id="propuesta" tabindex="-1">
     <header class="cover">
@@ -29,6 +29,9 @@
           </span>
         </p>
         <p class="actions print-hide" [reveal]="'up'" [revealDelay]="300">
+          @if (plate.needsPlay()) {
+            <button type="button" class="pill" (click)="plate.play()">{{ t().proposal.play }}</button>
+          }
           <button type="button" class="pill" (click)="print()">{{ t().proposal.print }}</button>
         </p>
       </div>
