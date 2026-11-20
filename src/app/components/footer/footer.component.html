@@ -2,11 +2,13 @@
   <div class="inner">
     <p>{{ t().footer.rights }}</p>
     <p class="meta">
-      <span>{{ t().footer.builtWith }}</span>
+      @if (showCredit()) {
+        <span>{{ t().footer.builtWith }}</span>
+      }
       <a href="https://github.com/macros05" target="_blank" rel="noopener noreferrer">
         {{ t().footer.viewSource }}
       </a>
-      <button type="button" (click)="scrollToTop()">{{ t().footer.backToTop }}</button>
+      <button type="button" (click)="scrollToTop($event)">{{ t().footer.backToTop }}</button>
     </p>
   </div>
 </footer>

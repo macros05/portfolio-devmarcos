@@ -1,0 +1,245 @@
+<app-proposal-backdrop #plate [background]="backdrop()" />
+@if (proposal(); as p) {
+  <article id="propuesta" tabindex="-1">
+    <header class="cover">
+      <div class="copy">
+        <p class="eyebrow" [reveal]="'fade'">
+          @if (p.example) {
+            <span>{{ t().proposal.example }}</span>
+            <span class="note">{{ t().proposal.exampleNote }}</span>
+          } @else {
+            {{ t().proposal.kicker }}
+          }
+        </p>
+        <h1 id="proposal-title">
+          @for (line of clientLines(text(p.client)); track $index) {
+            <span>{{ line }}</span>
+          }
+        </h1>
+        <p class="position" [reveal]="'up'" [revealDelay]="140">{{ text(p.title) }}</p>
+        <p class="support" [reveal]="'up'" [revealDelay]="220">
+          @if (text(p.subtitle)) {
+            {{ text(p.subtitle) }}
+          }
+          <span class="by">
+            {{ text(p.date) }}
+            @if (text(p.preparedBy)) {
+              · {{ t().proposal.preparedBy }} {{ text(p.preparedBy) }}
+            }
+          </span>
+        </p>
+        <p class="actions print-hide" [reveal]="'up'" [revealDelay]="300">
+          @if (plate.needsPlay()) {
+            <button type="button" class="pill" (click)="plate.play()">{{ t().proposal.play }}</button>
+          }
+          <button type="button" class="pill" (click)="print()">{{ t().proposal.print }}</button>
+        </p>
+      </div>
+    </header>
+
+    @if (sections().length) {
+      <div class="body">
+        @for (section of sections(); track section.id) {
+          <section class="band" [id]="section.id" [attr.aria-labelledby]="section.id + '-title'" [reveal]="'up'">
+            <div class="inner">
+              <h2 [id]="section.id + '-title'">{{ section.heading }}</h2>
+
+              @switch (section.id) {
+                @case ('context') {
+                  @if (p.context; as context) {
+                    @for (paragraph of context.paragraphs; track $index) {
+                      <p class="lede">{{ text(paragraph) }}</p>
+                    }
+                  }
+                }
+                @case ('solution') {
+                  @if (p.solution; as solution) {
+                    @for (paragraph of solution.paragraphs ?? []; track $index) {
+                      <p class="lede">{{ text(paragraph) }}</p>
+                    }
+                    @if (solution.points?.length) {
+                      <ol class="nodes">
+                        @for (point of solution.points; track $index) {
+                          <li>
+                            <span class="num">{{ indexLabel($index) }}</span>
+                            <h3>{{ text(point.title) }}</h3>
+                            @if (text(point.detail)) {
+                              <p>{{ text(point.detail) }}</p>
+                            }
+                          </li>
+                        }
+                      </ol>
+                    }
+                  }
+                }
+                @case ('scope') {
+                  @if (p.scope; as scope) {
+                    @for (paragraph of scope.paragraphs ?? []; track $index) {
+                      <p class="lede">{{ text(paragraph) }}</p>
+                    }
+                    @if (scope.deliverables.length) {
+                      <p class="kicker">{{ t().proposal.deliverables }}</p>
+                      <ul class="points">
+                        @for (item of scope.deliverables; track $index) {
+                          <li>
+                            <strong>{{ text(item.title) }}</strong>
+                            @if (text(item.detail)) {
+                              <span>{{ text(item.detail) }}</span>
+                            }
+                          </li>
+                        }
+                      </ul>
+                    }
+                    @if (scope.outOfScope?.length) {
+                      <p class="kicker">{{ t().proposal.outOfScope }}</p>
+                      <ul class="points plain">
+                        @for (item of scope.outOfScope; track $index) {
+                          <li>{{ text(item) }}</li>
+                        }
+                      </ul>
+                    }
+                  }
+                }
+                @case ('phases') {
+                  @if (p.phases; as phases) {
+                    <ol class="steps">
+                      @for (phase of phases.items; track $index) {
+                        <li>
+                          <span class="num">{{ indexLabel($index) }}@if (text(phase.duration)) { <span aria-hidden="true"> / </span>{{ text(phase.duration) }} }</span>
+                          <h3>{{ text(phase.name) }}</h3>
+                          @if (text(phase.detail)) {
+                            <p>{{ text(phase.detail) }}</p>
+                          }
+                        </li>
+                      }
+                    </ol>
+                    @if (text(phases.total)) {
+                      <p class="sum">{{ text(phases.total) }}</p>
+                    }
+                  }
+                }
+                @case ('investment') {
+                  @if (p.investment; as investment) {
+                    @if (text(investment.note)) {
+                      <p class="lede">{{ text(investment.note) }}</p>
+                    }
+                    <ul class="figures">
+                      @for (row of investment.rows; track $index) {
+                        <li>
+                          <span class="num">{{ text(row.concept) }}</span>
+                          <p class="fig">{{ text(row.amount) }}</p>
+                          @if (text(row.detail)) {
+                            <p>{{ text(row.detail) }}</p>
+                          }
+                        </li>
+                      }
+                    </ul>
+                    @if (investment.total; as total) {
+                      <p class="total">
+                        <span class="num">{{ text(total.label) || t().proposal.total }}</span>
+                        <span class="fig">{{ text(total.amount) }}</span>
+                      </p>
+                    }
+                  }
+                }
+                @case ('why') {
+                  @if (p.why; as why) {
+                    @for (paragraph of why.paragraphs ?? []; track $index) {
+                      <p class="lede">{{ text(paragraph) }}</p>
+                    }
+                    @if (why.cases?.length) {
+                      <p class="kicker">{{ t().proposal.cases }}</p>
+                      <div class="cases">
+                        @for (item of why.cases; track $index) {
+                          <article>
+                            <h3>
+                              @if (item.href) {
+                                <a
+                                  [href]="item.href"
+                                  [attr.target]="isExternal(item.href) ? '_blank' : null"
+                                  [attr.rel]="isExternal(item.href) ? 'noopener noreferrer' : null">
+                                  {{ text(item.title) }}
+                                </a>
+                              } @else {
+                                {{ text(item.title) }}
+                              }
+                            </h3>
+                            <p>{{ text(item.summary) }}</p>
+                          </article>
+                        }
+                      </div>
+                    }
+                  }
+                }
+                @case ('next') {
+                  @if (p.nextSteps; as nextSteps) {
+                    <ol class="next">
+                      @for (step of nextSteps.steps; track $index) {
+                        <li>
+                          <span class="num">{{ indexLabel($index) }}</span>
+                          <p>{{ text(step) }}</p>
+                        </li>
+                      }
+                    </ol>
+                  }
+                }
+                @case ('contact') {
+                  @if (p.contact; as contact) {
+                    @if (text(contact.note)) {
+                      <p class="lede">{{ text(contact.note) }}</p>
+                    }
+                    @if (text(contact.name) || text(contact.role)) {
+                      <p class="who">
+                        @if (text(contact.name)) {
+                          <strong>{{ text(contact.name) }}</strong>
+                        }
+                        @if (text(contact.role)) {
+                          <em>{{ text(contact.role) }}</em>
+                        }
+                      </p>
+                    }
+                    <p class="actions">
+                      @if (contact.email) {
+                        <a class="link" [href]="'mailto:' + contact.email">{{ contact.email }}</a>
+                      }
+                      @if (contact.web) {
+                        <a
+                          class="link"
+                          [href]="contact.web"
+                          [attr.target]="isExternal(contact.web) ? '_blank' : null"
+                          [attr.rel]="isExternal(contact.web) ? 'noopener noreferrer' : null">
+                          {{ contact.web }}
+                        </a>
+                      }
+                      @if (contact.phone) {
+                        <a class="link" [href]="'tel:' + contact.phone">{{ contact.phone }}</a>
+                      }
+                    </p>
+                  }
+                }
+              }
+            </div>
+          </section>
+        }
+        <p class="colophon inner">{{ t().proposal.private }}</p>
+      </div>
+    }
+  </article>
+  <app-footer class="print-hide proposal-foot" [showCredit]="false"></app-footer>
+} @else {
+  <article id="propuesta" tabindex="-1">
+    <header class="cover">
+      <div class="copy">
+        <p class="eyebrow">{{ t().proposal.kicker }}</p>
+        <h1 id="proposal-title">
+          <span>{{ t().proposal.notFoundTitle }}</span>
+        </h1>
+        <p class="support">{{ t().proposal.notFound }}</p>
+        <p class="actions">
+          <a routerLink="/" class="link">{{ t().proposal.back }}</a>
+        </p>
+      </div>
+    </header>
+  </article>
+  <app-footer class="print-hide proposal-foot" [showCredit]="false"></app-footer>
+}

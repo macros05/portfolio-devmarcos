@@ -1,0 +1,28 @@
+<div class="backdrop" [class.is-still]="mode() !== 'video'" aria-hidden="true">
+  @if (mode() !== 'video' && poster() && !posterFailed()) {
+    <img [src]="poster()" alt="" (error)="onPosterError()" />
+  }
+  @if (mode() === 'video' && sources(); as sources) {
+    <video
+      #reel
+      aria-hidden="true"
+      muted
+      autoplay
+      loop
+      playsinline
+      webkit-playsinline
+      preload="auto"
+      [attr.poster]="poster() || null"
+      [class.is-seam]="seam()"
+      (timeupdate)="onTime($event)"
+      (error)="onVideoError()">
+      @if (sources.webm) {
+        <source [src]="sources.webm" type="video/webm" />
+      }
+      @if (sources.mp4) {
+        <source [src]="sources.mp4" type="video/mp4" />
+      }
+    </video>
+  }
+  <div class="wash"></div>
+</div>

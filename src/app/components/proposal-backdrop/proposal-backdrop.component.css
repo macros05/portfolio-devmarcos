@@ -1,0 +1,112 @@
+:host {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  display: block;
+}
+
+.backdrop {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background: #0b0b0c;
+}
+
+/* Stand-in until the street loop is in public/. Not the home shader. */
+.backdrop.is-still {
+  background:
+    radial-gradient(ellipse 90% 48% at 50% 118%, rgba(176, 154, 124, 0.38), transparent 62%),
+    radial-gradient(ellipse 42% 30% at 84% 8%, rgba(96, 100, 112, 0.42), transparent 70%),
+    linear-gradient(180deg, #1c1d21 0%, #101114 46%, #1a1713 100%);
+}
+
+.backdrop.is-still .wash {
+  background: linear-gradient(
+    180deg,
+    rgba(7, 7, 8, 0.28) 0%,
+    rgba(7, 7, 8, 0.12) 42%,
+    rgba(7, 7, 8, 0.62) 100%
+  );
+}
+
+.backdrop.is-still::before {
+  content: '';
+  position: absolute;
+  inset: -30% -10%;
+  background: linear-gradient(
+    105deg,
+    transparent 32%,
+    rgba(243, 238, 230, 0.05) 48%,
+    transparent 64%
+  );
+  animation: sheen 22s ease-in-out infinite alternate;
+}
+
+@keyframes sheen {
+  from { transform: translate3d(-6%, 0, 0); }
+  to { transform: translate3d(6%, 0, 0); }
+}
+
+video,
+img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(0.1) brightness(1) contrast(1.04);
+}
+
+video {
+  opacity: 1;
+  transition: opacity 0.45s linear;
+}
+
+video.is-seam {
+  opacity: 0;
+}
+
+/* Scrim only where type sits: a band under the header, and a pool behind the hero copy. */
+.wash {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(
+      ellipse 72% 74% at 22% 62%,
+      rgba(7, 7, 8, 0.84) 0%,
+      rgba(7, 7, 8, 0.66) 42%,
+      rgba(7, 7, 8, 0.28) 64%,
+      rgba(7, 7, 8, 0) 80%
+    ),
+    linear-gradient(180deg, rgba(7, 7, 8, 0.78) 0, rgba(7, 7, 8, 0.66) 64px, rgba(7, 7, 8, 0) 132px);
+}
+
+@media (max-width: 800px) {
+  /* Keep the left façade behind the title and crop the briefcase off to the right. */
+  video,
+  img {
+    object-position: 100% center;
+  }
+
+  .wash {
+    background:
+      linear-gradient(180deg, rgba(7, 7, 8, 0.8) 0, rgba(7, 7, 8, 0.62) 56px, rgba(7, 7, 8, 0) 112px),
+      linear-gradient(
+        180deg,
+        rgba(7, 7, 8, 0) 28%,
+        rgba(7, 7, 8, 0.5) 46%,
+        rgba(7, 7, 8, 0.68) 68%,
+        rgba(7, 7, 8, 0.5) 100%
+      );
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .backdrop.is-still::before { animation: none; }
+  video { transition: none; }
+}
+
+@media print {
+  :host { display: none !important; }
+}
